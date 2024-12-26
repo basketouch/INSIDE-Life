@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deja tu mensaje</title>
+    <title>¿Estás seguro de irte?</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -20,22 +20,38 @@
         }
         p {
             color: #555;
-            line-height: 1.6;
+            line-height: 1.8;
             margin-bottom: 20px;
             font-size: 16px;
         }
-        a {
+        .quote {
+            margin-bottom: 30px;
+            font-size: 18px;
+            color: #333;
+            max-width: 90%; /* Reduce el ancho máximo para iPhone */
+            line-height: 1.8;
+            text-align: center;
+            margin: 0 auto 30px;
+        }
+        .quote strong {
+            font-weight: bold;
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        .buttons a {
             display: inline-block;
+            margin: 10px;
             padding: 10px 20px;
             font-size: 16px;
             color: white;
             background-color: black;
             text-decoration: none;
             border-radius: 5px;
-            margin-top: 20px;
             transition: opacity 0.3s ease;
+            max-width: 90%; /* Adaptación para pantallas más pequeñas */
         }
-        a:hover {
+        .buttons a:hover {
             opacity: 0.8;
         }
         .footer {
@@ -43,18 +59,19 @@
             font-size: 14px;
             color: #333;
         }
-        /* Ajustes responsivos */
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
+        .footer strong {
+            font-weight: bold;
+        }
+        /* Ajustes responsivos para iPhone y dispositivos móviles */
+        @media (max-width: 480px) {
             h1 {
                 font-size: 20px;
             }
-            p {
-                font-size: 14px;
+            .quote {
+                font-size: 16px;
+                line-height: 1.6;
             }
-            a {
+            .buttons a {
                 font-size: 14px;
                 padding: 8px 15px;
             }
@@ -65,14 +82,20 @@
     </style>
 </head>
 <body>
-    <h1>Déjanos un mensaje anónimo</h1>
-    <p>Si tienes algo que compartir, esta es tu oportunidad para hacerlo de forma completamente anónima.</p>
-
-    <!-- Enlace a tu perfil de NGL -->
-    <a href="https://ngl.link/tuusuario" target="_blank" rel="noopener noreferrer">
-        Enviar mensaje
-    </a>
-
+    <div class="quote">
+        "No es el crítico quien cuenta; ni el hombre que señala cómo tropieza el hombre fuerte, o dónde el que hace las cosas podría haberlas hecho mejor. 
+        El mérito pertenece al hombre que está realmente en la arena, cuyo rostro está manchado de polvo, sudor y sangre; que lucha valientemente; que yerra, 
+        que se queda corto una y otra vez, porque no hay esfuerzo sin error ni fallo; pero que realmente se esfuerza por hacer las obras; que conoce grandes 
+        entusiasmos, las grandes devociones; que se entrega a una causa digna; que, en el mejor de los casos, conoce al final el triunfo de los grandes logros, 
+        y que, en el peor de los casos, si fracasa, al menos fracasa atreviéndose grandemente, de modo que su lugar nunca estará con esas almas frías y tímidas 
+        que no conocen ni la victoria ni la derrota." <strong>Theodore Roosevelt</strong>
+    </div>
+    <h1>¿No te gusta lo que ves?</h1>
+    <p>Entendemos que no todo el contenido es para todos. ¿Qué quieres hacer?</p>
+    <div class="buttons">
+        <a href="https://www.insidelife.club" target="_blank">Volver a INSIDE Life</a>
+        <a href="https://www.google.com" target="_blank">Ir a Google</a>
+    </div>
     <div class="footer">
         <strong>INSIDE Life para mentes inquietas</strong>
     </div>
