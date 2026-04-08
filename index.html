@@ -64,12 +64,11 @@ body{font-family:var(--sans);background:var(--white);color:var(--ink);-webkit-fo
 
 /* READER */
 #section-reader{display:none;}
-#section-reader.active{display:grid;grid-template-columns:1fr 350px;grid-template-rows:auto 1fr;min-height:calc(100vh - 54px);margin-top:54px;}
+#section-reader.active{display:grid;grid-template-columns:1fr;grid-template-rows:auto 1fr;min-height:calc(100vh - 54px);margin-top:54px;}
 .reader-back{grid-column:1/-1;padding:14px 44px;border-bottom:1px solid var(--rule);}
 .back-btn{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:6px;transition:color .15s;padding:0;}
 .back-btn:hover{color:var(--ink);}
 .reader-nl{border-right:1px solid var(--rule);overflow-y:auto;}
-.reader-chat{position:sticky;top:54px;height:calc(100vh - 54px - 46px);display:flex;flex-direction:column;}
 
 /* NL content */
 .nl-hero{background:var(--ink);padding:44px 40px 36px;position:relative;overflow:hidden;}
@@ -120,66 +119,9 @@ body{font-family:var(--sans);background:var(--white);color:var(--ink);-webkit-fo
 .footer-links-r a{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);text-decoration:none;border-bottom:1px solid var(--rule);transition:color .12s;}
 .footer-links-r a:hover{color:var(--accent);}
 
-/* CHAT */
-.chat-head{padding:16px 18px 13px;border-bottom:1px solid var(--rule);flex-shrink:0;}
-.chat-head-row{display:flex;align-items:center;gap:9px;margin-bottom:11px;}
-.chat-av{width:32px;height:32px;background:var(--ink);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
-.chat-hname{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink);}
-.chat-hsub{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);margin-top:1px;}
-.wishes-bar{background:var(--off);border:1px solid var(--rule);padding:8px 11px;display:flex;align-items:center;justify-content:space-between;}
-.wishes-lbl{font-family:var(--mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);}
-.wishes-dots{display:flex;gap:5px;}
-.wdot{width:10px;height:10px;border-radius:50%;background:var(--accent);transition:background .3s;}
-.wdot.off{background:var(--rule);}
-.wishes-ct{font-family:var(--mono);font-size:10px;font-weight:500;color:var(--accent);}
-.wishes-ct.zero{color:var(--mid);}
-.chat-msgs{flex:1;overflow-y:auto;padding:14px 18px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth;}
-.chat-msgs::-webkit-scrollbar{width:3px;}
-.chat-msgs::-webkit-scrollbar-thumb{background:var(--rule);}
-.msg{display:flex;flex-direction:column;gap:3px;animation:mIn .2s ease-out;}
-@keyframes mIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-.msg-u{align-items:flex-end;}.msg-a{align-items:flex-start;}
-.mlbl{font-family:var(--mono);font-size:7.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);padding:0 3px;}
-.mbubble{max-width:90%;padding:8px 12px;font-size:12.5px;line-height:1.65;}
-.msg-u .mbubble{background:var(--ink);color:#fff;border-radius:2px 2px 0 2px;}
-.msg-a .mbubble{background:var(--off);color:var(--ink);border:1px solid var(--rule);border-radius:0 2px 2px 2px;}
-.msg-a .mbubble strong{color:var(--ink);font-weight:600;}
-.typing{display:flex;align-items:center;gap:4px;padding:8px 12px;background:var(--off);border:1px solid var(--rule);width:fit-content;border-radius:0 2px 2px 2px;}
-.tdot{width:5px;height:5px;border-radius:50%;background:var(--mid);animation:tb 1.2s infinite;}
-.tdot:nth-child(2){animation-delay:.2s}.tdot:nth-child(3){animation-delay:.4s}
-@keyframes tb{0%,60%,100%{transform:translateY(0);opacity:.3}30%{transform:translateY(-5px);opacity:1}}
-.exhaust-msg{margin:10px 18px;background:var(--off);border:1px solid var(--rule);padding:13px 15px;font-size:12px;line-height:1.65;color:var(--mid);text-align:center;display:none;}
-.exhaust-msg strong{display:block;font-family:var(--serif);font-size:15px;color:var(--ink);margin-bottom:4px;}
-.sugs{padding:10px 18px;border-top:1px solid var(--rule);flex-shrink:0;}
-.sugs-lbl{font-family:var(--mono);font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);margin-bottom:6px;}
-.sugs-wrap{display:flex;flex-wrap:wrap;gap:5px;}
-.sug{background:var(--off);border:1px solid var(--rule);color:var(--ink);font-family:var(--sans);font-size:11px;padding:5px 9px;cursor:pointer;transition:all .13s;text-align:left;line-height:1.35;border-radius:2px;}
-.sug:hover{background:var(--ink);border-color:var(--ink);color:#fff;}
-.chat-inp-area{padding:11px 18px 14px;border-top:1px solid var(--rule);flex-shrink:0;}
-.inp-row{display:flex;gap:7px;align-items:flex-end;}
-.cinput{flex:1;background:var(--off);border:1px solid var(--rule);color:var(--ink);font-family:var(--sans);font-size:13px;padding:8px 12px;resize:none;min-height:38px;max-height:95px;line-height:1.5;outline:none;transition:border-color .15s;border-radius:2px;}
-.cinput::placeholder{color:var(--mid);}
-.cinput:focus{border-color:var(--ink);}
-.cinput:disabled{opacity:.38;cursor:not-allowed;}
-.sbtn{background:var(--ink);border:none;color:#fff;width:38px;height:38px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .13s;border-radius:2px;}
-.sbtn:hover{background:var(--accent);}
-.sbtn:disabled{opacity:.3;cursor:not-allowed;}
-.sbtn svg{width:15px;height:15px;}
-.chat-note{font-family:var(--mono);font-size:8px;color:var(--mid);text-align:center;margin-top:6px;}
 
-/* MODAL */
-.modal-ov{position:fixed;inset:0;background:rgba(10,10,10,.7);display:flex;align-items:center;justify-content:center;z-index:999;padding:20px;backdrop-filter:blur(3px);}
-.modal-box{background:var(--white);box-shadow:8px 8px 0 var(--ink);padding:34px 30px;max-width:390px;width:100%;}
-.modal-lamp{font-size:32px;text-align:center;margin-bottom:11px;}
-.modal-logo{font-family:var(--serif);font-size:20px;font-weight:900;color:var(--ink);margin-bottom:3px;}
-.modal-sub{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;}
-.modal-p{font-size:13px;line-height:1.72;color:var(--mid);margin-bottom:16px;}
-.modal-err{color:var(--accent);font-size:10px;margin-bottom:6px;display:none;font-family:var(--mono);}
-.modal-in{width:100%;background:var(--off);border:1px solid var(--rule);color:var(--ink);font-family:var(--mono);font-size:12px;padding:10px 13px;outline:none;margin-bottom:10px;transition:border-color .15s;border-radius:2px;}
-.modal-in:focus{border-color:var(--ink);}
-.modal-btn{width:100%;background:var(--ink);border:none;color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:12px;cursor:pointer;transition:background .15s;border-radius:2px;}
-.modal-btn:hover{background:var(--accent);}
-.modal-note{font-size:9.5px;color:var(--mid);line-height:1.55;margin-top:10px;font-family:var(--mono);text-align:center;}
+
+
 
 /* ABOUT */
 .about-wrap{max-width:660px;margin:0 auto;padding:80px 48px 100px;}
@@ -211,8 +153,7 @@ body{font-family:var(--sans);background:var(--white);color:var(--ink);-webkit-fo
 @media(max-width:800px){
   .nav{padding:0 20px;}.nav-links{display:none;}
   #section-reader.active{grid-template-columns:1fr;}
-  .reader-chat{position:relative;top:0;height:560px;border-top:1px solid var(--rule);}
-  .nl-hero,.nl-index,.nl-sec,.nl-footer-r{padding-left:22px;padding-right:22px;}
+    .nl-hero,.nl-index,.nl-sec,.nl-footer-r{padding-left:22px;padding-right:22px;}
   .reader-back{padding:12px 22px;}
   .hero-title{font-size:24px;}.tools{grid-template-columns:1fr;}
   .stats{flex-direction:column;}.stat{border-right:none;border-bottom:1px solid var(--rule);}.stat:last-child{border-bottom:none;}
@@ -223,18 +164,6 @@ body{font-family:var(--sans);background:var(--white);color:var(--ink);-webkit-fo
 </head>
 <body>
 
-<div class="modal-ov" id="modal" style="display:none;">
-  <div class="modal-box">
-    <div class="modal-lamp">🪔</div>
-    <div class="modal-logo">INSIDE Life</div>
-    <div class="modal-sub">El Genio de la Edición</div>
-    <p class="modal-p">Tienes <strong>3 deseos</strong> para preguntarle al asistente sobre esta edición. Como el genio de la lámpara — solo sabe de los temas de hoy.</p>
-    <div class="modal-err" id="merr">La clave debe empezar por sk-ant-...</div>
-    <input class="modal-in" type="password" id="mkey" placeholder="sk-ant-api03-..." autocomplete="off"/>
-    <button class="modal-btn" onclick="saveKey()">Activar mis 3 deseos →</button>
-    <div class="modal-note">🔒 Solo se guarda en memoria del navegador<br>console.anthropic.com</div>
-  </div>
-</div>
 
 <nav class="nav">
   <div class="nav-logo" onclick="showSection('home')">
@@ -319,7 +248,7 @@ body{font-family:var(--sans);background:var(--white);color:var(--ink);-webkit-fo
       <a href="https://www.instagram.com/insidelife.club/" target="_blank">Instagram</a>
       <a href="https://x.com/JLbasket" target="_blank">X</a>
       <a href="https://www.linkedin.com/in/jorge-lorenzo-25ba3518/" target="_blank">LinkedIn</a>
-      <a href="mailto:jorge@insidelife.club">Contacto</a>
+      <a href="/cdn-cgi/l/email-protection#157f7a677270557c7b667c7170797c73703b76796077">Contacto</a>
     </div>
   </footer>
 </section>
@@ -360,7 +289,7 @@ body{font-family:var(--sans);background:var(--white);color:var(--ink);-webkit-fo
       <a href="https://www.instagram.com/insidelife.club/" target="_blank">Instagram</a>
       <a href="https://x.com/JLbasket" target="_blank">X</a>
       <a href="https://www.linkedin.com/in/jorge-lorenzo-25ba3518/" target="_blank">LinkedIn</a>
-      <a href="mailto:jorge@insidelife.club">Contacto</a>
+      <a href="/cdn-cgi/l/email-protection#7913160b1e1c3910170a101d1c15101f1c571a150c1b">Contacto</a>
     </div>
   </footer>
 </section>
@@ -393,33 +322,7 @@ body{font-family:var(--sans);background:var(--white);color:var(--ink);-webkit-fo
     <div class="nl-sec" id="r4"><div class="sec-hdr"><div class="sec-n">4</div><div><div class="sec-source">ReinoIA · Herramientas</div><h2 class="sec-title">Claude ya puede usar tu ordenador por ti</h2></div></div><div class="sec-body"><p>El 23 de marzo, Anthropic lanzó en preview: Claude puede apuntar, hacer clic y realizar tareas directamente en tu pantalla. Con Dispatch, asignas tareas desde el móvil y encuentras el trabajo terminado al volver.</p></div><ul class="bullets"><li>Solo macOS, en preview para suscriptores Claude Pro y Max</li><li>Siempre pide permiso antes de acceder a una nueva aplicación</li><li>Funciona con cualquier software, sin necesidad de API</li></ul><div class="callout"><div class="callout-lbl">💡 La pregunta real de 2026</div>Hasta ahora la IA te ayudaba a hacer cosas. Con Computer Use, la IA hace las cosas por ti.</div></div>
     <div class="nl-sec" id="r5"><div class="sec-hdr"><div class="sec-n">5</div><div><div class="sec-source">GptZone · Big Tech</div><h2 class="sec-title">Microsoft lanza MAI: voz, imagen y transcripción propios</h2></div></div><div class="sec-body"><p>Microsoft libera sus modelos MAI en Foundry para que cualquier empresa construya sin depender de terceros.</p></div><div class="tools"><div class="tool"><div class="tool-name">MAI-Transcribe-1</div><div class="tool-desc">25 idiomas, supera Whisper. 0,36$/hora.</div></div><div class="tool"><div class="tool-name">MAI-Voice-1</div><div class="tool-desc">1 min audio en 1 seg. Clonación de voz. 22$/M chars.</div></div><div class="tool"><div class="tool-name">MAI-Image-2</div><div class="tool-desc">32K contexto, PNG, texto legible. Hasta 33$/M tokens.</div></div><div class="tool"><div class="tool-name">Anthropic vs OpenClaw</div><div class="tool-desc">Desde el 4 de abril: suscripciones de Claude ya no cubren herramientas externas.</div></div></div></div>
     <div class="nl-sec" id="r6"><div class="sec-hdr"><div class="sec-n">6</div><div><div class="sec-source">ReinoIA · Productividad</div><h2 class="sec-title">8 prompts para Claude Code: automatiza sin saber programar</h2></div></div><div class="sec-body"><p>Sin tutoriales, sin Python, sin contratar a nadie — automatiza el 80% de tu negocio con estos 8 prompts.</p></div><ul class="bullets"><li><strong>Bot de Telegram</strong> — 10 minutos, Railway gratis</li><li><strong>Dashboard Streamlit</strong> — Panel desde tu CSV, sin Tableau</li><li><strong>Email marketing</strong> — Gmail SMTP personalizado, sin Mailchimp</li><li><strong>Scraper de datos</strong> — Precios o leads en CSV limpio</li><li><strong>Facturas PDF</strong> — Logo, datos fiscales, numeración automática</li><li><strong>Monitor de precios</strong> — Alertas Telegram cuando baja X%. 24/7</li><li><strong>Landing page</strong> — HTML responsive, Netlify gratis</li><li><strong>API REST propia</strong> — Swagger + Render gratis</li></ul><div class="callout"><div class="callout-lbl">📌 Para emprendedores sin código</div>Sé específico: describe el comportamiento real y los límites del sistema. Cuanto más preciso, mejor el resultado.</div></div>
-    <div class="nl-footer-r"><div><div class="footer-sig">Jorge Lorenzo</div><div class="footer-sub">"Haciendo que la tecnología trabaje para ti."</div></div><div class="footer-links-r"><a href="https://insidelife.club">insidelife.club</a><a href="mailto:jorge@insidelife.club">Contacto</a><a href="https://www.instagram.com/insidelife.club/" target="_blank">Instagram</a><a href="https://x.com/JLbasket" target="_blank">X</a><a href="https://www.linkedin.com/in/jorge-lorenzo-25ba3518/" target="_blank">LinkedIn</a></div></div>
-  </div>
-  <div class="reader-chat">
-    <div class="chat-head">
-      <div class="chat-head-row"><div class="chat-av">🪔</div><div><div class="chat-hname">El Genio de la Edición</div><div class="chat-hsub">Solo sabe de esta edición</div></div></div>
-      <div class="wishes-bar"><div class="wishes-lbl">Tus deseos</div><div class="wishes-dots"><div class="wdot" id="d1"></div><div class="wdot" id="d2"></div><div class="wdot" id="d3"></div></div><div class="wishes-ct" id="wct">3 restantes</div></div>
-    </div>
-    <div class="chat-msgs" id="msgs">
-      <div class="msg msg-a"><div class="mlbl">Genio</div><div class="mbubble">Tus deseos son mis órdenes 🪔<br><br>Tengo <strong>3 respuestas</strong> para ti sobre esta edición. ¿Cuál es tu primer deseo?</div></div>
-    </div>
-    <div class="exhaust-msg" id="exhaust"><strong>Los 3 deseos se han cumplido ✨</strong>Vuelve la próxima semana con una nueva edición y 3 deseos nuevos.</div>
-    <div class="sugs" id="sugs">
-      <div class="sugs-lbl">Sugerencias</div>
-      <div class="sugs-wrap">
-        <button class="sug" onclick="useSug(this)">¿Cómo me afecta la volatilidad si tengo inversiones?</button>
-        <button class="sug" onclick="useSug(this)">¿Qué implica que ChatGPT patrocine el Mundial?</button>
-        <button class="sug" onclick="useSug(this)">¿Qué prompt de automatización empiezo primero?</button>
-        <button class="sug" onclick="useSug(this)">Explícame Computer Use con un ejemplo práctico</button>
-      </div>
-    </div>
-    <div class="chat-inp-area">
-      <div class="inp-row">
-        <textarea class="cinput" id="inp" placeholder="Escribe tu deseo…" rows="1" onkeydown="onKey(event)" oninput="resize(this)"></textarea>
-        <button class="sbtn" id="snd" onclick="send()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
-      </div>
-      <div class="chat-note">Powered by Claude · Solo responde sobre esta edición</div>
-    </div>
+    <div class="nl-footer-r"><div><div class="footer-sig">Jorge Lorenzo</div><div class="footer-sub">"Haciendo que la tecnología trabaje para ti."</div></div><div class="footer-links-r"><a href="https://insidelife.club">insidelife.club</a><a href="/cdn-cgi/l/email-protection#a3c9ccd1c4c6e3cacdd0cac7c6cfcac5c68dc0cfd6c1">Contacto</a><a href="https://www.instagram.com/insidelife.club/" target="_blank">Instagram</a><a href="https://x.com/JLbasket" target="_blank">X</a><a href="https://www.linkedin.com/in/jorge-lorenzo-25ba3518/" target="_blank">LinkedIn</a></div></div>
   </div>
 </section>
 
@@ -451,7 +354,7 @@ body{font-family:var(--sans);background:var(--white);color:var(--ink);-webkit-fo
       <a class="about-link" href="https://www.instagram.com/insidelife.club/" target="_blank">Instagram</a>
       <a class="about-link" href="https://x.com/JLbasket" target="_blank">X / Twitter</a>
       <a class="about-link" href="https://www.linkedin.com/in/jorge-lorenzo-25ba3518/" target="_blank">LinkedIn</a>
-      <a class="about-link" href="mailto:jorge@insidelife.club">Contacto</a>
+      <a class="about-link" href="/cdn-cgi/l/email-protection#7b1114091c1e3b121508121f1e17121d1e5518170e19">Contacto</a>
     </div>
   </div>
   <footer class="site-footer">
@@ -460,12 +363,12 @@ body{font-family:var(--sans);background:var(--white);color:var(--ink);-webkit-fo
       <a href="https://www.instagram.com/insidelife.club/" target="_blank">Instagram</a>
       <a href="https://x.com/JLbasket" target="_blank">X</a>
       <a href="https://www.linkedin.com/in/jorge-lorenzo-25ba3518/" target="_blank">LinkedIn</a>
-      <a href="mailto:jorge@insidelife.club">Contacto</a>
+      <a href="/cdn-cgi/l/email-protection#8de7e2ffeae8cde4e3fee4e9e8e1e4ebe8a3eee1f8ef">Contacto</a>
     </div>
   </footer>
 </section>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 window.REQUIRED_CODE_ERROR_MESSAGE='Elija un código de país';window.LOCALE='es';
 window.EMAIL_INVALID_MESSAGE=window.SMS_INVALID_MESSAGE="Información no válida.";
 window.REQUIRED_ERROR_MESSAGE="Este campo no puede estar vacío.";
@@ -489,7 +392,6 @@ function openReader(){
   const r=document.getElementById('section-reader');
   r.style.display='grid';r.classList.add('active');
   window.scrollTo(0,0);
-  if(!apiKey)document.getElementById('modal').style.display='flex';
 }
 function closeReader(){
   document.getElementById('section-reader').style.display='none';
@@ -497,58 +399,6 @@ function closeReader(){
   showSection('newsletter');
 }
 
-let apiKey=null;
-document.getElementById('mkey').addEventListener('keydown',e=>{if(e.key==='Enter')saveKey();});
-function saveKey(){
-  const v=document.getElementById('mkey').value.trim();
-  if(!v.startsWith('sk-ant-')){document.getElementById('merr').style.display='block';return;}
-  apiKey=v;document.getElementById('modal').style.display='none';
-}
-
-const SYS=`Eres el asistente conversacional de INSIDE Life, newsletter de Jorge Lorenzo sobre IA, tecnología y emprendimiento.
-REGLA ABSOLUTA: Solo respondes sobre los 6 temas de la edición del 7 de abril de 2026. Si preguntan algo fuera, di: "Ese tema no está en esta edición. Hoy cubrimos: mercados e IA, la valoración de OpenAI, ChatGPT en el Mundial, Computer Use de Claude, los modelos MAI de Microsoft y prompts de automatización."
-TEMAS: 1.IA y volatilidad 2026: algoritmos mueven mercados a velocidad de máquina; Dow -800pts Feb por aranceles Trump; IBM -13% ese día por capacidades Claude; FMI 54% empleos financieros en riesgo; sectores ganadores metales/minería/telecos, perdedores software/publicidad. 2.OpenAI 852.000M: ronda 122.000M 31 marzo; Amazon 50.000M, SoftBank 30.000M, Nvidia 30.000M; IPO Q4 2026; 2.000M$/mes; 900M usuarios; 50M suscriptores pago; piloto publicitario 100M anualizados en 6 semanas. 3.ChatGPT TV Globo Mundial: Globo 22 acuerdos 388M$; OpenAI 11,6M$ primera vez TV abierta brasileña; exclusividad categoría; Google Gemini tiene CBF y JJOO LA2028; ChatGPT Go Brasil 39,99 reales/mes (65% más barato). 4.Claude Computer Use: 23 marzo preview; clic/navegar en pantalla sin config; Dispatch tareas desde móvil; solo macOS Pro/Max; pide permiso siempre. 5.Microsoft MAI: Transcribe-1 25 idiomas supera Whisper 0,36$/h; Voice-1 1min audio en 1seg 22$/M; Image-2 32K PNG 33$/M; Anthropic limitó OpenClaw 4 abril pay-per-token. 6.8 prompts Claude Code: bot Telegram Railway, dashboard Streamlit CSV, email Gmail SMTP, scraper BeautifulSoup, API FastAPI+SQLite Render, facturas reportlab, monitor precios Telegram+cron, landing Netlify.
-FORMATO: máximo 3 párrafos, **negrita** para conceptos clave, español, tono experto amigo.`;
-
-let wLeft=3,hist=[],busy=false;
-function refreshW(){
-  ['d1','d2','d3'].forEach((id,i)=>{document.getElementById(id).className='wdot'+(i>=wLeft?' off':'');});
-  const c=document.getElementById('wct');
-  if(wLeft===0){c.textContent='Agotados';c.className='wishes-ct zero';lockChat();}
-  else{c.textContent=wLeft+(wLeft===1?' restante':' restantes');c.className='wishes-ct';}
-}
-function lockChat(){document.getElementById('inp').disabled=true;document.getElementById('snd').disabled=true;document.getElementById('sugs').style.display='none';document.getElementById('exhaust').style.display='block';}
-function resize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,95)+'px';}
-function onKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}}
-function useSug(btn){document.getElementById('inp').value=btn.textContent;document.getElementById('sugs').style.display='none';send();}
-function scrollEnd(){const el=document.getElementById('msgs');el.scrollTop=el.scrollHeight;}
-function addMsg(role,text){
-  const w=document.getElementById('msgs');
-  const d=document.createElement('div');d.className='msg msg-'+(role==='user'?'u':'a');
-  const l=document.createElement('div');l.className='mlbl';l.textContent=role==='user'?'Tú':'Genio';
-  const b=document.createElement('div');b.className='mbubble';
-  b.innerHTML=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
-  d.appendChild(l);d.appendChild(b);w.appendChild(d);scrollEnd();
-}
-function showTyping(){const w=document.getElementById('msgs');const d=document.createElement('div');d.className='msg msg-a';d.id='td';const l=document.createElement('div');l.className='mlbl';l.textContent='Genio';const i=document.createElement('div');i.className='typing';i.innerHTML='<div class="tdot"></div><div class="tdot"></div><div class="tdot"></div>';d.appendChild(l);d.appendChild(i);w.appendChild(d);scrollEnd();}
-function hideTyping(){const t=document.getElementById('td');if(t)t.remove();}
-async function send(){
-  if(busy||wLeft<=0)return;
-  const inp=document.getElementById('inp');const txt=inp.value.trim();if(!txt)return;
-  inp.value='';inp.style.height='auto';
-  document.getElementById('sugs').style.display='none';
-  document.getElementById('snd').disabled=true;
-  busy=true;wLeft--;refreshW();
-  addMsg('user',txt);hist.push({role:'user',content:txt});showTyping();
-  try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:SYS,messages:hist})});
-    const data=await r.json();hideTyping();
-    if(data.error){addMsg('ai','⚠️ '+data.error.message);}
-    else{const rep=data.content[0].text;hist.push({role:'assistant',content:rep});addMsg('ai',rep);}
-  }catch(e){hideTyping();addMsg('ai','⚠️ No se pudo conectar. Inténtalo de nuevo.');}
-  busy=false;if(wLeft>0)document.getElementById('snd').disabled=false;
-}
-refreshW();
 </script>
 </body>
 </html>
