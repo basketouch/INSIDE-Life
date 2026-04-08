@@ -122,6 +122,10 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
 .nl-art-dark .bullets li { color: rgba(255,255,255,.8); }
 .nl-art-dark .callout { background: rgba(255,255,255,.06); border-left-color: #f5a58c; color: rgba(255,255,255,.78); }
 .nl-art-dark .callout-lbl { color: #f5a58c; }
+.nl-archivo-bar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding: 18px 40px; background: var(--off); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.nl-archivo-txt { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--mid); }
+.nl-archivo-btn { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--white); background: var(--ink); padding: 9px 16px; text-decoration: none; transition: background .15s; white-space: nowrap; }
+.nl-archivo-btn:hover { background: var(--red); }
 .nl-foot { padding: 24px 40px; border-top: 1px solid var(--rule); display: flex; flex-direction: column; align-items: stretch; gap: 14px; }
 .nl-foot-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
 .nl-legal { display: flex; flex-wrap: wrap; gap: 10px 12px; padding-top: 12px; border-top: 1px solid var(--rule); }
@@ -201,6 +205,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
   </a>
   <ul class="nav-links">
     <li><button onclick="show('home')">Inicio</button></li>
+    <li><a href="/archivo" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--mid)'">Ediciones</a></li>
     <li><button onclick="show('sobre')">Sobre mí</button></li>
   </ul>
   <button class="nav-sub" onclick="openSub()">Suscribirse</button>
@@ -209,6 +214,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
 <!-- BOTTOM NAV — sin Newsletter, solo 3 botones -->
 <nav class="botnav">
   <button onclick="show('home')">Inicio</button>
+  <a href="/archivo" style="flex:1;height:100%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--mid);text-decoration:none;border-right:1px solid var(--rule);">Ediciones</a>
   <button onclick="show('sobre')">Sobre mí</button>
   <button onclick="openSub()">Unirme</button>
 </nav>
@@ -271,7 +277,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
           <a href="https://x.com/JLbasket" target="_blank" rel="noopener noreferrer">X</a>
           <a href="https://www.instagram.com/jorgelorenzo.coach" target="_blank" rel="noopener noreferrer">Instagram</a>
           <a href="https://bio.jorgelorenzo.coach/" target="_blank" rel="noopener noreferrer">Bio</a>
-          <a href="mailto:jorge@insidelife.club">Contacto</a>
+          <a href="/cdn-cgi/l/email-protection#a8c2c7dacfcde8c1c6dbc1cccdc4c1cecd86cbc4ddca">Contacto</a>
         </div>
       </div>
       <div class="sfoot-legal">
@@ -312,7 +318,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
         <a class="alink" href="https://x.com/JLbasket" target="_blank" rel="noopener noreferrer">X</a>
         <a class="alink" href="https://www.instagram.com/jorgelorenzo.coach" target="_blank" rel="noopener noreferrer">Instagram</a>
         <a class="alink" href="https://bio.jorgelorenzo.coach/" target="_blank" rel="noopener noreferrer">Bio</a>
-        <a class="alink" href="mailto:jorge@insidelife.club">Contacto</a>
+        <a class="alink" href="/cdn-cgi/l/email-protection#c6aca9b4a1a386afa8b5afa2a3aaafa0a3e8a5aab3a4">Contacto</a>
       </div>
     </div>
     <footer class="sfoot">
@@ -323,7 +329,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
           <a href="https://x.com/JLbasket" target="_blank" rel="noopener noreferrer">X</a>
           <a href="https://www.instagram.com/jorgelorenzo.coach" target="_blank" rel="noopener noreferrer">Instagram</a>
           <a href="https://bio.jorgelorenzo.coach/" target="_blank" rel="noopener noreferrer">Bio</a>
-          <a href="mailto:jorge@insidelife.club">Contacto</a>
+          <a href="/cdn-cgi/l/email-protection#b4dedbc6d3d1f4dddac7ddd0d1d8ddd2d19ad7d8c1d6">Contacto</a>
         </div>
       </div>
       <div class="sfoot-legal">
@@ -394,6 +400,10 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
       <ul class="bullets"><li><strong>Bot de Telegram</strong> — 10 minutos, Railway gratis</li><li><strong>Dashboard Streamlit</strong> — Panel desde tu CSV, sin Tableau</li><li><strong>Email marketing</strong> — Gmail SMTP personalizado, sin Mailchimp</li><li><strong>Scraper de datos</strong> — Precios o leads en CSV limpio</li><li><strong>Facturas PDF</strong> — Logo, datos fiscales, numeración automática</li><li><strong>Monitor de precios</strong> — Alertas Telegram cuando baja X%. 24/7</li><li><strong>Landing page</strong> — HTML responsive, Netlify gratis</li><li><strong>API REST propia</strong> — Swagger + Render gratis</li></ul>
       <div class="callout"><div class="callout-lbl">📌 Para emprendedores sin código</div>Sé específico: describe el comportamiento real y los límites del sistema. Cuanto más preciso, mejor el resultado.</div>
     </div>
+    <div class="nl-archivo-bar">
+      <span class="nl-archivo-txt">¿Buscas una edición anterior?</span>
+      <a class="nl-archivo-btn" href="/archivo">Ver todas las ediciones →</a>
+    </div>
     <div class="nl-foot">
       <div class="nl-foot-row">
         <div><div class="nl-sig">Jorge Lorenzo</div><div class="nl-sig-sub">"Haciendo que la tecnología trabaje para ti."</div></div>
@@ -403,7 +413,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
           <a href="https://www.instagram.com/jorgelorenzo.coach" target="_blank" rel="noopener noreferrer">Instagram</a>
           <a href="https://bio.jorgelorenzo.coach/" target="_blank" rel="noopener noreferrer">Bio</a>
           <a href="https://insidelife.club">insidelife.club</a>
-          <a href="mailto:jorge@insidelife.club">Contacto</a>
+          <a href="/cdn-cgi/l/email-protection#6c06031e0b092c05021f05080900050a09420f00190e">Contacto</a>
         </div>
       </div>
       <div class="nl-legal">
@@ -418,7 +428,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
 
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 var SECS = ['home','sobre'];
 
 function show(id) {
@@ -473,13 +483,3 @@ function submitSub() {
   setTimeout(function() {
     closeSub();
     setTimeout(function() {
-      document.getElementById('subForm').style.display = 'block';
-      document.getElementById('subOk').style.display = 'none';
-      document.getElementById('sNombre').value = '';
-      document.getElementById('sEmail').value = '';
-    }, 400);
-  }, 3000);
-}
-</script>
-</body>
-</html>
