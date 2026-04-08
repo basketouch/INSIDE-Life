@@ -89,13 +89,10 @@ body { font-family: 'DM Sans', sans-serif; background: var(--off); color: var(--
 .block-order { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--mid); margin-right: 2px; min-width: 1.2em; text-align: center; }
 
 /* Mapa de estructura del newsletter */
-.struct-hint { font-size: 11px; color: var(--mid); line-height: 1.55; margin: -6px 0 12px; }
 .structure-map { display: flex; flex-direction: column; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
 .struct-row { padding: 10px 12px; display: flex; align-items: flex-start; gap: 10px; border-bottom: 1px solid var(--rule); }
 .struct-row:last-child { border-bottom: none; }
-.struct-row.fixed { background: var(--surface); }
 .struct-row.admin { background: #fffaf7; border-left: 3px solid var(--red); margin-left: 0; }
-.struct-row.slot-hint { background: var(--off); font-size: 10px; color: var(--mid); border-left: 3px dashed var(--rule); }
 .struct-row.native-art { background: #f3f2ef; border-left: 3px solid var(--ink); }
 .struct-badge { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .08em; text-transform: uppercase; color: var(--mid); min-width: 76px; flex-shrink: 0; line-height: 1.35; }
 .struct-body { flex: 1; min-width: 0; font-size: 12px; line-height: 1.45; color: var(--ink); }
@@ -264,9 +261,16 @@ body { font-family: 'DM Sans', sans-serif; background: var(--off); color: var(--
 
       <!-- Mapa: piezas del newsletter + tus bloques (mover / editar) -->
       <div class="panel-section" id="structureSection" style="display:none;">
-        <div class="panel-title">Piezas del newsletter</div>
-        <p class="struct-hint">Orden de la página: titular, tus bloques «Arriba», índice, <strong>notas del HTML</strong> (puedes reordenarlas con Subir/Bajar; al publicar se renumeran y el índice se actualiza), barra de archivo, tus bloques «Abajo» y pie.</p>
+        <div class="panel-title">Orden</div>
         <div class="structure-map" id="structureMap"></div>
+        <div id="nativeArticleEditor" style="display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--rule);">
+          <div class="panel-title">Editar nota <span id="nativeEditSidLabel"></span></div>
+          <textarea class="field-in" id="nativeArticleEditorHtml" rows="12" style="font-family:'DM Mono',monospace;font-size:11px;line-height:1.45;" placeholder="HTML del bloque de la nota…"></textarea>
+          <div class="editor-actions" style="margin-top:10px;">
+            <button type="button" class="btn btn-ghost" onclick="cancelNativeArticleEdit()" style="flex:1;">Cancelar</button>
+            <button type="button" class="btn btn-primary" onclick="saveNativeArticleEdit()" style="flex:2;">Guardar nota</button>
+          </div>
+        </div>
       </div>
 
     </aside>
@@ -302,6 +306,8 @@ var blockPos       = 'top';  // top | bottom
 var currentType    = null;
 var editingBlockId = null;   // si no null, addBlock() actualiza ese bloque
 var articleOrder   = [];     // orden de ids de .nl-art (ej. a1,a2…) dentro del reader; se renumeran al generar HTML
+var nativeArticleOverrides = {}; // sid -> outerHTML del .nl-art editado (solo sesión hasta publicar / recargar)
+var editingNativeSid = null;
 
 function apiHeaders(jsonBody) {
   var h = { Authorization: 'Bearer ' + apiBearer };
@@ -337,6 +343,8 @@ async function loadNewsletter() {
     if (data.error) throw new Error(data.error);
     originalHTML = data.content;
     currentSHA   = data.sha;
+    nativeArticleOverrides = {};
+    cancelNativeArticleEdit();
     syncArticleOrderFromHtml();
     setStatus('ok', 'Newsletter cargado');
     document.getElementById('publishBtn').disabled = false;
@@ -351,6 +359,7 @@ async function loadNewsletter() {
 
 // ─── BLOCK TYPES ──────────────────────────────────
 function selectBlockType(type) {
+  cancelNativeArticleEdit();
   editingBlockId = null;
   document.getElementById('saveBlockBtn').textContent = 'Añadir bloque →';
   currentType = type;
@@ -440,9 +449,10 @@ function serializeHTMLDocument(doc) {
   return dt + doc.documentElement.outerHTML;
 }
 
-// Reordena .nl-art según articleOrder; reasigna id a1…aN, .art-n y enlaces del índice
+// Reordena .nl-art según articleOrder; reasigna id a1…aN, .art-n y enlaces del índice.
+// Solo se muestran los ids presentes en articleOrder (puedes dejar la edición con menos notas).
 function applyNativeArticleReorder(html) {
-  if (!html || !articleOrder.length) return html;
+  if (!html) return html;
   try {
     var doc = new DOMParser().parseFromString(html, 'text/html');
     var sec = doc.getElementById('sec-reader');
@@ -455,17 +465,27 @@ function applyNativeArticleReorder(html) {
       if (c.nodeType !== 1) continue;
       if (c.classList.contains('nl-art') && /^a\d+$/.test(c.id)) {
         toRemove.push(c);
-        map[c.id] = c.cloneNode(true);
+        if (nativeArticleOverrides[c.id]) {
+          var wrap = doc.createElement('div');
+          wrap.innerHTML = nativeArticleOverrides[c.id].trim();
+          var fr = wrap.firstElementChild;
+          map[c.id] = fr ? fr.cloneNode(true) : c.cloneNode(true);
+        } else {
+          map[c.id] = c.cloneNode(true);
+        }
       }
     }
     if (Object.keys(map).length === 0) return html;
 
     var order = articleOrder.filter(function(sid) { return map[sid]; });
-    Object.keys(map).forEach(function(sid) {
-      if (order.indexOf(sid) < 0) order.push(sid);
-    });
 
     for (var r = toRemove.length - 1; r >= 0; r--) sec.removeChild(toRemove[r]);
+
+    if (order.length === 0) {
+      var idxEmpty = sec.querySelector('.nl-idx .nl-idx-list');
+      if (idxEmpty) while (idxEmpty.firstChild) idxEmpty.removeChild(idxEmpty.firstChild);
+      return serializeHTMLDocument(doc);
+    }
 
     var archEl = sec.querySelector('.nl-archivo-bar');
     if (!archEl) return html;
@@ -519,6 +539,64 @@ function moveNativeArticle(sid, delta) {
   renderPreview();
 }
 
+function deleteNativeArticle(sid) {
+  if (!confirm('¿Quitar esta nota? Quedará guardada al publicar. Si no has publicado, «Recargar» restaura el newsletter del repo.')) return;
+  articleOrder = articleOrder.filter(function(s) { return s !== sid; });
+  delete nativeArticleOverrides[sid];
+  if (editingNativeSid === sid) cancelNativeArticleEdit();
+  renderStructureMap();
+  renderPreview();
+  toast('Nota quitada ✓', 'green');
+}
+
+function titleFromArticleHtmlString(htmlStr) {
+  if (!htmlStr) return '';
+  var m = htmlStr.match(/<h2 class="art-h2"[^>]*>([\s\S]*?)<\/h2>/i);
+  if (!m) return '';
+  var t = decodeHtmlEntities(stripTags(m[1]).replace(/\s+/g, ' ').trim());
+  return t.length > 92 ? t.substring(0, 89) + '…' : t;
+}
+
+function getNativeArticleOuterHtmlBySid(sid) {
+  if (nativeArticleOverrides[sid]) return nativeArticleOverrides[sid];
+  var clean = stripInjectedAdminBlocks(originalHTML || '');
+  var doc = new DOMParser().parseFromString(clean, 'text/html');
+  var el = doc.getElementById(sid);
+  if (!el || !el.classList.contains('nl-art')) return '';
+  return el.outerHTML;
+}
+
+function editNativeArticle(sid) {
+  cancelBlock();
+  editingNativeSid = sid;
+  var panel = document.getElementById('nativeArticleEditor');
+  document.getElementById('nativeEditSidLabel').textContent = '· ' + sid;
+  setFieldVal('nativeArticleEditorHtml', getNativeArticleOuterHtmlBySid(sid));
+  panel.style.display = 'block';
+  try { panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (e) {}
+}
+
+function cancelNativeArticleEdit() {
+  editingNativeSid = null;
+  var panel = document.getElementById('nativeArticleEditor');
+  if (panel) panel.style.display = 'none';
+  setFieldVal('nativeArticleEditorHtml', '');
+}
+
+function saveNativeArticleEdit() {
+  if (!editingNativeSid) return;
+  var html = val('nativeArticleEditorHtml').trim();
+  if (!html) {
+    toast('La nota no puede estar vacía', 'red');
+    return;
+  }
+  nativeArticleOverrides[editingNativeSid] = html;
+  cancelNativeArticleEdit();
+  renderStructureMap();
+  renderPreview();
+  toast('Nota actualizada ✓', 'green');
+}
+
 function structRowNativeArticle(sid, title, posIndex, total) {
   var canUp = posIndex > 0;
   var canDown = posIndex < total - 1;
@@ -530,16 +608,10 @@ function structRowNativeArticle(sid, title, posIndex, total) {
     '<div class="struct-actions">' +
     '<button type="button" class="struct-btn" onclick="moveNativeArticle(\'' + sid + '\',-1)"' + (canUp ? '' : ' disabled') + '>Subir</button>' +
     '<button type="button" class="struct-btn" onclick="moveNativeArticle(\'' + sid + '\',1)"' + (canDown ? '' : ' disabled') + '>Bajar</button>' +
+    '<button type="button" class="struct-btn" onclick="editNativeArticle(\'' + sid + '\')">Editar</button>' +
+    '<button type="button" class="struct-btn" onclick="deleteNativeArticle(\'' + sid + '\')" style="border-color:#c43;color:#a32">Eliminar</button>' +
     '</div></div></div>'
   );
-}
-
-function parseHeroTitle(html) {
-  var clean = stripInjectedAdminBlocks(html || '');
-  var bm = clean.match(/<h1 class="nl-h1">([\s\S]*?)<\/h1>/);
-  if (!bm) return 'Titular del newsletter';
-  var txt = decodeHtmlEntities(stripTags(bm[1]).replace(/\s+/g, ' ').trim());
-  return txt.length > 100 ? txt.substring(0, 97) + '…' : txt;
 }
 
 function parseNativeArticles(html) {
@@ -560,21 +632,6 @@ function parseNativeArticles(html) {
     if (!title) title = 'Artículo ' + item.id;
     return { sid: item.id, title: title.length > 92 ? title.substring(0, 89) + '…' : title };
   });
-}
-
-function structRowFixed(badge, title, kind) {
-  return (
-    '<div class="struct-row fixed" data-kind="' + esc(kind) + '">' +
-    '<div class="struct-badge">' + esc(badge) + '</div>' +
-    '<div class="struct-body">' + esc(title) + '</div></div>'
-  );
-}
-
-function structSlotHint(text) {
-  return (
-    '<div class="struct-row slot-hint">' +
-    '<div class="struct-body" style="width:100%">' + esc(text) + '</div></div>'
-  );
 }
 
 function structRowAdmin(b) {
@@ -609,39 +666,20 @@ function renderStructureMap() {
 
   var artMeta = {};
   parseNativeArticles(originalHTML).forEach(function(a) { artMeta[a.sid] = a.title; });
-  var heroTitle = parseHeroTitle(originalHTML);
   var topList = blocks.filter(function(b) { return b.pos === 'top'; });
   var botList = blocks.filter(function(b) { return b.pos === 'bottom'; });
 
   var rows = [];
-  rows.push(structRowFixed('Titular', heroTitle, 'hero'));
-  rows.push(structSlotHint('Tus bloques con posición «Arriba» aparecen aquí (encima del índice).'));
-  if (topList.length === 0) {
-    rows.push(structSlotHint('Aún no hay bloques en esta zona. Añade uno y elige ↑ Arriba.'));
-  } else {
-    topList.forEach(function(b) { rows.push(structRowAdmin(b)); });
-  }
-
-  rows.push(structRowFixed('Índice', '«En esta edición» — enlaces a las notas (viene del HTML)', 'idx'));
-
-  if (articleOrder.length === 0) {
-    rows.push(structSlotHint('No se detectaron notas (.nl-art con id a1, a2…) en el HTML cargado.'));
-  } else {
-    articleOrder.forEach(function(sid, i) {
-      rows.push(structRowNativeArticle(sid, artMeta[sid] || sid, i, articleOrder.length));
-    });
-  }
-
-  rows.push(structRowFixed('Archivo', 'Barra «Ver todas las ediciones»', 'arch'));
-
-  rows.push(structSlotHint('Tus bloques con posición «Abajo» van justo antes del pie.'));
-  if (botList.length === 0) {
-    rows.push(structSlotHint('Ningún bloque abajo. Añade uno y elige ↓ Abajo.'));
-  } else {
-    botList.forEach(function(b) { rows.push(structRowAdmin(b)); });
-  }
-
-  rows.push(structRowFixed('Pie', 'Firma, redes y enlaces legales', 'foot'));
+  topList.forEach(function(b) { rows.push(structRowAdmin(b)); });
+  articleOrder.forEach(function(sid, i) {
+    var t = artMeta[sid] || sid;
+    if (nativeArticleOverrides[sid]) {
+      var ot = titleFromArticleHtmlString(nativeArticleOverrides[sid]);
+      if (ot) t = ot;
+    }
+    rows.push(structRowNativeArticle(sid, t, i, articleOrder.length));
+  });
+  botList.forEach(function(b) { rows.push(structRowAdmin(b)); });
 
   el.innerHTML = rows.join('');
 }
@@ -695,6 +733,7 @@ function addBlock() {
 function editBlock(id) {
   var b = blocks.find(function(x) { return x.id === id; });
   if (!b) return;
+  cancelNativeArticleEdit();
   editingBlockId = id;
   currentType = b.type;
   var titles = { texto:'Bloque de texto', callout:'Bloque callout', promo:'Bloque promoción', imagen:'Bloque imagen' };
