@@ -8,15 +8,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
---white: #ffffff; --off: #f8f6f2; --ink: #111111;
---mid: #767676; --rule: #e8e4de; --red: #e8401c;
+  --white: #ffffff; --off: #f8f6f2; --ink: #111111;
+  --mid: #767676; --rule: #e8e4de; --red: #e8401c;
 }
-
-- { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--ink); -webkit-font-smoothing: antialiased; }
-
-/* ── TOP NAV ── */
 .topnav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: 54px; background: var(--white); border-bottom: 1px solid var(--rule); display: flex; align-items: center; justify-content: space-between; padding: 0 40px; }
 .nav-brand { display: flex; align-items: center; gap: 9px; cursor: pointer; }
 .nav-badge { background: var(--ink); color: var(--white); font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .06em; padding: 3px 7px; line-height: 1; }
@@ -26,14 +23,10 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
 .nav-links button:hover, .nav-links button.active { color: var(--ink); }
 .nav-sub { background: var(--ink); color: var(--white); font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; padding: 8px 16px; border: none; cursor: pointer; transition: background .15s; }
 .nav-sub:hover { background: var(--red); }
-
-/* ── BOTTOM NAV (mobile) ── */
 .botnav { display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; height: 56px; background: var(--white); border-top: 1px solid var(--rule); }
 .botnav button { flex: 1; height: 100%; border: none; background: none; cursor: pointer; font-family: 'DM Mono', monospace; font-size: 8.5px; letter-spacing: .09em; text-transform: uppercase; color: var(--mid); border-right: 1px solid var(--rule); transition: color .15s; }
 .botnav button:last-child { border-right: none; color: var(--red); }
 .botnav button.active { color: var(--ink); font-weight: 500; }
-
-/* ── SUBSCRIPTION MODAL ── */
 .sub-ov { display: none; position: fixed; inset: 0; z-index: 500; background: rgba(10,10,10,.65); backdrop-filter: blur(3px); align-items: center; justify-content: center; padding: 20px; }
 .sub-ov.open { display: flex; }
 .sub-box { background: var(--white); box-shadow: 8px 8px 0 var(--ink); padding: 36px 32px; max-width: 420px; width: 100%; position: relative; }
@@ -54,15 +47,11 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
 .sub-ok-icon { font-size: 38px; margin-bottom: 12px; }
 .sub-ok-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
 .sub-ok-sub { font-size: 13px; color: var(--mid); line-height: 1.65; }
-
-/* ── PAGE ── */
 .page { padding-top: 54px; }
 .sec { display: none; min-height: calc(100vh - 54px); }
 .sec.on { display: block; }
 #sec-reader { display: none; padding-top: 54px; }
 #sec-reader.on { display: block; }
-
-/* ── HOME ── */
 .home-in { max-width: 560px; margin: 0 auto; padding: 88px 32px 80px; }
 .kicker { font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: .1em; color: var(--red); margin-bottom: 22px; }
 .home-h1 { font-family: 'Playfair Display', serif; font-size: clamp(40px,7vw,68px); font-weight: 900; line-height: 1.04; letter-spacing: -.03em; color: var(--ink); margin-bottom: 24px; }
@@ -76,8 +65,6 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
 .proof { margin-top: 52px; padding-top: 40px; border-top: 1px solid var(--rule); }
 .proof-q { font-family: 'Playfair Display', serif; font-size: 17px; font-style: italic; line-height: 1.62; color: var(--ink); margin-bottom: 10px; }
 .proof-a { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--mid); }
-
-/* ── ARCHIVE ── */
 .arch-in { max-width: 860px; margin: 0 auto; padding: 72px 40px 80px; }
 .page-kicker { font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: .18em; text-transform: uppercase; color: var(--red); margin-bottom: 12px; }
 .page-h2 { font-family: 'Playfair Display', serif; font-size: 38px; font-weight: 900; letter-spacing: -.025em; color: var(--ink); margin-bottom: 10px; }
@@ -92,8 +79,6 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
 .card-foot { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--mid); margin-top: auto; padding-top: 11px; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; }
 .card-arrow { color: var(--red); }
 .card.dim { opacity: .3; cursor: default; pointer-events: none; }
-
-/* ── READER ── */
 .reader-back { padding: 13px 40px; border-bottom: 1px solid var(--rule); }
 .back-btn { background: none; border: none; cursor: pointer; font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--mid); padding: 0; transition: color .15s; }
 .back-btn:hover { color: var(--ink); }
@@ -147,8 +132,6 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
 .nl-flinks { display: flex; gap: 12px; flex-wrap: wrap; }
 .nl-flinks a { font-family: 'DM Mono', monospace; font-size: 8.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--mid); text-decoration: none; border-bottom: 1px solid var(--rule); transition: color .12s; }
 .nl-flinks a:hover { color: var(--red); }
-
-/* ── ABOUT ── */
 .about-in { max-width: 640px; margin: 0 auto; padding: 80px 40px 100px; }
 .about-h2 { font-family: 'Playfair Display', serif; font-size: clamp(26px,4vw,40px); font-weight: 900; line-height: 1.1; letter-spacing: -.025em; color: var(--ink); margin-bottom: 34px; }
 .about-img { width: 100%; max-height: 400px; object-fit: cover; object-position: top; display: block; margin-bottom: 36px; }
@@ -165,8 +148,6 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
 .alinks { display: flex; gap: 9px; flex-wrap: wrap; }
 .alink { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--mid); text-decoration: none; border: 1px solid var(--rule); padding: 7px 12px; transition: all .14s; }
 .alink:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
-
-/* ── SITE FOOTER ── */
 .sfoot { border-top: 1px solid var(--rule); padding: 22px 40px; display: flex; flex-direction: column; align-items: stretch; gap: 16px; }
 .sfoot-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
 .sfoot-brand { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 700; color: var(--ink); }
@@ -177,427 +158,249 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
 .sfoot-legal { display: flex; flex-wrap: wrap; gap: 10px 14px; padding-top: 14px; border-top: 1px solid var(--rule); }
 .sfoot-legal a { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .08em; text-transform: uppercase; color: var(--mid); text-decoration: none; transition: color .13s; }
 .sfoot-legal a:hover { color: var(--ink); }
-
-/* ── RESPONSIVE ── */
 @media (max-width: 760px) {
-.topnav { padding: 0 16px; }
-.nav-links { display: none; }
-.nav-sub { display: none; }
-.botnav { display: flex; }
-.sec { padding-bottom: 62px; }
-#sec-reader { padding-bottom: 62px; }
-.home-in { padding: 72px 22px 60px; }
-.arch-in { padding: 60px 22px 60px; }
-.reader-back { padding: 12px 22px; }
-.nl-hero { padding: 30px 22px 26px; }
-.nl-idx { padding: 14px 22px; }
-.nl-art { padding: 24px 22px; }
-.nl-foot { padding: 22px; }
-.nl-h1 { font-size: 24px; }
-.stats { flex-direction: column; }
-.stat { border-right: none; border-bottom: 1px solid var(--rule); }
-.stat:last-child { border-bottom: none; }
-.tools { grid-template-columns: 1fr; }
-.about-in { padding: 60px 22px 80px; }
-.about-duo { grid-template-columns: 1fr; }
-.sfoot { padding: 20px 22px; }
-.sfoot-row { flex-direction: column; align-items: flex-start; }
-.nl-foot-row { flex-direction: column; align-items: flex-start; }
-.sub-box { padding: 28px 22px; }
+  .topnav { padding: 0 16px; }
+  .nav-links { display: none; }
+  .nav-sub { display: none; }
+  .botnav { display: flex; }
+  .sec { padding-bottom: 62px; }
+  #sec-reader { padding-bottom: 62px; }
+  .home-in { padding: 72px 22px 60px; }
+  .arch-in { padding: 60px 22px 60px; }
+  .reader-back { padding: 12px 22px; }
+  .nl-hero { padding: 30px 22px 26px; }
+  .nl-idx { padding: 14px 22px; }
+  .nl-art { padding: 24px 22px; }
+  .nl-foot { padding: 22px; }
+  .nl-h1 { font-size: 24px; }
+  .stats { flex-direction: column; }
+  .stat { border-right: none; border-bottom: 1px solid var(--rule); }
+  .stat:last-child { border-bottom: none; }
+  .tools { grid-template-columns: 1fr; }
+  .about-in { padding: 60px 22px 80px; }
+  .about-duo { grid-template-columns: 1fr; }
+  .sfoot { padding: 20px 22px; }
+  .sfoot-row { flex-direction: column; align-items: flex-start; }
+  .nl-foot-row { flex-direction: column; align-items: flex-start; }
+  .sub-box { padding: 28px 22px; }
 }
 </style>
 </head>
 <body>
 
-<!-- TOP NAV -->
+<!-- TOP NAV — Newsletter eliminado -->
 <header class="topnav">
-<div class="nav-brand" onclick="show('home')">
-<div class="nav-title">INSIDE Life</div>
-<div class="nav-badge">By Jorge Lorenzo</div>
-</div>
-<ul class="nav-links">
-<li><button onclick="show('home')" id="tn-home" class="active">Inicio</button></li>
-<li><button onclick="show('nl')" id="tn-nl">Newsletter</button></li>
-<li><button onclick="show('sobre')" id="tn-sobre">Sobre mí</button></li>
-</ul>
-<button class="nav-sub" onclick="openSub()">Suscribirse</button>
+  <div class="nav-brand" onclick="show('home')">
+    <div class="nav-title">INSIDE Life</div>
+    <div class="nav-badge">By Jorge Lorenzo</div>
+  </div>
+  <ul class="nav-links">
+    <li><button onclick="show('home')" id="tn-home" class="active">Inicio</button></li>
+    <li><button onclick="show('sobre')" id="tn-sobre">Sobre mí</button></li>
+  </ul>
+  <button class="nav-sub" onclick="openSub()">Suscribirse</button>
 </header>
 
-<!-- BOTTOM NAV (mobile) -->
+<!-- BOTTOM NAV — Newsletter eliminado, 3 botones -->
 <nav class="botnav">
-<button onclick="show('home')" id="bn-home" class="active">Inicio</button>
-<button onclick="show('nl')" id="bn-nl">Newsletter</button>
-<button onclick="show('sobre')" id="bn-sobre">Sobre mí</button>
-<button onclick="openSub()">Unirme</button>
+  <button onclick="show('home')" id="bn-home" class="active">Inicio</button>
+  <button onclick="show('sobre')" id="bn-sobre">Sobre mí</button>
+  <button onclick="openSub()">Unirme</button>
 </nav>
 
 <!-- SUBSCRIPTION MODAL -->
 <div class="sub-ov" id="subOv" onclick="bgClose(event)">
-<div class="sub-box">
-<button class="sub-close" onclick="closeSub()">×</button>
-<div id="subForm">
-<div class="sub-kicker">✦ Por Jorge Lorenzo · cada semana</div>
-<h2 class="sub-h2">Únete a INSIDE Life</h2>
-<p class="sub-desc">IA, automatización, deporte y emprendimiento. Cada martes, lo que sigo, lo que pruebo y lo que haría en tu lugar.</p>
-<div class="sub-field">
-<label class="sub-lbl" for="sNombre">Tu nombre</label>
-<input class="sub-in" type="text" id="sNombre" placeholder="Jorge" autocomplete="given-name"/>
-</div>
-<div class="sub-field">
-<label class="sub-lbl" for="sEmail">Tu email</label>
-<input class="sub-in" type="email" id="sEmail" [placeholder="jorge@email.com](mailto:placeholder=%22jorge@email.com)" autocomplete="email"/>
-</div>
-<button class="sub-btn" onclick="submitSub()">UNIRME AL CLUB →</button>
-<div class="sub-note">Sin spam · Cada martes · Baja cuando quieras</div>
-</div>
-<div class="sub-ok" id="subOk">
-<div class="sub-ok-icon">✉️</div>
-<div class="sub-ok-title">¡Ya eres del Club!</div>
-<div class="sub-ok-sub">Revisa tu email para confirmar la suscripción.<br>Nos vemos cada semana.</div>
-</div>
-</div>
+  <div class="sub-box">
+    <button class="sub-close" onclick="closeSub()">×</button>
+    <div id="subForm">
+      <div class="sub-kicker">✦ Por Jorge Lorenzo · cada semana</div>
+      <h2 class="sub-h2">Únete a INSIDE Life</h2>
+      <p class="sub-desc">IA, automatización, deporte y emprendimiento. Cada martes, lo que sigo, lo que pruebo y lo que haría en tu lugar.</p>
+      <div class="sub-field">
+        <label class="sub-lbl" for="sNombre">Tu nombre</label>
+        <input class="sub-in" type="text" id="sNombre" placeholder="Jorge" autocomplete="given-name"/>
+      </div>
+      <div class="sub-field">
+        <label class="sub-lbl" for="sEmail">Tu email</label>
+        <input class="sub-in" type="email" id="sEmail" placeholder="jorge@email.com" autocomplete="email"/>
+      </div>
+      <button class="sub-btn" onclick="submitSub()">UNIRME AL CLUB →</button>
+      <div class="sub-note">Sin spam · Cada martes · Baja cuando quieras</div>
+    </div>
+    <div class="sub-ok" id="subOk">
+      <div class="sub-ok-icon">✉️</div>
+      <div class="sub-ok-title">¡Ya eres del Club!</div>
+      <div class="sub-ok-sub">Revisa tu email para confirmar la suscripción.<br>Nos vemos cada semana.</div>
+    </div>
+  </div>
 </div>
 
-<!-- Hidden iframe for Brevo form submission -->
 <iframe name="sib-frame" style="display:none;"></iframe>
 
 <div class="page">
 
-<!-- HOME -->
-<section class="sec on" id="sec-home">
-<div class="home-in">
-<div class="kicker">✦ Por Jorge Lorenzo · cada semana</div>
-<h1 class="home-h1">El Club para<br><em>mentes inquietas</em></h1>
-<p class="home-desc">IA, automatización, deporte y emprendimiento. Cada martes, lo que sigo, lo que pruebo y lo que haría en tu lugar.</p>
-<div class="tags">
-<span class="tag">Inteligencia Artificial</span>
-<span class="tag">Automatización</span>
-<span class="tag">Deporte</span>
-<span class="tag">Emprendimiento</span>
-</div>
-<button class="home-cta" onclick="openSub()">UNIRME AL CLUB →</button>
-<div class="home-cta-sub">Sin spam · Cada martes · Baja cuando quieras</div>
-<div class="proof">
-<div class="proof-q">"No es el crítico quien cuenta. El mérito pertenece al hombre que está realmente en la arena."</div>
-<div class="proof-a">Theodore Roosevelt</div>
-</div>
-</div>
-<footer class="sfoot">
-<div class="sfoot-row">
-<div><div class="sfoot-brand">INSIDE Life</div><div class="sfoot-copy">© 2026 Jorge Lorenzo</div></div>
-<div class="sfoot-links">
-<a href="https://www.linkedin.com/in/jorge-lorenzo-25ba3518/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-<a href="https://x.com/JLbasket" target="_blank" rel="noopener noreferrer">X</a>
-<a href="https://www.instagram.com/jorgelorenzo.coach" target="_blank" rel="noopener noreferrer">Instagram</a>
-<a href="https://bio.jorgelorenzo.coach/" target="_blank" rel="noopener noreferrer">Bio</a>
-<a href="[mailto:jorge@insidelife.club](mailto:jorge@insidelife.club)">Contacto</a>
-</div>
-</div>
-<div class="sfoot-legal">
-<a href="documentos-legales/politica-de-privacidad.html">Privacidad</a>
-<a href="documentos-legales/aviso-legal.html">Aviso legal</a>
-<a href="documentos-legales/politica-de-cookies.html">Cookies</a>
-<a href="documentos-legales/terminos-y-condiciones-de-uso.html">Términos</a>
-<a href="documentos-legales/condiciones-generales-de-contratacion.html">Contratación</a>
-</div>
-</footer>
-</section>
+  <!-- HOME -->
+  <section class="sec on" id="sec-home">
+    <div class="home-in">
+      <div class="kicker">✦ Por Jorge Lorenzo · cada semana</div>
+      <h1 class="home-h1">El Club para<br><em>mentes inquietas</em></h1>
+      <p class="home-desc">IA, automatización, deporte y emprendimiento. Cada martes, lo que sigo, lo que pruebo y lo que haría en tu lugar.</p>
+      <div class="tags">
+        <span class="tag">Inteligencia Artificial</span>
+        <span class="tag">Automatización</span>
+        <span class="tag">Deporte</span>
+        <span class="tag">Emprendimiento</span>
+      </div>
+      <button class="home-cta" onclick="openSub()">UNIRME AL CLUB →</button>
+      <div class="home-cta-sub">Sin spam · Cada martes · Baja cuando quieras</div>
+      <div class="proof">
+        <div class="proof-q">"No es el crítico quien cuenta. El mérito pertenece al hombre que está realmente en la arena."</div>
+        <div class="proof-a">Theodore Roosevelt</div>
+      </div>
+    </div>
+    <footer class="sfoot">
+      <div class="sfoot-row">
+        <div><div class="sfoot-brand">INSIDE Life</div><div class="sfoot-copy">© 2026 Jorge Lorenzo</div></div>
+        <div class="sfoot-links">
+          <a href="https://www.linkedin.com/in/jorge-lorenzo-25ba3518/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="https://x.com/JLbasket" target="_blank" rel="noopener noreferrer">X</a>
+          <a href="https://www.instagram.com/jorgelorenzo.coach" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="https://bio.jorgelorenzo.coach/" target="_blank" rel="noopener noreferrer">Bio</a>
+          <a href="mailto:jorge@insidelife.club">Contacto</a>
+        </div>
+      </div>
+      <div class="sfoot-legal">
+        <a href="documentos-legales/politica-de-privacidad.html">Privacidad</a>
+        <a href="documentos-legales/aviso-legal.html">Aviso legal</a>
+        <a href="documentos-legales/politica-de-cookies.html">Cookies</a>
+        <a href="documentos-legales/terminos-y-condiciones-de-uso.html">Términos</a>
+        <a href="documentos-legales/condiciones-generales-de-contratacion.html">Contratación</a>
+      </div>
+    </footer>
+  </section>
 
-<!-- NEWSLETTER -->
-<section class="sec" id="sec-nl">
-<div class="arch-in">
-<div class="page-kicker">✦ Archivo</div>
-<h2 class="page-h2">Newsletter</h2>
-<p class="page-sub">Todas las ediciones publicadas. El mismo contenido que sale por correo, aquí ordenado.</p>
-<div class="cards">
-<button class="card" onclick="openReader()">
-<div class="card-num">Edición #042</div>
-<div class="card-title">IA, mercados y fútbol: la semana que lo cambió todo</div>
-<div class="card-tags">
-<span class="card-tag">Mercados</span>
-<span class="card-tag">OpenAI</span>
-<span class="card-tag">Deporte</span>
-<span class="card-tag">IA</span>
-</div>
-<div class="card-foot">7 Abril 2026 <span class="card-arrow">→</span></div>
-</button>
-<div class="card dim">
-<div class="card-num">Edición #043</div>
-<div class="card-title">Próximamente</div>
-<div class="card-foot">14 Abril 2026</div>
-</div>
-<div class="card dim">
-<div class="card-num">Edición #044</div>
-<div class="card-title">Próximamente</div>
-<div class="card-foot">21 Abril 2026</div>
-</div>
-</div>
-</div>
-<footer class="sfoot">
-<div class="sfoot-row">
-<div><div class="sfoot-brand">INSIDE Life</div><div class="sfoot-copy">© 2026 Jorge Lorenzo</div></div>
-<div class="sfoot-links">
-<a href="https://www.linkedin.com/in/jorge-lorenzo-25ba3518/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-<a href="https://x.com/JLbasket" target="_blank" rel="noopener noreferrer">X</a>
-<a href="https://www.instagram.com/jorgelorenzo.coach" target="_blank" rel="noopener noreferrer">Instagram</a>
-<a href="https://bio.jorgelorenzo.coach/" target="_blank" rel="noopener noreferrer">Bio</a>
-<a href="[mailto:jorge@insidelife.club](mailto:jorge@insidelife.club)">Contacto</a>
-</div>
-</div>
-<div class="sfoot-legal">
-<a href="documentos-legales/politica-de-privacidad.html">Privacidad</a>
-<a href="documentos-legales/aviso-legal.html">Aviso legal</a>
-<a href="documentos-legales/politica-de-cookies.html">Cookies</a>
-<a href="documentos-legales/terminos-y-condiciones-de-uso.html">Términos</a>
-<a href="documentos-legales/condiciones-generales-de-contratacion.html">Contratación</a>
-</div>
-</footer>
-</section>
-
-<!-- READER -->
-<section id="sec-reader">
-<div class="reader-back">
-<button class="back-btn" onclick="closeReader()">← Volver a Newsletter</button>
-</div>
-<div class="nl-hero">
-<div class="nl-ey">🌟 Edición #042 · 7 Abril 2026</div>
-<h1 class="nl-h1">IA, mercados y fútbol:<br><em>la semana que lo cambió todo</em></h1>
-<p class="nl-lead">Esta semana la inteligencia artificial invadió Wall Street, entró en la tanda publicitaria del Mundial y demostró que puede usar tu ordenador.</p>
-</div>
-<div class="nl-idx">
-<div class="nl-idx-lbl">En esta edición</div>
-<div class="nl-idx-list">
-<a class="nl-idx-a" href="#a1">IA y volatilidad: los algoritmos que mueven los mercados</a>
-<a class="nl-idx-a" href="#a2">OpenAI vale 852.000M sin cotizar en bolsa</a>
-<a class="nl-idx-a" href="#a3">ChatGPT compra la tanda de TV Globo para el Mundial</a>
-<a class="nl-idx-a" href="#a4">Claude ya puede usar tu ordenador por ti</a>
-<a class="nl-idx-a" href="#a5">Microsoft lanza sus modelos MAI de voz e imagen</a>
-<a class="nl-idx-a" href="#a6">8 prompts para automatizar sin saber programar</a>
-</div>
-</div>
-<div class="nl-art" id="a1">
-<div class="art-hdr"><div class="art-n">1</div><div><div class="art-src">ReinoIA · Mercados & IA</div><h2 class="art-h2">La IA que amplifica la volatilidad de 2026</h2></div></div>
-<div class="art-body"><p>2026 es uno de los años más volátiles de la última década y la IA tiene un papel protagonista — pero ambiguo. En febrero, el Dow Jones cayó 800 puntos por los aranceles de Trump. Ese mismo día, IBM perdió un 13% tras nuevas capacidades de Claude.</p></div>
-<div class="stats"><div class="stat"><div class="stat-n">41%</div><div class="stat-l">de operadores ve tensiones geopolíticas como mayor factor (JPMorgan)</div></div><div class="stat"><div class="stat-n">19%</div><div class="stat-l">apunta a la IA como segundo factor más disruptivo</div></div><div class="stat"><div class="stat-n">54%</div><div class="stat-l">de empleos financieros en riesgo de automatización (FMI)</div></div></div>
-<div class="callout"><div class="callout-lbl">📌 Por qué importa</div>Empresas que ganan porque despliegan IA y empresas que pierden porque la IA las amenaza. El mercado ejecuta ese juicio en tiempo real.</div>
-<ul class="bullets"><li>Sectores líderes: metales, minería, petróleo y telecomunicaciones</li><li>Más golpeados: software, publicidad y servicios financieros</li><li>Bank of America espera que la inversión en IA impulse el PIB de EE.UU. y China</li></ul>
-</div>
-<div class="nl-art" id="a2">
-<div class="art-hdr"><div class="art-n">2</div><div><div class="art-src">ReinoIA · Big Tech</div><h2 class="art-h2">OpenAI vale 852.000M. Sin cotizar en bolsa.</h2></div></div>
-<div class="art-body"><p>El 31 de marzo, OpenAI cerró la mayor ronda de su historia: 122.000 millones a una valoración de 852.000M. Más que LVMH, Toyota y Nestlé juntas. IPO prevista para Q4 2026.</p></div>
-<div class="stats"><div class="stat"><div class="stat-n">$2B</div><div class="stat-l">de ingresos al mes, 900M usuarios activos semanales</div></div><div class="stat"><div class="stat-n">50M</div><div class="stat-l">suscriptores de pago activos</div></div><div class="stat"><div class="stat-n">40%</div><div class="stat-l">de ingresos ya son B2B (vs 30% el año pasado)</div></div></div>
-<div class="callout"><div class="callout-lbl">📌 Lección para emprendedores</div>El piloto publicitario generó más de 100M anualizados en 6 semanas, con 600 anunciantes — el 80% pymes. La IA no es solo herramienta. Es el nuevo inventario publicitario.</div>
-</div>
-<div class="nl-art nl-art-dark" id="a3">
-<div class="art-hdr"><div class="art-n" style="background:#f5a58c;color:#0d0d0d;">3</div><div><div class="art-src">Big Data Sports · Deporte & IA</div><h2 class="art-h2">ChatGPT compra "la tanda" de TV Globo para el Mundial 2026</h2></div></div>
-<div class="art-body"><p>Globo anunció 22 acuerdos por 388M de dólares. OpenAI pagó 11,6M para entrar en TV abierta brasileña por primera vez, con exclusividad de categoría frente a Google Gemini.</p></div>
-<div class="callout"><div class="callout-lbl">⚡ El detalle estratégico</div>Ninguna otra empresa de IA en Globo durante el Mundial. El fútbol se convierte en la primera pantalla donde la IA compite como producto masivo.</div>
-<ul class="bullets"><li>Brasil: 3er mayor mercado de ChatGPT, 140M mensajes diarios, 50M usuarios mensuales</li><li>ChatGPT Go Brasil: 39,99 reales/mes — 65% más barato que el plan Plus</li><li>CazéTV tiene los 104 partidos; Globo solo 55 pero con 2.000 creadores</li></ul>
-</div>
-<div class="nl-art" id="a4">
-<div class="art-hdr"><div class="art-n">4</div><div><div class="art-src">ReinoIA · Herramientas</div><h2 class="art-h2">Claude ya puede usar tu ordenador por ti</h2></div></div>
-<div class="art-body"><p>El 23 de marzo, Anthropic lanzó en preview: Claude puede apuntar, hacer clic y realizar tareas directamente en tu pantalla. Con Dispatch, asignas tareas desde el móvil y encuentras el trabajo terminado al volver.</p></div>
-<ul class="bullets"><li>Solo macOS, en preview para suscriptores Claude Pro y Max</li><li>Siempre pide permiso antes de acceder a una nueva aplicación</li><li>Funciona con cualquier software, sin necesidad de API</li></ul>
-<div class="callout"><div class="callout-lbl">💡 La pregunta real de 2026</div>Hasta ahora la IA te ayudaba a hacer cosas. Con Computer Use, la IA hace las cosas por ti.</div>
-</div>
-<div class="nl-art" id="a5">
-<div class="art-hdr"><div class="art-n">5</div><div><div class="art-src">GptZone · Big Tech</div><h2 class="art-h2">Microsoft lanza MAI: voz, imagen y transcripción propios</h2></div></div>
-<div class="art-body"><p>Microsoft libera sus modelos MAI en Foundry para que cualquier empresa construya sin depender de terceros.</p></div>
-<div class="tools"><div class="tool"><div class="tool-name">MAI-Transcribe-1</div><div class="tool-desc">25 idiomas, supera Whisper. 0,36$/hora.</div></div><div class="tool"><div class="tool-name">MAI-Voice-1</div><div class="tool-desc">1 min audio en 1 seg. 22$/M chars.</div></div><div class="tool"><div class="tool-name">MAI-Image-2</div><div class="tool-desc">32K contexto, PNG, texto legible. Hasta 33$/M tokens.</div></div><div class="tool"><div class="tool-name">Anthropic vs OpenClaw</div><div class="tool-desc">Desde el 4 de abril: suscripciones de Claude ya no cubren herramientas externas.</div></div></div>
-</div>
-<div class="nl-art" id="a6">
-<div class="art-hdr"><div class="art-n">6</div><div><div class="art-src">ReinoIA · Productividad</div><h2 class="art-h2">8 prompts para Claude Code: automatiza sin saber programar</h2></div></div>
-<div class="art-body"><p>Sin tutoriales, sin Python, sin contratar a nadie — automatiza el 80% de tu negocio con estos 8 prompts.</p></div>
-<ul class="bullets"><li><strong>Bot de Telegram</strong> — 10 minutos, Railway gratis</li><li><strong>Dashboard Streamlit</strong> — Panel desde tu CSV, sin Tableau</li><li><strong>Email marketing</strong> — Gmail SMTP personalizado, sin Mailchimp</li><li><strong>Scraper de datos</strong> — Precios o leads en CSV limpio</li><li><strong>Facturas PDF</strong> — Logo, datos fiscales, numeración automática</li><li><strong>Monitor de precios</strong> — Alertas Telegram cuando baja X%. 24/7</li><li><strong>Landing page</strong> — HTML responsive, Netlify gratis</li><li><strong>API REST propia</strong> — Swagger + Render gratis</li></ul>
-<div class="callout"><div class="callout-lbl">📌 Para emprendedores sin código</div>Sé específico: describe el comportamiento real y los límites del sistema. Cuanto más preciso, mejor el resultado.</div>
-</div>
-<div class="nl-foot">
-<div class="nl-foot-row">
-<div><div class="nl-sig">Jorge Lorenzo</div><div class="nl-sig-sub">"Haciendo que la tecnología trabaje para ti."</div></div>
-<div class="nl-flinks">
-<a href="https://www.linkedin.com/in/jorge-lorenzo-25ba3518/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-<a href="https://x.com/JLbasket" target="_blank" rel="noopener noreferrer">X</a>
-<a href="https://www.instagram.com/jorgelorenzo.coach" target="_blank" rel="noopener noreferrer">Instagram</a>
-<a href="https://bio.jorgelorenzo.coach/" target="_blank" rel="noopener noreferrer">Bio</a>
-<a href="[https://insidelife.club](https://insidelife.club/)">insidelife.club</a>
-<a href="[mailto:jorge@insidelife.club](mailto:jorge@insidelife.club)">Contacto</a>
-</div>
-</div>
-<div class="nl-legal">
-<a href="documentos-legales/politica-de-privacidad.html">Privacidad</a>
-<a href="documentos-legales/aviso-legal.html">Aviso legal</a>
-<a href="documentos-legales/politica-de-cookies.html">Cookies</a>
-<a href="documentos-legales/terminos-y-condiciones-de-uso.html">Términos</a>
-<a href="documentos-legales/condiciones-generales-de-contratacion.html">Contratación</a>
-</div>
-</div>
-</section>
-
-<!-- SOBRE MÍ -->
-<section class="sec" id="sec-sobre">
-<div class="about-in">
-<div class="kicker">✦ Sobre mí</div>
-<h2 class="about-h2">El chico que no hablaba<br>y fue Campeón del Mundo</h2>
-<img class="about-img" src="https://newsletter.jorgelorenzo.coach/Copa_vertical.png" alt="Jorge Lorenzo con la Copa del Mundo 2019"/>
-<div class="about-body">
-<p>Hola, soy Jorge. No te voy a soltar un currículum lleno de títulos ni una historia con fuegos artificiales. Solo te diré esto: he estado en muchas pistas. Algunas eran de baloncesto. Otras, de esas que no se ven.</p>
-<p>Desde los 16 años soy entrenador de baloncesto. En 2019, en mi primer torneo con la Selección Española en categoría senior, <strong>fuimos campeones del mundo</strong>. Desde entonces: <strong>Campeón del Eurobasket 2022</strong>, dos Juegos Olímpicos, y entrenador en Angola.</p>
-<p>Con el tiempo construí otra pista paralela: <strong>IA, automatización y tecnología aplicadas al deporte</strong>. Los mismos principios que hacen ganar a un equipo — datos, decisiones rápidas, sistemas — funcionan igual fuera de la cancha. INSIDE Life nació de ahí.</p>
-</div>
-<div class="about-duo">
-<img src="https://newsletter.jorgelorenzo.coach/Con_Scariolo.png" alt="Con Scariolo, Eurobasket 2022"/>
-<img src="https://newsletter.jorgelorenzo.coach/Con_Rudy.png" alt="Con Rudy Fernández, Eurobasket 2022"/>
-</div>
-<div class="promises">
-<div class="promises-lbl">Tres promesas</div>
-<ol class="plist">
-<li>Un correo los martes. Nada por inercia ni para llenar el calendario.</li>
-<li>Lo que sigo, lo que pruebo y lo que haría en tu lugar — IA, automatización, deporte y emprendimiento.</li>
-<li>Si algún día vendo algo, te lo diré con la misma franqueza que en el vestuario: para qué es y para quién.</li>
-</ol>
-</div>
-<div class="alinks">
-<a class="alink" href="https://www.linkedin.com/in/jorge-lorenzo-25ba3518/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-<a class="alink" href="https://x.com/JLbasket" target="_blank" rel="noopener noreferrer">X</a>
-<a class="alink" href="https://www.instagram.com/jorgelorenzo.coach" target="_blank" rel="noopener noreferrer">Instagram</a>
-<a class="alink" href="https://bio.jorgelorenzo.coach/" target="_blank" rel="noopener noreferrer">Bio</a>
-<a class="alink" href="[mailto:jorge@insidelife.club](mailto:jorge@insidelife.club)">Contacto</a>
-</div>
-</div>
-<footer class="sfoot">
-<div class="sfoot-row">
-<div><div class="sfoot-brand">INSIDE Life</div><div class="sfoot-copy">© 2026 Jorge Lorenzo</div></div>
-<div class="sfoot-links">
-<a href="https://www.linkedin.com/in/jorge-lorenzo-25ba3518/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-<a href="https://x.com/JLbasket" target="_blank" rel="noopener noreferrer">X</a>
-<a href="https://www.instagram.com/jorgelorenzo.coach" target="_blank" rel="noopener noreferrer">Instagram</a>
-<a href="https://bio.jorgelorenzo.coach/" target="_blank" rel="noopener noreferrer">Bio</a>
-<a href="[mailto:jorge@insidelife.club](mailto:jorge@insidelife.club)">Contacto</a>
-</div>
-</div>
-<div class="sfoot-legal">
-<a href="documentos-legales/politica-de-privacidad.html">Privacidad</a>
-<a href="documentos-legales/aviso-legal.html">Aviso legal</a>
-<a href="documentos-legales/politica-de-cookies.html">Cookies</a>
-<a href="documentos-legales/terminos-y-condiciones-de-uso.html">Términos</a>
-<a href="documentos-legales/condiciones-generales-de-contratacion.html">Contratación</a>
-</div>
-</footer>
-</section>
+  <!-- SOBRE MÍ -->
+  <section class="sec" id="sec-sobre">
+    <div class="about-in">
+      <div class="kicker">✦ Sobre mí</div>
+      <h2 class="about-h2">El chico que no hablaba<br>y fue Campeón del Mundo</h2>
+      <img class="about-img" src="https://newsletter.jorgelorenzo.coach/Copa_vertical.png" alt="Jorge Lorenzo con la Copa del Mundo 2019"/>
+      <div class="about-body">
+        <p>Hola, soy Jorge. No te voy a soltar un currículum lleno de títulos ni una historia con fuegos artificiales. Solo te diré esto: he estado en muchas pistas. Algunas eran de baloncesto. Otras, de esas que no se ven.</p>
+        <p>Desde los 16 años soy entrenador de baloncesto. En 2019, en mi primer torneo con la Selección Española en categoría senior, <strong>fuimos campeones del mundo</strong>. Desde entonces: <strong>Campeón del Eurobasket 2022</strong>, dos Juegos Olímpicos, y entrenador en Angola.</p>
+        <p>Con el tiempo construí otra pista paralela: <strong>IA, automatización y tecnología aplicadas al deporte</strong>. Los mismos principios que hacen ganar a un equipo — datos, decisiones rápidas, sistemas — funcionan igual fuera de la cancha. INSIDE Life nació de ahí.</p>
+      </div>
+      <div class="about-duo">
+        <img src="https://newsletter.jorgelorenzo.coach/Con_Scariolo.png" alt="Con Scariolo, Eurobasket 2022"/>
+        <img src="https://newsletter.jorgelorenzo.coach/Con_Rudy.png" alt="Con Rudy Fernández, Eurobasket 2022"/>
+      </div>
+      <div class="promises">
+        <div class="promises-lbl">Tres promesas</div>
+        <ol class="plist">
+          <li>Un correo los martes. Nada por inercia ni para llenar el calendario.</li>
+          <li>Lo que sigo, lo que pruebo y lo que haría en tu lugar — IA, automatización, deporte y emprendimiento.</li>
+          <li>Si algún día vendo algo, te lo diré con la misma franqueza que en el vestuario: para qué es y para quién.</li>
+        </ol>
+      </div>
+      <div class="alinks">
+        <a class="alink" href="https://www.linkedin.com/in/jorge-lorenzo-25ba3518/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a class="alink" href="https://x.com/JLbasket" target="_blank" rel="noopener noreferrer">X</a>
+        <a class="alink" href="https://www.instagram.com/jorgelorenzo.coach" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a class="alink" href="https://bio.jorgelorenzo.coach/" target="_blank" rel="noopener noreferrer">Bio</a>
+        <a class="alink" href="mailto:jorge@insidelife.club">Contacto</a>
+      </div>
+    </div>
+    <footer class="sfoot">
+      <div class="sfoot-row">
+        <div><div class="sfoot-brand">INSIDE Life</div><div class="sfoot-copy">© 2026 Jorge Lorenzo</div></div>
+        <div class="sfoot-links">
+          <a href="https://www.linkedin.com/in/jorge-lorenzo-25ba3518/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="https://x.com/JLbasket" target="_blank" rel="noopener noreferrer">X</a>
+          <a href="https://www.instagram.com/jorgelorenzo.coach" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="https://bio.jorgelorenzo.coach/" target="_blank" rel="noopener noreferrer">Bio</a>
+          <a href="mailto:jorge@insidelife.club">Contacto</a>
+        </div>
+      </div>
+      <div class="sfoot-legal">
+        <a href="documentos-legales/politica-de-privacidad.html">Privacidad</a>
+        <a href="documentos-legales/aviso-legal.html">Aviso legal</a>
+        <a href="documentos-legales/politica-de-cookies.html">Cookies</a>
+        <a href="documentos-legales/terminos-y-condiciones-de-uso.html">Términos</a>
+        <a href="documentos-legales/condiciones-generales-de-contratacion.html">Contratación</a>
+      </div>
+    </footer>
+  </section>
 
 </div>
 
 <script>
-var TOPS = {home:'tn-home', nl:'tn-nl', sobre:'tn-sobre'};
-var BOTS = {home:'bn-home', nl:'bn-nl', sobre:'bn-sobre'};
-var SECS = ['home','nl','sobre'];
+var TOPS = {home:'tn-home', sobre:'tn-sobre'};
+var BOTS = {home:'bn-home', sobre:'bn-sobre'};
+var SECS = ['home','sobre'];
 
 function show(id) {
-SECS.forEach(function(s) {
-document.getElementById('sec-'+s).classList.remove('on');
-});
-document.getElementById('sec-reader').classList.remove('on');
-document.getElementById('sec-reader').style.display = 'none';
-document.getElementById('sec-'+id).classList.add('on');
-SECS.forEach(function(s) {
-var t = document.getElementById(TOPS[s]);
-var b = document.getElementById(BOTS[s]);
-if (t) t.classList.toggle('active', s === id);
-if (b) b.classList.toggle('active', s === id);
-});
-window.scrollTo(0, 0);
+  SECS.forEach(function(s) {
+    document.getElementById('sec-'+s).classList.remove('on');
+  });
+  document.getElementById('sec-'+id).classList.add('on');
+  SECS.forEach(function(s) {
+    var t = document.getElementById(TOPS[s]);
+    var b = document.getElementById(BOTS[s]);
+    if (t) t.classList.toggle('active', s === id);
+    if (b) b.classList.toggle('active', s === id);
+  });
+  window.scrollTo(0, 0);
 }
 
-function openReader() {
-SECS.forEach(function(s) {
-document.getElementById('sec-'+s).classList.remove('on');
-});
-SECS.forEach(function(s) {
-var t = document.getElementById(TOPS[s]);
-var b = document.getElementById(BOTS[s]);
-if (t) t.classList.remove('active');
-if (b) b.classList.remove('active');
-});
-var r = document.getElementById('sec-reader');
-r.style.display = 'block';
-r.classList.add('on');
-window.scrollTo(0, 0);
-}
-
-function closeReader() {
-show('nl');
-}
-
-/* ── MODAL ── */
 function openSub() {
-document.getElementById('subOv').classList.add('open');
-document.body.style.overflow = 'hidden';
-setTimeout(function() {
-document.getElementById('sNombre').focus();
-}, 120);
+  document.getElementById('subOv').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setTimeout(function() { document.getElementById('sNombre').focus(); }, 120);
 }
 
 function closeSub() {
-document.getElementById('subOv').classList.remove('open');
-document.body.style.overflow = '';
+  document.getElementById('subOv').classList.remove('open');
+  document.body.style.overflow = '';
 }
 
 function bgClose(e) {
-if (e.target === document.getElementById('subOv')) closeSub();
+  if (e.target === document.getElementById('subOv')) closeSub();
 }
 
 document.addEventListener('keydown', function(e) {
-if (e.key === 'Escape') closeSub();
+  if (e.key === 'Escape') closeSub();
 });
 
 function submitSub() {
-var nombre = document.getElementById('sNombre').value.trim();
-var email  = document.getElementById('sEmail').value.trim();
-var eIn    = document.getElementById('sEmail');
-
-if (!email || !email.includes('@')) {
-eIn.classList.add('err');
-eIn.focus();
-return;
-}
-eIn.classList.remove('err');
-
-// Build and submit form to Brevo via hidden iframe (no page redirect)
-var f = document.createElement('form');
-f.method  = 'POST';
-f.action  = 'https://1e22ccbe.sibforms.com/serve/MUIFAImNtjNmHq5LpaK-cn-6fXZj5OMRIVi_N2j6sO7lOgYfku227N7flq9_ysaKRpGIzgIY8btJ3-h4kOQhmC5l9ozewXKT_MEvCEYOwN1TiDHU49xmvpWYfkrX92_-kK8SYfS45ADUH_hwHxFeEND8x42g9boudtaQwXph5CfjEf-XeKGJZS0xPc7pZjPPJn9U_0uFCE_NhFOn';
-f.target  = 'sib-frame';
-f.style.display = 'none';
-
-function addField(n, v) {
-var i = document.createElement('input');
-[i.name](http://i.name/) = n; i.value = v;
-f.appendChild(i);
-}
-
-addField('EMAIL', email);
-addField('email_address_check', '');
-addField('locale', 'es');
-if (nombre) addField('FIRSTNAME', nombre);
-
-document.body.appendChild(f);
-f.submit();
-document.body.removeChild(f);
-
-// Show success state
-document.getElementById('subForm').style.display = 'none';
-document.getElementById('subOk').style.display   = 'block';
-
-// Auto-close after 3s and reset
-setTimeout(function() {
-closeSub();
-setTimeout(function() {
-document.getElementById('subForm').style.display = 'block';
-document.getElementById('subOk').style.display   = 'none';
-document.getElementById('sNombre').value = '';
-document.getElementById('sEmail').value  = '';
-}, 400);
-}, 3000);
+  var nombre = document.getElementById('sNombre').value.trim();
+  var email  = document.getElementById('sEmail').value.trim();
+  var eIn    = document.getElementById('sEmail');
+  if (!email || !email.includes('@')) { eIn.classList.add('err'); eIn.focus(); return; }
+  eIn.classList.remove('err');
+  var f = document.createElement('form');
+  f.method = 'POST';
+  f.action = 'https://1e22ccbe.sibforms.com/serve/MUIFAImNtjNmHq5LpaK-cn-6fXZj5OMRIVi_N2j6sO7lOgYfku227N7flq9_ysaKRpGIzgIY8btJ3-h4kOQhmC5l9ozewXKT_MEvCEYOwN1TiDHU49xmvpWYfkrX92_-kK8SYfS45ADUH_hwHxFeEND8x42g9boudtaQwXph5CfjEf-XeKGJZS0xPc7pZjPPJn9U_0uFCE_NhFOn';
+  f.target = 'sib-frame';
+  f.style.display = 'none';
+  function addField(n, v) { var i = document.createElement('input'); i.name = n; i.value = v; f.appendChild(i); }
+  addField('EMAIL', email);
+  addField('email_address_check', '');
+  addField('locale', 'es');
+  if (nombre) addField('FIRSTNAME', nombre);
+  document.body.appendChild(f);
+  f.submit();
+  document.body.removeChild(f);
+  document.getElementById('subForm').style.display = 'none';
+  document.getElementById('subOk').style.display = 'block';
+  setTimeout(function() {
+    closeSub();
+    setTimeout(function() {
+      document.getElementById('subForm').style.display = 'block';
+      document.getElementById('subOk').style.display = 'none';
+      document.getElementById('sNombre').value = '';
+      document.getElementById('sEmail').value = '';
+    }, 400);
+  }, 3000);
 }
 </script>
 </body>
