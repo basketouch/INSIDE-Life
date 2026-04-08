@@ -151,7 +151,7 @@ body{font-family:var(--sans);background:var(--white);color:var(--ink);-webkit-fo
 .sf-links a:hover{color:var(--ink);}
 
 @media(max-width:800px){
-  .nav{padding:0 20px;}.nav-links{display:none;}
+  .nav{padding:0 16px;}.nav-links{display:none;}.nav-mobile{display:flex;gap:0;}
   #section-reader.active{grid-template-columns:1fr;}
     .nl-hero,.nl-index,.nl-sec,.nl-footer-r{padding-left:22px;padding-right:22px;}
   .reader-back{padding:12px 22px;}
@@ -159,6 +159,40 @@ body{font-family:var(--sans);background:var(--white);color:var(--ink);-webkit-fo
   .stats{flex-direction:column;}.stat{border-right:none;border-bottom:1px solid var(--rule);}.stat:last-child{border-bottom:none;}
   .home-wrap{padding:72px 24px 60px;}.nl-archive{padding:60px 24px 60px;}.about-wrap{padding:60px 24px 80px;}
   .about-imgs{grid-template-columns:1fr;}.site-footer{padding:20px 24px;flex-direction:column;align-items:flex-start;}
+}
+
+/* BOTTOM NAV (mobile) */
+.bottom-nav{
+  display:none;
+  position:fixed;
+  bottom:0;left:0;right:0;
+  z-index:200;
+  background:var(--white);
+  border-top:1px solid var(--rule);
+  height:54px;
+}
+.bottom-nav a{
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:var(--mono);
+  font-size:9px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--mid);
+  text-decoration:none;
+  cursor:pointer;
+  transition:color .15s;
+  border-right:1px solid var(--rule);
+}
+.bottom-nav a:last-child{border-right:none;}
+.bottom-nav a.active{color:var(--ink);font-weight:500;}
+.bottom-nav a:hover{color:var(--ink);}
+/* Add padding to sections so content isn't hidden behind bottom nav on mobile */
+@media(max-width:800px){
+  .section{padding-bottom:60px;}
+  #section-reader{padding-bottom:60px;}
 }
 </style>
 </head>
@@ -175,7 +209,7 @@ body{font-family:var(--sans);background:var(--white);color:var(--ink);-webkit-fo
     <li><a onclick="showSection('newsletter')" id="nl-newsletter">Newsletter</a></li>
     <li><a onclick="showSection('sobre')" id="nl-sobre">Sobre mí</a></li>
   </ul>
-  <a onclick="showSection('home')" class="nav-btn">Suscribirse</a>
+  <a onclick="showSection('home');setTimeout(()=>{const el=document.getElementById('EMAIL');if(el){el.scrollIntoView({behavior:'smooth',block:'center'});el.focus();}},150);" class="nav-btn">Suscribirse</a>
 </nav>
 
 <!-- HOME -->
@@ -383,8 +417,12 @@ function showSection(id){
   document.getElementById('section-reader').style.display='none';
   document.getElementById('section-reader').classList.remove('active');
   document.getElementById('section-'+id).classList.add('active');
+  // top nav
   document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
   const nl=document.getElementById('nl-'+id);if(nl)nl.classList.add('active');
+  // bottom nav
+  document.querySelectorAll('.bottom-nav a').forEach(a=>a.classList.remove('active'));
+  const bn=document.getElementById('bn-'+id);if(bn)bn.classList.add('active');
   window.scrollTo(0,0);return false;
 }
 function openReader(){
@@ -400,5 +438,12 @@ function closeReader(){
 }
 
 </script>
+
+<!-- BOTTOM NAV (mobile only) -->
+<nav class="bottom-nav" id="bottomNav">
+  <a onclick="showSection('home')" id="bn-home" class="active">Inicio</a>
+  <a onclick="showSection('newsletter')" id="bn-newsletter">Newsletter</a>
+  <a onclick="showSection('sobre')" id="bn-sobre">Sobre mí</a>
+</nav>
 </body>
 </html>
