@@ -136,7 +136,11 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
 .nl-art-dark .bullets li { color: rgba(255,255,255,.8); }
 .nl-art-dark .callout { background: rgba(255,255,255,.06); border-left-color: #f5a58c; color: rgba(255,255,255,.78); }
 .nl-art-dark .callout-lbl { color: #f5a58c; }
-.nl-foot { padding: 24px 40px; border-top: 1px solid var(--rule); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+.nl-foot { padding: 24px 40px; border-top: 1px solid var(--rule); display: flex; flex-direction: column; align-items: stretch; gap: 14px; }
+.nl-foot-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+.nl-legal { display: flex; flex-wrap: wrap; gap: 10px 12px; padding-top: 12px; border-top: 1px solid var(--rule); }
+.nl-legal a { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .08em; text-transform: uppercase; color: var(--mid); text-decoration: none; border-bottom: none; }
+.nl-legal a:hover { color: var(--red); }
 .nl-sig { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 700; color: var(--ink); }
 .nl-sig-sub { font-size: 11px; color: var(--mid); font-style: italic; font-family: 'Playfair Display', serif; }
 .nl-flinks { display: flex; gap: 12px; flex-wrap: wrap; }
@@ -162,12 +166,16 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
 .alink:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
 
 /* ── SITE FOOTER ── */
-.sfoot { border-top: 1px solid var(--rule); padding: 22px 40px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+.sfoot { border-top: 1px solid var(--rule); padding: 22px 40px; display: flex; flex-direction: column; align-items: stretch; gap: 16px; }
+.sfoot-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
 .sfoot-brand { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 700; color: var(--ink); }
 .sfoot-copy { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--mid); }
-.sfoot-links { display: flex; gap: 14px; }
+.sfoot-links { display: flex; gap: 14px; flex-wrap: wrap; }
 .sfoot-links a { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--mid); text-decoration: none; transition: color .13s; }
 .sfoot-links a:hover { color: var(--ink); }
+.sfoot-legal { display: flex; flex-wrap: wrap; gap: 10px 14px; padding-top: 14px; border-top: 1px solid var(--rule); }
+.sfoot-legal a { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .08em; text-transform: uppercase; color: var(--mid); text-decoration: none; transition: color .13s; }
+.sfoot-legal a:hover { color: var(--ink); }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 760px) {
@@ -191,7 +199,9 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
   .tools { grid-template-columns: 1fr; }
   .about-in { padding: 60px 22px 80px; }
   .about-duo { grid-template-columns: 1fr; }
-  .sfoot { padding: 20px 22px; flex-direction: column; align-items: flex-start; }
+  .sfoot { padding: 20px 22px; }
+  .sfoot-row { flex-direction: column; align-items: flex-start; }
+  .nl-foot-row { flex-direction: column; align-items: flex-start; }
   .sub-box { padding: 28px 22px; }
 }
 </style>
@@ -272,12 +282,21 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
       </div>
     </div>
     <footer class="sfoot">
-      <div><div class="sfoot-brand">INSIDE Life</div><div class="sfoot-copy">© 2026 Jorge Lorenzo</div></div>
-      <div class="sfoot-links">
-        <a href="https://www.instagram.com/insidelife.club/" target="_blank">Instagram</a>
-        <a href="https://x.com/JLbasket" target="_blank">X</a>
-        <a href="https://www.linkedin.com/in/jorge-lorenzo-25ba3518/" target="_blank">LinkedIn</a>
-        <a href="mailto:jorge@insidelife.club">Contacto</a>
+      <div class="sfoot-row">
+        <div><div class="sfoot-brand">INSIDE Life</div><div class="sfoot-copy">© 2026 Jorge Lorenzo</div></div>
+        <div class="sfoot-links">
+          <a href="https://www.instagram.com/insidelife.club/" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="https://x.com/JLbasket" target="_blank" rel="noopener noreferrer">X</a>
+          <a href="https://www.linkedin.com/in/jorge-lorenzo-25ba3518/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="mailto:jorge@insidelife.club">Contacto</a>
+        </div>
+      </div>
+      <div class="sfoot-legal">
+        <a href="documentos-legales/politica-de-privacidad.html">Privacidad</a>
+        <a href="documentos-legales/aviso-legal.html">Aviso legal</a>
+        <a href="documentos-legales/politica-de-cookies.html">Cookies</a>
+        <a href="documentos-legales/terminos-y-condiciones-de-uso.html">Términos</a>
+        <a href="documentos-legales/condiciones-generales-de-contratacion.html">Contratación</a>
       </div>
     </footer>
   </section>
@@ -313,12 +332,21 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
       </div>
     </div>
     <footer class="sfoot">
-      <div><div class="sfoot-brand">INSIDE Life</div><div class="sfoot-copy">© 2026 Jorge Lorenzo</div></div>
-      <div class="sfoot-links">
-        <a href="https://www.instagram.com/insidelife.club/" target="_blank">Instagram</a>
-        <a href="https://x.com/JLbasket" target="_blank">X</a>
-        <a href="https://www.linkedin.com/in/jorge-lorenzo-25ba3518/" target="_blank">LinkedIn</a>
-        <a href="mailto:jorge@insidelife.club">Contacto</a>
+      <div class="sfoot-row">
+        <div><div class="sfoot-brand">INSIDE Life</div><div class="sfoot-copy">© 2026 Jorge Lorenzo</div></div>
+        <div class="sfoot-links">
+          <a href="https://www.instagram.com/insidelife.club/" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="https://x.com/JLbasket" target="_blank" rel="noopener noreferrer">X</a>
+          <a href="https://www.linkedin.com/in/jorge-lorenzo-25ba3518/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="mailto:jorge@insidelife.club">Contacto</a>
+        </div>
+      </div>
+      <div class="sfoot-legal">
+        <a href="documentos-legales/politica-de-privacidad.html">Privacidad</a>
+        <a href="documentos-legales/aviso-legal.html">Aviso legal</a>
+        <a href="documentos-legales/politica-de-cookies.html">Cookies</a>
+        <a href="documentos-legales/terminos-y-condiciones-de-uso.html">Términos</a>
+        <a href="documentos-legales/condiciones-generales-de-contratacion.html">Contratación</a>
       </div>
     </footer>
   </section>
@@ -381,13 +409,22 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
       <div class="callout"><div class="callout-lbl">📌 Para emprendedores sin código</div>Sé específico: describe el comportamiento real y los límites del sistema. Cuanto más preciso, mejor el resultado.</div>
     </div>
     <div class="nl-foot">
-      <div><div class="nl-sig">Jorge Lorenzo</div><div class="nl-sig-sub">"Haciendo que la tecnología trabaje para ti."</div></div>
-      <div class="nl-flinks">
-        <a href="https://insidelife.club">insidelife.club</a>
-        <a href="mailto:jorge@insidelife.club">Contacto</a>
-        <a href="https://www.instagram.com/insidelife.club/" target="_blank">Instagram</a>
-        <a href="https://x.com/JLbasket" target="_blank">X</a>
-        <a href="https://www.linkedin.com/in/jorge-lorenzo-25ba3518/" target="_blank">LinkedIn</a>
+      <div class="nl-foot-row">
+        <div><div class="nl-sig">Jorge Lorenzo</div><div class="nl-sig-sub">"Haciendo que la tecnología trabaje para ti."</div></div>
+        <div class="nl-flinks">
+          <a href="https://insidelife.club">insidelife.club</a>
+          <a href="mailto:jorge@insidelife.club">Contacto</a>
+          <a href="https://www.instagram.com/insidelife.club/" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="https://x.com/JLbasket" target="_blank" rel="noopener noreferrer">X</a>
+          <a href="https://www.linkedin.com/in/jorge-lorenzo-25ba3518/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </div>
+      </div>
+      <div class="nl-legal">
+        <a href="documentos-legales/politica-de-privacidad.html">Privacidad</a>
+        <a href="documentos-legales/aviso-legal.html">Aviso legal</a>
+        <a href="documentos-legales/politica-de-cookies.html">Cookies</a>
+        <a href="documentos-legales/terminos-y-condiciones-de-uso.html">Términos</a>
+        <a href="documentos-legales/condiciones-generales-de-contratacion.html">Contratación</a>
       </div>
     </div>
   </section>
@@ -423,12 +460,21 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
       </div>
     </div>
     <footer class="sfoot">
-      <div><div class="sfoot-brand">INSIDE Life</div><div class="sfoot-copy">© 2026 Jorge Lorenzo</div></div>
-      <div class="sfoot-links">
-        <a href="https://www.instagram.com/insidelife.club/" target="_blank">Instagram</a>
-        <a href="https://x.com/JLbasket" target="_blank">X</a>
-        <a href="https://www.linkedin.com/in/jorge-lorenzo-25ba3518/" target="_blank">LinkedIn</a>
-        <a href="mailto:jorge@insidelife.club">Contacto</a>
+      <div class="sfoot-row">
+        <div><div class="sfoot-brand">INSIDE Life</div><div class="sfoot-copy">© 2026 Jorge Lorenzo</div></div>
+        <div class="sfoot-links">
+          <a href="https://www.instagram.com/insidelife.club/" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="https://x.com/JLbasket" target="_blank" rel="noopener noreferrer">X</a>
+          <a href="https://www.linkedin.com/in/jorge-lorenzo-25ba3518/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="mailto:jorge@insidelife.club">Contacto</a>
+        </div>
+      </div>
+      <div class="sfoot-legal">
+        <a href="documentos-legales/politica-de-privacidad.html">Privacidad</a>
+        <a href="documentos-legales/aviso-legal.html">Aviso legal</a>
+        <a href="documentos-legales/politica-de-cookies.html">Cookies</a>
+        <a href="documentos-legales/terminos-y-condiciones-de-uso.html">Términos</a>
+        <a href="documentos-legales/condiciones-generales-de-contratacion.html">Contratación</a>
       </div>
     </footer>
   </section>

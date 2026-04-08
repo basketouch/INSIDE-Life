@@ -1,0 +1,14 @@
+{
+  "rewrites": [
+    { "source": "/documentos-legales/politica-de-privacidad", "destination": "/documentos-legales/politica-de-privacidad.html" },
+    { "source": "/documentos-legales/politica-de-privacidad/", "destination": "/documentos-legales/politica-de-privacidad.html" },
+    { "source": "/documentos-legales/aviso-legal", "destination": "/documentos-legales/aviso-legal.html" },
+    { "source": "/documentos-legales/aviso-legal/", "destination": "/documentos-legales/aviso-legal.html" },
+    { "source": "/documentos-legales/condiciones-generales-de-contratacion", "destination": "/documentos-legales/condiciones-generales-de-contratacion.html" },
+    { "source": "/documentos-legales/condiciones-generales-de-contratacion/", "destination": "/documentos-legales/condiciones-generales-de-contratacion.html" },
+    { "source": "/documentos-legales/terminos-y-condiciones-de-uso", "destination": "/documentos-legales/terminos-y-condiciones-de-uso.html" },
+    { "source": "/documentos-legales/terminos-y-condiciones-de-uso/", "destination": "/documentos-legales/terminos-y-condiciones-de-uso.html" },
+    { "source": "/documentos-legales/politica-de-cookies", "destination": "/documentos-legales/politica-de-cookies.html" },
+    { "source": "/documentos-legales/politica-de-cookies/", "destination": "/documentos-legales/politica-de-cookies.html" }
+  ]
+}
