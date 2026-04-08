@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INSIDE Life — Archivo de ediciones</title>
+<meta name="description" content="Todas las ediciones de INSIDE Life. IA, automatización, deporte y emprendimiento por Jorge Lorenzo.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white: #ffffff; --off: #f8f6f2; --ink: #111111;
+  --mid: #767676; --rule: #e8e4de; --red: #e8401c;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--ink); -webkit-font-smoothing: antialiased; }
+
+/* NAV */
+.topnav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: 54px; background: var(--white); border-bottom: 1px solid var(--rule); display: flex; align-items: center; justify-content: space-between; padding: 0 40px; }
+.nav-brand { display: flex; align-items: center; gap: 9px; text-decoration: none; }
+.nav-badge { background: var(--ink); color: var(--white); font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .06em; padding: 3px 7px; line-height: 1; }
+.nav-title { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 900; color: var(--ink); letter-spacing: -.02em; }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--mid); text-decoration: none; transition: color .15s; }
+.nav-links a:hover { color: var(--ink); }
+.nav-sub { background: var(--ink); color: var(--white); font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; padding: 8px 16px; border: none; cursor: pointer; transition: background .15s; text-decoration: none; display: inline-flex; align-items: center; }
+.nav-sub:hover { background: var(--red); }
+
+/* BOTTOM NAV mobile */
+.botnav { display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; height: 56px; background: var(--white); border-top: 1px solid var(--rule); }
+.botnav a { flex: 1; height: 100%; border: none; background: none; cursor: pointer; font-family: 'DM Mono', monospace; font-size: 8.5px; letter-spacing: .09em; text-transform: uppercase; color: var(--mid); border-right: 1px solid var(--rule); transition: color .15s; display: flex; align-items: center; justify-content: center; text-decoration: none; }
+.botnav a:last-child { border-right: none; color: var(--red); }
+.botnav a.active { color: var(--ink); font-weight: 500; }
+
+/* ARCHIVE */
+.arch-wrap { padding-top: 54px; }
+.arch-in { max-width: 860px; margin: 0 auto; padding: 72px 40px 80px; }
+.page-kicker { font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: .18em; text-transform: uppercase; color: var(--red); margin-bottom: 12px; }
+.page-h2 { font-family: 'Playfair Display', serif; font-size: 38px; font-weight: 900; letter-spacing: -.025em; color: var(--ink); margin-bottom: 10px; }
+.page-sub { font-size: 14.5px; color: var(--mid); line-height: 1.65; margin-bottom: 44px; }
+
+/* CARDS */
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+.card { background: var(--white); padding: 24px 22px; cursor: pointer; transition: background .15s; display: flex; flex-direction: column; gap: 8px; text-decoration: none; }
+.card:hover { background: var(--off); }
+.card-num { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--mid); }
+.card-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; line-height: 1.25; color: var(--ink); }
+.card-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+.card-tag { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .09em; text-transform: uppercase; color: var(--mid); background: var(--off); padding: 3px 7px; }
+.card-foot { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--mid); margin-top: auto; padding-top: 11px; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; }
+.card-arrow { color: var(--red); }
+.card.dim { opacity: .3; cursor: default; pointer-events: none; }
+
+/* FOOTER */
+.sfoot { border-top: 1px solid var(--rule); padding: 22px 40px; display: flex; flex-direction: column; align-items: stretch; gap: 16px; }
+.sfoot-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+.sfoot-brand { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 700; color: var(--ink); }
+.sfoot-copy { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--mid); }
+.sfoot-links { display: flex; gap: 14px; flex-wrap: wrap; }
+.sfoot-links a { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--mid); text-decoration: none; transition: color .13s; }
+.sfoot-links a:hover { color: var(--ink); }
+.sfoot-legal { display: flex; flex-wrap: wrap; gap: 10px 14px; padding-top: 14px; border-top: 1px solid var(--rule); }
+.sfoot-legal a { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .08em; text-transform: uppercase; color: var(--mid); text-decoration: none; transition: color .13s; }
+.sfoot-legal a:hover { color: var(--ink); }
+
+/* SUBSCRIPTION MODAL */
+.sub-ov { display: none; position: fixed; inset: 0; z-index: 500; background: rgba(10,10,10,.65); backdrop-filter: blur(3px); align-items: center; justify-content: center; padding: 20px; }
+.sub-ov.open { display: flex; }
+.sub-box { background: var(--white); box-shadow: 8px 8px 0 var(--ink); padding: 36px 32px; max-width: 420px; width: 100%; position: relative; }
+.sub-close { position: absolute; top: 12px; right: 14px; background: none; border: none; cursor: pointer; font-size: 20px; color: var(--mid); line-height: 1; transition: color .15s; }
+.sub-close:hover { color: var(--ink); }
+.sub-kicker { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .1em; color: var(--red); margin-bottom: 10px; }
+.sub-h2 { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 900; letter-spacing: -.02em; color: var(--ink); margin-bottom: 8px; }
+.sub-desc { font-size: 13px; line-height: 1.65; color: var(--mid); margin-bottom: 22px; }
+.sub-field { margin-bottom: 12px; }
+.sub-lbl { display: block; font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--mid); margin-bottom: 6px; }
+.sub-in { width: 100%; border: 1px solid var(--rule); background: var(--off); font-family: 'DM Sans', sans-serif; font-size: 14px; padding: 11px 14px; color: var(--ink); outline: none; transition: border-color .15s; }
+.sub-in:focus { border-color: var(--ink); }
+.sub-in.err { border-color: var(--red); }
+.sub-btn { width: 100%; margin-top: 6px; background: var(--ink); color: var(--white); font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; padding: 14px; border: none; cursor: pointer; transition: background .15s; }
+.sub-btn:hover { background: var(--red); }
+.sub-note { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--mid); text-align: center; margin-top: 12px; line-height: 1.5; }
+.sub-ok { display: none; text-align: center; padding: 16px 0; }
+.sub-ok-icon { font-size: 38px; margin-bottom: 12px; }
+.sub-ok-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+.sub-ok-sub { font-size: 13px; color: var(--mid); line-height: 1.65; }
+
+/* RESPONSIVE */
+@media (max-width: 760px) {
+  .topnav { padding: 0 16px; }
+  .nav-links { display: none; }
+  .nav-sub { display: none; }
+  .botnav { display: flex; }
+  .arch-in { padding: 60px 22px 80px; }
+  .sfoot { padding: 20px 22px; }
+  .sfoot-row { flex-direction: column; align-items: flex-start; }
+  .sub-box { padding: 28px 22px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="topnav">
+  <a class="nav-brand" href="/">
+    <div class="nav-title">INSIDE Life</div>
+    <div class="nav-badge">By Jorge Lorenzo</div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/">Inicio</a></li>
+    <li><a href="/archivo" style="color:var(--ink);">Ediciones</a></li>
+    <li><a href="/#sobre">Sobre mí</a></li>
+  </ul>
+  <a href="#" class="nav-sub" onclick="openSub();return false;">Suscribirse</a>
+</header>
+
+<!-- BOTTOM NAV mobile -->
+<nav class="botnav">
+  <a href="/">Inicio</a>
+  <a href="/archivo" class="active">Ediciones</a>
+  <a href="#" onclick="openSub();return false;">Unirme</a>
+</nav>
+
+<!-- SUBSCRIPTION MODAL -->
+<div class="sub-ov" id="subOv" onclick="bgClose(event)">
+  <div class="sub-box">
+    <button class="sub-close" onclick="closeSub()">×</button>
+    <div id="subForm">
+      <div class="sub-kicker">✦ Por Jorge Lorenzo · cada semana</div>
+      <h2 class="sub-h2">Únete a INSIDE Life</h2>
+      <p class="sub-desc">IA, automatización, deporte y emprendimiento. Cada martes, lo que sigo, lo que pruebo y lo que haría en tu lugar.</p>
+      <div class="sub-field">
+        <label class="sub-lbl" for="sNombre">Tu nombre</label>
+        <input class="sub-in" type="text" id="sNombre" placeholder="Jorge" autocomplete="given-name"/>
+      </div>
+      <div class="sub-field">
+        <label class="sub-lbl" for="sEmail">Tu email</label>
+        <input class="sub-in" type="email" id="sEmail" placeholder="jorge@email.com" autocomplete="email"/>
+      </div>
+      <button class="sub-btn" onclick="submitSub()">UNIRME AL CLUB →</button>
+      <div class="sub-note">Sin spam · Cada martes · Baja cuando quieras</div>
+    </div>
+    <div class="sub-ok" id="subOk">
+      <div class="sub-ok-icon">✉️</div>
+      <div class="sub-ok-title">¡Ya eres del Club!</div>
+      <div class="sub-ok-sub">Revisa tu email para confirmar la suscripción.<br>Nos vemos cada semana.</div>
+    </div>
+  </div>
+</div>
+
+<iframe name="sib-frame" style="display:none;"></iframe>
+
+<!-- ARCHIVO -->
+<div class="arch-wrap">
+  <div class="arch-in">
+    <div class="page-kicker">✦ Archivo</div>
+    <h2 class="page-h2">Todas las ediciones</h2>
+    <p class="page-sub">El mismo contenido que llega cada martes al inbox, aquí ordenado.</p>
+
+    <div class="cards">
+
+      <!-- Edición #042 -->
+      <a class="card" href="/newsletter">
+        <div class="card-num">Edición #042</div>
+        <div class="card-title">IA, mercados y fútbol: la semana que lo cambió todo</div>
+        <div class="card-tags">
+          <span class="card-tag">Mercados</span>
+          <span class="card-tag">OpenAI</span>
+          <span class="card-tag">Deporte</span>
+          <span class="card-tag">IA</span>
+        </div>
+        <div class="card-foot">7 Abril 2026 <span class="card-arrow">→</span></div>
+      </a>
+
+      <!-- Próximas ediciones -->
+      <div class="card dim">
+        <div class="card-num">Edición #043</div>
+        <div class="card-title">Próximamente</div>
+        <div class="card-foot">14 Abril 2026</div>
+      </div>
+      <div class="card dim">
+        <div class="card-num">Edición #044</div>
+        <div class="card-title">Próximamente</div>
+        <div class="card-foot">21 Abril 2026</div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="sfoot">
+    <div class="sfoot-row">
+      <div><div class="sfoot-brand">INSIDE Life</div><div class="sfoot-copy">© 2026 Jorge Lorenzo</div></div>
+      <div class="sfoot-links">
+        <a href="https://www.linkedin.com/in/jorge-lorenzo-25ba3518/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://x.com/JLbasket" target="_blank" rel="noopener noreferrer">X</a>
+        <a href="https://www.instagram.com/jorgelorenzo.coach" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://bio.jorgelorenzo.coach/" target="_blank" rel="noopener noreferrer">Bio</a>
+        <a href="mailto:jorge@insidelife.club">Contacto</a>
+      </div>
+    </div>
+    <div class="sfoot-legal">
+      <a href="documentos-legales/politica-de-privacidad.html">Privacidad</a>
+      <a href="documentos-legales/aviso-legal.html">Aviso legal</a>
+      <a href="documentos-legales/politica-de-cookies.html">Cookies</a>
+      <a href="documentos-legales/terminos-y-condiciones-de-uso.html">Términos</a>
+      <a href="documentos-legales/condiciones-generales-de-contratacion.html">Contratación</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+function openSub() {
+  document.getElementById('subOv').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setTimeout(function() { document.getElementById('sNombre').focus(); }, 120);
+}
+function closeSub() {
+  document.getElementById('subOv').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function bgClose(e) {
+  if (e.target === document.getElementById('subOv')) closeSub();
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeSub();
+});
+function submitSub() {
+  var nombre = document.getElementById('sNombre').value.trim();
+  var email  = document.getElementById('sEmail').value.trim();
+  var eIn    = document.getElementById('sEmail');
+  if (!email || !email.includes('@')) { eIn.classList.add('err'); eIn.focus(); return; }
+  eIn.classList.remove('err');
+  var f = document.createElement('form');
+  f.method = 'POST';
+  f.action = 'https://1e22ccbe.sibforms.com/serve/MUIFAImNtjNmHq5LpaK-cn-6fXZj5OMRIVi_N2j6sO7lOgYfku227N7flq9_ysaKRpGIzgIY8btJ3-h4kOQhmC5l9ozewXKT_MEvCEYOwN1TiDHU49xmvpWYfkrX92_-kK8SYfS45ADUH_hwHxFeEND8x42g9boudtaQwXph5CfjEf-XeKGJZS0xPc7pZjPPJn9U_0uFCE_NhFOn';
+  f.target = 'sib-frame';
+  f.style.display = 'none';
+  function addField(n, v) { var i = document.createElement('input'); i.name = n; i.value = v; f.appendChild(i); }
+  addField('EMAIL', email);
+  addField('email_address_check', '');
+  addField('locale', 'es');
+  if (nombre) addField('FIRSTNAME', nombre);
+  document.body.appendChild(f);
+  f.submit();
+  document.body.removeChild(f);
+  document.getElementById('subForm').style.display = 'none';
+  document.getElementById('subOk').style.display = 'block';
+  setTimeout(function() {
+    closeSub();
+    setTimeout(function() {
+      document.getElementById('subForm').style.display = 'block';
+      document.getElementById('subOk').style.display = 'none';
+      document.getElementById('sNombre').value = '';
+      document.getElementById('sEmail').value = '';
+    }, 400);
+  }, 3000);
+}
+</script>
+</body>
+</html>
