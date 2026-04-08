@@ -3,573 +3,552 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>INSIDE Life — Edición 7 Abril 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>INSIDE Life — El Club para mentes inquietas</title>
+<meta name="description" content="IA, automatización, deporte y emprendimiento. Un club para mentes inquietas, por Jorge Lorenzo.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css">
 <style>
-:root {
-  --white:     #ffffff;
-  --off-white: #f7f5f1;
-  --cream:     #f2efe9;
-  --black:     #0d0d0d;
-  --ink:       #1a1a1a;
-  --mid:       #6b6b6b;
-  --rule:      #e0ddd8;
-  --accent:    #e8401c;
-  --accent-bg: #fdf0ec;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body { background: var(--white); color: var(--ink); font-family: 'DM Sans', sans-serif; -webkit-font-smoothing: antialiased; min-height: 100vh; }
+:root{--white:#ffffff;--off:#f8f6f2;--ink:#111111;--mid:#767676;--rule:#e8e4de;--accent:#e8401c;--mono:'DM Mono',monospace;--serif:'Playfair Display',serif;--sans:'DM Sans',sans-serif;}
+*{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}
+body{font-family:var(--sans);background:var(--white);color:var(--ink);-webkit-font-smoothing:antialiased;}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;height:54px;background:var(--white);border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;padding:0 48px;}
+.nav-logo{display:flex;align-items:center;gap:9px;text-decoration:none;cursor:pointer;}
+.nav-badge{background:var(--ink);color:var(--white);font-family:var(--mono);font-size:8px;letter-spacing:.15em;text-transform:uppercase;padding:3px 7px;line-height:1;}
+.nav-name{font-family:var(--serif);font-size:19px;font-weight:900;color:var(--ink);letter-spacing:-.02em;}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color .15s;cursor:pointer;}
+.nav-links a:hover,.nav-links a.active{color:var(--ink);}
+.nav-btn{background:var(--ink);color:var(--white);font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:8px 16px;border:none;cursor:pointer;text-decoration:none;transition:background .15s;}
+.nav-btn:hover{background:var(--accent);}
+.section{display:none;min-height:100vh;padding-top:54px;}
+.section.active{display:block;}
 
-/* NAV */
-.nav { position: sticky; top: 0; z-index: 200; background: var(--white); border-bottom: 1px solid var(--rule); display: flex; align-items: center; justify-content: space-between; padding: 0 40px; height: 56px; }
-.nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-.nav-tag { background: var(--black); color: var(--white); font-family: 'DM Mono', monospace; font-size: 8.5px; letter-spacing: .14em; text-transform: uppercase; padding: 4px 7px; line-height: 1; }
-.nav-name { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 900; color: var(--black); letter-spacing: -.02em; }
-.nav-center { font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--mid); }
-.nav-cta { background: var(--accent); color: var(--white); font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; padding: 8px 16px; text-decoration: none; transition: opacity .15s; }
-.nav-cta:hover { opacity: .82; }
+/* HOME */
+.home-wrap{max-width:580px;margin:0 auto;padding:100px 32px 80px;}
+.home-kicker{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:24px;}
+.home-title{font-family:var(--serif);font-size:clamp(44px,7vw,70px);font-weight:900;line-height:1.04;letter-spacing:-.03em;color:var(--ink);margin-bottom:28px;}
+.home-title em{font-style:italic;color:var(--mid);}
+.home-desc{font-size:16px;line-height:1.78;color:var(--mid);margin-bottom:48px;max-width:460px;}
+.home-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:52px;}
+.home-tag{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);border:1px solid var(--rule);padding:5px 10px;}
+.brevo-wrap{width:100%;max-width:460px;}
+.brevo-wrap .sib-form{background:transparent!important;text-align:left!important;padding:0!important;}
+.brevo-wrap #sib-container{background:transparent!important;border:none!important;border-radius:0!important;max-width:100%!important;padding:0!important;}
+.brevo-wrap .sib-form-block:first-child,.brevo-wrap .sib-form-block:nth-child(2){display:none!important;}
+.brevo-wrap .entry__label{font-family:var(--mono)!important;font-size:9px!important;letter-spacing:.14em!important;text-transform:uppercase!important;color:var(--mid)!important;font-weight:400!important;margin-bottom:8px!important;display:block;}
+.brevo-wrap .entry__specification{display:none!important;}
+.brevo-wrap .input{width:100%!important;border:1px solid var(--rule)!important;border-radius:0!important;font-family:var(--sans)!important;font-size:14px!important;padding:12px 16px!important;color:var(--ink)!important;background:var(--off)!important;outline:none!important;transition:border-color .15s!important;}
+.brevo-wrap .input:focus{border-color:var(--ink)!important;}
+.brevo-wrap .sib-form-block__button{margin-top:12px!important;background:var(--ink)!important;color:var(--white)!important;font-family:var(--mono)!important;font-size:10px!important;letter-spacing:.14em!important;text-transform:uppercase!important;border:none!important;border-radius:0!important;padding:14px 28px!important;cursor:pointer!important;transition:background .15s!important;width:100%!important;}
+.brevo-wrap .sib-form-block__button:hover{background:var(--accent)!important;}
+.brevo-wrap #success-message{background:transparent!important;border:1px solid var(--rule)!important;border-left:3px solid var(--ink)!important;border-radius:0!important;color:var(--ink)!important;font-family:var(--sans)!important;max-width:100%!important;}
+.brevo-wrap #error-message{border-radius:0!important;max-width:100%!important;}
+.home-proof{margin-top:52px;padding-top:40px;border-top:1px solid var(--rule);width:100%;max-width:460px;}
+.proof-quote{font-family:var(--serif);font-size:17px;font-style:italic;line-height:1.62;color:var(--ink);margin-bottom:10px;}
+.proof-attr{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);}
 
-/* LAYOUT */
-.layout { display: grid; grid-template-columns: 1fr 380px; min-height: calc(100vh - 56px); max-width: 1180px; margin: 0 auto; }
+/* NEWSLETTER ARCHIVE */
+.nl-archive{max-width:880px;margin:0 auto;padding:72px 48px 80px;}
+.page-kicker{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;}
+.page-title{font-family:var(--serif);font-size:40px;font-weight:900;letter-spacing:-.025em;line-height:1.1;color:var(--ink);margin-bottom:10px;}
+.page-sub{font-size:15px;color:var(--mid);line-height:1.65;margin-bottom:48px;}
+.nl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);}
+.nl-card{background:var(--white);padding:26px 24px;cursor:pointer;transition:background .15s;display:flex;flex-direction:column;gap:9px;}
+.nl-card:hover{background:var(--off);}
+.nl-card-num{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);}
+.nl-card-title{font-family:var(--serif);font-size:17px;font-weight:700;line-height:1.25;letter-spacing:-.01em;color:var(--ink);}
+.nl-card-tags{display:flex;gap:5px;flex-wrap:wrap;}
+.nl-card-tag{font-family:var(--mono);font-size:8px;letter-spacing:.09em;text-transform:uppercase;color:var(--mid);background:var(--off);padding:3px 7px;}
+.nl-card-date{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);margin-top:auto;padding-top:11px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;align-items:center;}
+.nl-card-arrow{color:var(--accent);}
 
-/* NEWSLETTER */
-.nl-col { border-right: 1px solid var(--rule); }
+/* READER */
+#section-reader{display:none;}
+#section-reader.active{display:grid;grid-template-columns:1fr 350px;grid-template-rows:auto 1fr;min-height:calc(100vh - 54px);margin-top:54px;}
+.reader-back{grid-column:1/-1;padding:14px 44px;border-bottom:1px solid var(--rule);}
+.back-btn{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:6px;transition:color .15s;padding:0;}
+.back-btn:hover{color:var(--ink);}
+.reader-nl{border-right:1px solid var(--rule);overflow-y:auto;}
+.reader-chat{position:sticky;top:54px;height:calc(100vh - 54px - 46px);display:flex;flex-direction:column;}
 
-.nl-hero { background: var(--black); padding: 48px 44px 40px; position: relative; overflow: hidden; }
-.nl-hero::before { content: ''; position: absolute; top: -80px; right: -80px; width: 300px; height: 300px; border-radius: 50%; border: 60px solid rgba(232,64,28,.1); pointer-events: none; }
-.hero-eyebrow { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
-.hero-title { font-family: 'Playfair Display', serif; font-size: 38px; font-weight: 900; line-height: 1.1; letter-spacing: -.025em; color: #fff; margin-bottom: 18px; max-width: 520px; }
-.hero-title em { font-style: italic; color: #f5a58c; }
-.hero-body { font-size: 14px; line-height: 1.78; color: rgba(255,255,255,.65); max-width: 500px; }
-
-.nl-index { background: var(--accent-bg); padding: 20px 44px; border-bottom: 1px solid #f0c7bc; }
-.idx-label { font-family: 'DM Mono', monospace; font-size: 8.5px; letter-spacing: .18em; text-transform: uppercase; color: var(--mid); margin-bottom: 10px; }
-.idx-list { display: flex; flex-direction: column; gap: 5px; }
-.idx-link { font-size: 12.5px; font-weight: 500; color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: color .12s; }
-.idx-link::before { content: '→'; font-family: 'DM Mono', monospace; color: var(--accent); font-size: 11px; }
-.idx-link:hover { color: var(--accent); }
-
-.nl-section { padding: 34px 44px; border-bottom: 1px solid var(--rule); }
-.nl-section:last-of-type { border-bottom: none; }
-.sec-hdr { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px; }
-.sec-num { width: 28px; height: 28px; background: var(--accent); color: #fff; font-family: 'DM Mono', monospace; font-size: 11px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 3px; }
-.sec-source { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--mid); margin-bottom: 5px; }
-.sec-title { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; line-height: 1.22; letter-spacing: -.01em; color: var(--black); }
-.sec-body { font-size: 14px; line-height: 1.8; color: #2d2d2d; }
-.sec-body p + p { margin-top: 10px; }
-
-.callout { background: var(--cream); border-left: 3px solid var(--accent); padding: 13px 16px; margin: 18px 0; font-size: 13px; line-height: 1.68; color: #333; }
-.callout-lbl { font-family: 'DM Mono', monospace; font-size: 8.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
-
-.stats { display: flex; border: 1px solid var(--rule); margin: 18px 0; }
-.stat { flex: 1; padding: 14px 16px; border-right: 1px solid var(--rule); }
-.stat:last-child { border-right: none; }
-.stat-n { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 900; color: var(--accent); line-height: 1; margin-bottom: 4px; }
-.stat-l { font-size: 10.5px; color: var(--mid); line-height: 1.45; }
-
-.bullets { list-style: none; margin: 14px 0; display: flex; flex-direction: column; gap: 7px; }
-.bullets li { font-size: 13.5px; line-height: 1.65; padding-left: 18px; position: relative; color: #2d2d2d; }
-.bullets li::before { content: '◆'; position: absolute; left: 0; top: 3px; font-size: 6.5px; color: var(--accent); }
-
-.tools { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
-.tool { border: 1px solid var(--rule); padding: 12px 14px; transition: border-color .15s; }
-.tool:hover { border-color: var(--accent); }
-.tool-name { font-weight: 600; font-size: 12.5px; margin-bottom: 4px; }
-.tool-desc { font-size: 11px; color: var(--mid); line-height: 1.5; }
-
-.nl-section-dark { background: var(--black); }
-.nl-section-dark .sec-title { color: #fff; }
-.nl-section-dark .sec-body { color: rgba(255,255,255,.78); }
-.nl-section-dark .sec-source { color: rgba(255,255,255,.38); }
-.nl-section-dark .bullets li { color: rgba(255,255,255,.8); }
-.nl-section-dark .callout { background: rgba(255,255,255,.06); border-left-color: #f5a58c; color: rgba(255,255,255,.78); }
-.nl-section-dark .callout-lbl { color: #f5a58c; }
-
-.nl-footer { padding: 32px 44px; border-top: 1px solid var(--rule); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
-.footer-sig { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--black); }
-.footer-sub { font-size: 12px; color: var(--mid); font-style: italic; font-family: 'Playfair Display', serif; }
-.footer-links { display: flex; gap: 16px; flex-wrap: wrap; }
-.footer-links a { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--mid); text-decoration: none; border-bottom: 1px solid var(--rule); transition: color .12s; }
-.footer-links a:hover { color: var(--accent); }
+/* NL content */
+.nl-hero{background:var(--ink);padding:44px 40px 36px;position:relative;overflow:hidden;}
+.nl-hero::before{content:'';position:absolute;top:-80px;right:-80px;width:260px;height:260px;border-radius:50%;border:50px solid rgba(232,64,28,.1);pointer-events:none;}
+.hero-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;}
+.hero-title{font-family:var(--serif);font-size:30px;font-weight:900;line-height:1.1;letter-spacing:-.025em;color:#fff;margin-bottom:14px;max-width:480px;}
+.hero-title em{font-style:italic;color:#f5a58c;}
+.hero-body{font-size:13.5px;line-height:1.75;color:rgba(255,255,255,.6);max-width:460px;}
+.nl-index{background:#fdf0ec;padding:16px 40px;border-bottom:1px solid #f0c7bc;}
+.idx-label{font-family:var(--mono);font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid);margin-bottom:8px;}
+.idx-list{display:flex;flex-direction:column;gap:4px;}
+.idx-link{font-size:12px;font-weight:500;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:7px;transition:color .12s;}
+.idx-link::before{content:'→';font-family:var(--mono);color:var(--accent);font-size:10px;}
+.idx-link:hover{color:var(--accent);}
+.nl-sec{padding:28px 40px;border-bottom:1px solid var(--rule);}
+.sec-hdr{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;}
+.sec-n{width:25px;height:25px;background:var(--accent);color:#fff;font-family:var(--mono);font-size:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:3px;}
+.sec-source{font-family:var(--mono);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);margin-bottom:4px;}
+.sec-title{font-family:var(--serif);font-size:19px;font-weight:700;line-height:1.22;letter-spacing:-.01em;color:var(--ink);}
+.sec-body{font-size:13.5px;line-height:1.78;color:#2d2d2d;}
+.sec-body p+p{margin-top:9px;}
+.callout{background:var(--off);border-left:3px solid var(--accent);padding:11px 14px;margin:15px 0;font-size:12.5px;line-height:1.65;color:#333;}
+.callout-lbl{font-family:var(--mono);font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:5px;}
+.stats{display:flex;border:1px solid var(--rule);margin:15px 0;}
+.stat{flex:1;padding:12px 14px;border-right:1px solid var(--rule);}
+.stat:last-child{border-right:none;}
+.stat-n{font-family:var(--serif);font-size:21px;font-weight:900;color:var(--accent);line-height:1;margin-bottom:3px;}
+.stat-l{font-size:10px;color:var(--mid);line-height:1.4;}
+.bullets{list-style:none;margin:12px 0;display:flex;flex-direction:column;gap:6px;}
+.bullets li{font-size:13px;line-height:1.62;padding-left:16px;position:relative;color:#2d2d2d;}
+.bullets li::before{content:'◆';position:absolute;left:0;top:3px;font-size:6px;color:var(--accent);}
+.tools{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px;}
+.tool{border:1px solid var(--rule);padding:10px 12px;transition:border-color .15s;}
+.tool:hover{border-color:var(--accent);}
+.tool-name{font-weight:600;font-size:12px;margin-bottom:3px;}
+.tool-desc{font-size:10.5px;color:var(--mid);line-height:1.5;}
+.nl-sec-dark{background:var(--ink);}
+.nl-sec-dark .sec-title{color:#fff;}
+.nl-sec-dark .sec-body{color:rgba(255,255,255,.78);}
+.nl-sec-dark .sec-source{color:rgba(255,255,255,.38);}
+.nl-sec-dark .bullets li{color:rgba(255,255,255,.8);}
+.nl-sec-dark .callout{background:rgba(255,255,255,.06);border-left-color:#f5a58c;color:rgba(255,255,255,.78);}
+.nl-sec-dark .callout-lbl{color:#f5a58c;}
+.nl-footer-r{padding:24px 40px;border-top:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.footer-sig{font-family:var(--serif);font-size:14px;font-weight:700;color:var(--ink);}
+.footer-sub{font-size:11px;color:var(--mid);font-style:italic;font-family:var(--serif);}
+.footer-links-r{display:flex;gap:12px;flex-wrap:wrap;}
+.footer-links-r a{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);text-decoration:none;border-bottom:1px solid var(--rule);transition:color .12s;}
+.footer-links-r a:hover{color:var(--accent);}
 
 /* CHAT */
-.chat-col { position: sticky; top: 56px; height: calc(100vh - 56px); display: flex; flex-direction: column; background: var(--white); overflow: hidden; }
-
-.chat-head { padding: 20px 22px 16px; border-bottom: 1px solid var(--rule); flex-shrink: 0; }
-.chat-head-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-.chat-avatar { width: 36px; height: 36px; background: var(--black); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-.chat-head-name { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: var(--black); }
-.chat-head-sub { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--mid); margin-top: 1px; }
-
-.wishes-wrap { background: var(--cream); border: 1px solid var(--rule); padding: 10px 13px; display: flex; align-items: center; justify-content: space-between; }
-.wishes-label { font-family: 'DM Mono', monospace; font-size: 8.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--mid); }
-.wishes-dots { display: flex; gap: 6px; }
-.wish-dot { width: 11px; height: 11px; border-radius: 50%; background: var(--accent); transition: background .3s; }
-.wish-dot.used { background: var(--rule); }
-.wishes-count { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; color: var(--accent); }
-.wishes-count.zero { color: var(--mid); }
-
-.chat-msgs { flex: 1; overflow-y: auto; padding: 18px 22px; display: flex; flex-direction: column; gap: 14px; scroll-behavior: smooth; }
-.chat-msgs::-webkit-scrollbar { width: 4px; }
-.chat-msgs::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 2px; }
-
-.msg { display: flex; flex-direction: column; gap: 3px; animation: msgIn .22s ease-out; }
-@keyframes msgIn { from { opacity:0; transform:translateY(7px); } to { opacity:1; transform:translateY(0); } }
-.msg-user { align-items: flex-end; }
-.msg-ai { align-items: flex-start; }
-.msg-lbl { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .1em; text-transform: uppercase; color: var(--mid); padding: 0 3px; }
-.msg-bubble { max-width: 90%; padding: 10px 14px; font-size: 13.5px; line-height: 1.68; }
-.msg-user .msg-bubble { background: var(--accent); color: #fff; border-radius: 2px 2px 0 2px; }
-.msg-ai .msg-bubble { background: var(--cream); color: var(--ink); border: 1px solid var(--rule); border-radius: 0 2px 2px 2px; }
-.msg-ai .msg-bubble strong { color: var(--black); }
-
-.typing { display: flex; align-items: center; gap: 4px; padding: 10px 14px; background: var(--cream); border: 1px solid var(--rule); width: fit-content; border-radius: 0 2px 2px 2px; }
-.dot { width: 6px; height: 6px; border-radius: 50%; background: var(--mid); animation: blink 1.2s infinite; }
-.dot:nth-child(2) { animation-delay: .2s; }
-.dot:nth-child(3) { animation-delay: .4s; }
-@keyframes blink { 0%,60%,100% { transform:translateY(0); opacity:.35; } 30% { transform:translateY(-5px); opacity:1; } }
-
-.exhausted-banner { margin: 14px 22px; background: var(--cream); border: 1px solid var(--rule); padding: 16px 18px; font-size: 13px; line-height: 1.65; color: var(--mid); text-align: center; display: none; }
-.exhausted-banner strong { display: block; font-family: 'Playfair Display', serif; font-size: 17px; color: var(--black); margin-bottom: 6px; }
-
-.suggestions { padding: 12px 22px; border-top: 1px solid var(--rule); flex-shrink: 0; }
-.sug-lbl { font-family: 'DM Mono', monospace; font-size: 8.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--mid); margin-bottom: 8px; }
-.sug-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
-.sug-btn { background: var(--cream); border: 1px solid var(--rule); color: var(--ink); font-family: 'DM Sans', sans-serif; font-size: 11.5px; padding: 6px 11px; cursor: pointer; transition: all .15s; text-align: left; line-height: 1.35; border-radius: 2px; }
-.sug-btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
-
-.chat-input-area { padding: 14px 22px 18px; border-top: 1px solid var(--rule); flex-shrink: 0; }
-.input-wrap { display: flex; gap: 8px; align-items: flex-end; }
-.chat-input { flex: 1; background: var(--cream); border: 1px solid var(--rule); color: var(--ink); font-family: 'DM Sans', sans-serif; font-size: 13.5px; padding: 10px 14px; resize: none; min-height: 42px; max-height: 110px; line-height: 1.5; outline: none; transition: border-color .15s; border-radius: 2px; }
-.chat-input::placeholder { color: var(--mid); }
-.chat-input:focus { border-color: var(--accent); }
-.chat-input:disabled { opacity: .4; cursor: not-allowed; }
-.send-btn { background: var(--black); border: none; color: #fff; width: 42px; height: 42px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background .15s; border-radius: 2px; }
-.send-btn:hover { background: var(--accent); }
-.send-btn:disabled { opacity: .35; cursor: not-allowed; }
-.send-btn svg { width: 17px; height: 17px; }
-.chat-note { font-family: 'DM Mono', monospace; font-size: 8.5px; color: var(--mid); text-align: center; margin-top: 8px; }
+.chat-head{padding:16px 18px 13px;border-bottom:1px solid var(--rule);flex-shrink:0;}
+.chat-head-row{display:flex;align-items:center;gap:9px;margin-bottom:11px;}
+.chat-av{width:32px;height:32px;background:var(--ink);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.chat-hname{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink);}
+.chat-hsub{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);margin-top:1px;}
+.wishes-bar{background:var(--off);border:1px solid var(--rule);padding:8px 11px;display:flex;align-items:center;justify-content:space-between;}
+.wishes-lbl{font-family:var(--mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);}
+.wishes-dots{display:flex;gap:5px;}
+.wdot{width:10px;height:10px;border-radius:50%;background:var(--accent);transition:background .3s;}
+.wdot.off{background:var(--rule);}
+.wishes-ct{font-family:var(--mono);font-size:10px;font-weight:500;color:var(--accent);}
+.wishes-ct.zero{color:var(--mid);}
+.chat-msgs{flex:1;overflow-y:auto;padding:14px 18px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth;}
+.chat-msgs::-webkit-scrollbar{width:3px;}
+.chat-msgs::-webkit-scrollbar-thumb{background:var(--rule);}
+.msg{display:flex;flex-direction:column;gap:3px;animation:mIn .2s ease-out;}
+@keyframes mIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.msg-u{align-items:flex-end;}.msg-a{align-items:flex-start;}
+.mlbl{font-family:var(--mono);font-size:7.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);padding:0 3px;}
+.mbubble{max-width:90%;padding:8px 12px;font-size:12.5px;line-height:1.65;}
+.msg-u .mbubble{background:var(--ink);color:#fff;border-radius:2px 2px 0 2px;}
+.msg-a .mbubble{background:var(--off);color:var(--ink);border:1px solid var(--rule);border-radius:0 2px 2px 2px;}
+.msg-a .mbubble strong{color:var(--ink);font-weight:600;}
+.typing{display:flex;align-items:center;gap:4px;padding:8px 12px;background:var(--off);border:1px solid var(--rule);width:fit-content;border-radius:0 2px 2px 2px;}
+.tdot{width:5px;height:5px;border-radius:50%;background:var(--mid);animation:tb 1.2s infinite;}
+.tdot:nth-child(2){animation-delay:.2s}.tdot:nth-child(3){animation-delay:.4s}
+@keyframes tb{0%,60%,100%{transform:translateY(0);opacity:.3}30%{transform:translateY(-5px);opacity:1}}
+.exhaust-msg{margin:10px 18px;background:var(--off);border:1px solid var(--rule);padding:13px 15px;font-size:12px;line-height:1.65;color:var(--mid);text-align:center;display:none;}
+.exhaust-msg strong{display:block;font-family:var(--serif);font-size:15px;color:var(--ink);margin-bottom:4px;}
+.sugs{padding:10px 18px;border-top:1px solid var(--rule);flex-shrink:0;}
+.sugs-lbl{font-family:var(--mono);font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);margin-bottom:6px;}
+.sugs-wrap{display:flex;flex-wrap:wrap;gap:5px;}
+.sug{background:var(--off);border:1px solid var(--rule);color:var(--ink);font-family:var(--sans);font-size:11px;padding:5px 9px;cursor:pointer;transition:all .13s;text-align:left;line-height:1.35;border-radius:2px;}
+.sug:hover{background:var(--ink);border-color:var(--ink);color:#fff;}
+.chat-inp-area{padding:11px 18px 14px;border-top:1px solid var(--rule);flex-shrink:0;}
+.inp-row{display:flex;gap:7px;align-items:flex-end;}
+.cinput{flex:1;background:var(--off);border:1px solid var(--rule);color:var(--ink);font-family:var(--sans);font-size:13px;padding:8px 12px;resize:none;min-height:38px;max-height:95px;line-height:1.5;outline:none;transition:border-color .15s;border-radius:2px;}
+.cinput::placeholder{color:var(--mid);}
+.cinput:focus{border-color:var(--ink);}
+.cinput:disabled{opacity:.38;cursor:not-allowed;}
+.sbtn{background:var(--ink);border:none;color:#fff;width:38px;height:38px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .13s;border-radius:2px;}
+.sbtn:hover{background:var(--accent);}
+.sbtn:disabled{opacity:.3;cursor:not-allowed;}
+.sbtn svg{width:15px;height:15px;}
+.chat-note{font-family:var(--mono);font-size:8px;color:var(--mid);text-align:center;margin-top:6px;}
 
 /* MODAL */
-.modal-overlay { position: fixed; inset: 0; background: rgba(10,10,10,.72); display: flex; align-items: center; justify-content: center; z-index: 999; padding: 20px; backdrop-filter: blur(3px); }
-.modal-box { background: var(--white); border: 1px solid var(--rule); box-shadow: 8px 8px 0 var(--black); padding: 36px 32px; max-width: 420px; width: 100%; }
-.modal-lamp { font-size: 36px; text-align: center; margin-bottom: 14px; }
-.modal-logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: var(--black); margin-bottom: 4px; }
-.modal-sub { font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
-.modal-p { font-size: 13.5px; line-height: 1.72; color: var(--mid); margin-bottom: 18px; }
-.modal-error { color: var(--accent); font-size: 11px; margin-bottom: 8px; display: none; font-family: 'DM Mono', monospace; letter-spacing: .05em; }
-.modal-input { width: 100%; background: var(--cream); border: 1px solid var(--rule); color: var(--ink); font-family: 'DM Mono', monospace; font-size: 12.5px; padding: 11px 14px; outline: none; margin-bottom: 12px; transition: border-color .15s; border-radius: 2px; }
-.modal-input:focus { border-color: var(--accent); }
-.modal-btn { width: 100%; background: var(--black); border: none; color: #fff; font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; padding: 13px; cursor: pointer; transition: background .15s; border-radius: 2px; }
-.modal-btn:hover { background: var(--accent); }
-.modal-note { font-size: 10.5px; color: var(--mid); line-height: 1.55; margin-top: 12px; font-family: 'DM Mono', monospace; text-align: center; }
+.modal-ov{position:fixed;inset:0;background:rgba(10,10,10,.7);display:flex;align-items:center;justify-content:center;z-index:999;padding:20px;backdrop-filter:blur(3px);}
+.modal-box{background:var(--white);box-shadow:8px 8px 0 var(--ink);padding:34px 30px;max-width:390px;width:100%;}
+.modal-lamp{font-size:32px;text-align:center;margin-bottom:11px;}
+.modal-logo{font-family:var(--serif);font-size:20px;font-weight:900;color:var(--ink);margin-bottom:3px;}
+.modal-sub{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;}
+.modal-p{font-size:13px;line-height:1.72;color:var(--mid);margin-bottom:16px;}
+.modal-err{color:var(--accent);font-size:10px;margin-bottom:6px;display:none;font-family:var(--mono);}
+.modal-in{width:100%;background:var(--off);border:1px solid var(--rule);color:var(--ink);font-family:var(--mono);font-size:12px;padding:10px 13px;outline:none;margin-bottom:10px;transition:border-color .15s;border-radius:2px;}
+.modal-in:focus{border-color:var(--ink);}
+.modal-btn{width:100%;background:var(--ink);border:none;color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:12px;cursor:pointer;transition:background .15s;border-radius:2px;}
+.modal-btn:hover{background:var(--accent);}
+.modal-note{font-size:9.5px;color:var(--mid);line-height:1.55;margin-top:10px;font-family:var(--mono);text-align:center;}
 
-/* RESPONSIVE */
-@media (max-width: 860px) {
-  .layout { grid-template-columns: 1fr; }
-  .nl-col { border-right: none; }
-  .chat-col { position: relative; top: 0; height: 640px; border-top: 2px solid var(--black); }
-  .nl-hero { padding: 30px 24px 26px; }
-  .nl-index, .nl-section, .nl-footer { padding-left: 24px; padding-right: 24px; }
-  .hero-title { font-size: 28px; }
-  .tools { grid-template-columns: 1fr; }
-  .stats { flex-direction: column; }
-  .stat { border-right: none; border-bottom: 1px solid var(--rule); }
-  .stat:last-child { border-bottom: none; }
-  .nav { padding: 0 20px; }
-  .nav-center { display: none; }
+/* ABOUT */
+.about-wrap{max-width:660px;margin:0 auto;padding:80px 48px 100px;}
+.about-kicker{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;}
+.about-title{font-family:var(--serif);font-size:clamp(26px,4vw,40px);font-weight:900;line-height:1.1;letter-spacing:-.025em;color:var(--ink);margin-bottom:34px;}
+.about-img-main{width:100%;max-height:400px;object-fit:cover;object-position:top;display:block;margin-bottom:38px;filter:grayscale(15%);}
+.about-body{font-size:15px;line-height:1.82;color:#2d2d2d;margin-bottom:34px;}
+.about-body p+p{margin-top:15px;}
+.about-body strong{color:var(--ink);font-weight:600;}
+.about-imgs{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:38px;}
+.about-imgs img{width:100%;aspect-ratio:4/3;object-fit:cover;filter:grayscale(15%);}
+.about-promises{border:1px solid var(--rule);padding:26px;margin-bottom:38px;}
+.ap-label{font-family:var(--mono);font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--mid);margin-bottom:14px;}
+.ap-list{list-style:none;display:flex;flex-direction:column;gap:9px;counter-reset:item;}
+.ap-list li{font-size:14px;line-height:1.6;padding-left:20px;position:relative;color:var(--ink);counter-increment:item;}
+.ap-list li::before{content:counter(item);position:absolute;left:0;font-family:var(--mono);font-size:9px;font-weight:500;color:var(--accent);top:4px;}
+.about-links{display:flex;gap:10px;flex-wrap:wrap;}
+.about-link{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);text-decoration:none;border:1px solid var(--rule);padding:7px 12px;transition:all .14s;}
+.about-link:hover{background:var(--ink);color:#fff;border-color:var(--ink);}
+
+/* FOOTER */
+.site-footer{border-top:1px solid var(--rule);padding:22px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.sf-brand{font-family:var(--serif);font-size:14px;font-weight:700;color:var(--ink);}
+.sf-copy{font-family:var(--mono);font-size:9px;letter-spacing:.08em;color:var(--mid);}
+.sf-links{display:flex;gap:16px;}
+.sf-links a{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color .13s;}
+.sf-links a:hover{color:var(--ink);}
+
+@media(max-width:800px){
+  .nav{padding:0 20px;}.nav-links{display:none;}
+  #section-reader.active{grid-template-columns:1fr;}
+  .reader-chat{position:relative;top:0;height:560px;border-top:1px solid var(--rule);}
+  .nl-hero,.nl-index,.nl-sec,.nl-footer-r{padding-left:22px;padding-right:22px;}
+  .reader-back{padding:12px 22px;}
+  .hero-title{font-size:24px;}.tools{grid-template-columns:1fr;}
+  .stats{flex-direction:column;}.stat{border-right:none;border-bottom:1px solid var(--rule);}.stat:last-child{border-bottom:none;}
+  .home-wrap{padding:72px 24px 60px;}.nl-archive{padding:60px 24px 60px;}.about-wrap{padding:60px 24px 80px;}
+  .about-imgs{grid-template-columns:1fr;}.site-footer{padding:20px 24px;flex-direction:column;align-items:flex-start;}
 }
 </style>
 </head>
 <body>
 
-<!-- MODAL -->
-<div class="modal-overlay" id="modal">
+<div class="modal-ov" id="modal" style="display:none;">
   <div class="modal-box">
     <div class="modal-lamp">🪔</div>
     <div class="modal-logo">INSIDE Life</div>
     <div class="modal-sub">El Genio de la Edición</div>
-    <p class="modal-p">
-      Tienes <strong>3 deseos</strong> para preguntarle al asistente sobre esta edición.<br><br>
-      Como el genio de la lámpara, solo sabe de los temas de hoy — úsalos bien.
-    </p>
-    <div class="modal-error" id="apiErr">La clave debe empezar por sk-ant-...</div>
-    <input class="modal-input" type="password" id="apiIn" placeholder="sk-ant-api03-..." autocomplete="off"/>
+    <p class="modal-p">Tienes <strong>3 deseos</strong> para preguntarle al asistente sobre esta edición. Como el genio de la lámpara — solo sabe de los temas de hoy.</p>
+    <div class="modal-err" id="merr">La clave debe empezar por sk-ant-...</div>
+    <input class="modal-in" type="password" id="mkey" placeholder="sk-ant-api03-..." autocomplete="off"/>
     <button class="modal-btn" onclick="saveKey()">Activar mis 3 deseos →</button>
-    <div class="modal-note">🔒 Solo se guarda en memoria de tu navegador<br>console.anthropic.com</div>
+    <div class="modal-note">🔒 Solo se guarda en memoria del navegador<br>console.anthropic.com</div>
   </div>
 </div>
 
-<!-- NAV -->
 <nav class="nav">
-  <a href="#" class="nav-brand">
-    <div class="nav-tag">by Jorge Lorenzo</div>
+  <div class="nav-logo" onclick="showSection('home')">
+    <div class="nav-badge">by Jorge Lorenzo</div>
     <div class="nav-name">INSIDE Life</div>
-  </a>
-  <div class="nav-center">Edición #042 · 7 Abril 2026</div>
-  <a href="https://insidelife.club" class="nav-cta" target="_blank">↗ Únete al Club</a>
+  </div>
+  <ul class="nav-links">
+    <li><a onclick="showSection('home')" id="nl-home" class="active">Inicio</a></li>
+    <li><a onclick="showSection('newsletter')" id="nl-newsletter">Newsletter</a></li>
+    <li><a onclick="showSection('sobre')" id="nl-sobre">Sobre mí</a></li>
+  </ul>
+  <a onclick="showSection('home')" class="nav-btn">Suscribirse</a>
 </nav>
 
-<div class="layout">
+<!-- HOME -->
+<section class="section active" id="section-home">
+  <div class="home-wrap">
+    <div class="home-kicker">✦ El Club para mentes inquietas</div>
+    <h1 class="home-title">El Club para<br><em>mentes inquietas</em></h1>
+    <p class="home-desc">IA, automatización, deporte y emprendimiento. Cada semana, las ideas y herramientas que realmente mueven el mundo — sin ruido, sin relleno.</p>
+    <div class="home-tags">
+      <span class="home-tag">Inteligencia Artificial</span>
+      <span class="home-tag">Automatización</span>
+      <span class="home-tag">Deporte</span>
+      <span class="home-tag">Emprendimiento</span>
+    </div>
+    <div class="brevo-wrap">
+      <div class="sib-form" style="text-align:center;background-color:transparent;">
+        <div id="sib-form-container" class="sib-form-container">
+          <div id="error-message" class="sib-form-message-panel" style="font-size:14px;text-align:left;font-family:Helvetica,sans-serif;color:#661d1d;background-color:#ffeded;border-radius:0;border-color:#ff4949;max-width:100%;">
+            <div class="sib-form-message-panel__text sib-form-message-panel__text--center">
+              <svg viewBox="0 0 512 512" class="sib-icon sib-notification__icon"><path d="M256 40c118.621 0 216 96.075 216 216 0 119.291-96.61 216-216 216-119.244 0-216-96.562-216-216 0-119.203 96.602-216 216-216m0-32C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm-11.49 120h22.979c6.823 0 12.274 5.682 11.99 12.5l-7 168c-.268 6.428-5.556 11.5-11.99 11.5h-8.979c-6.433 0-11.722-5.073-11.99-11.5l-7-168c-.283-6.818 5.167-12.5 11.99-12.5zM256 340c-15.464 0-28 12.536-28 28s12.536 28 28 28 28-12.536 28-28-12.536-28-28-28z"/></svg>
+              <span class="sib-form-message-panel__inner-text">No hemos podido validar tu suscripción.</span>
+            </div>
+          </div>
+          <div></div>
+          <div id="success-message" class="sib-form-message-panel" style="font-size:14px;text-align:left;font-family:Helvetica,sans-serif;color:#085229;background-color:#e7faf0;border-radius:0;border-color:#13ce66;max-width:100%;">
+            <div class="sib-form-message-panel__text sib-form-message-panel__text--center">
+              <svg viewBox="0 0 512 512" class="sib-icon sib-notification__icon"><path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 464c-118.664 0-216-96.055-216-216 0-118.663 96.055-216 216-216 118.664 0 216 96.055 216 216 0 118.663-96.055 216-216 216zm141.63-274.961L217.15 376.071c-4.705 4.667-12.303 4.637-16.97-.068l-85.878-86.572c-4.667-4.705-4.637-12.303.068-16.97l8.52-8.451c4.705-4.667 12.303-4.637 16.97.068l68.976 69.533 163.441-162.13c4.705-4.667 12.303-4.637 16.97.068l8.451 8.52c4.668 4.705 4.637 12.303-.068 16.97z"/></svg>
+              <span class="sib-form-message-panel__inner-text">¡Suscripción realizada con éxito!</span>
+            </div>
+          </div>
+          <div></div>
+          <div id="sib-container" class="sib-container--large sib-container--vertical" style="text-align:center;background-color:transparent;max-width:100%;border-radius:0;border:none;direction:ltr">
+            <form id="sib-form" method="POST" action="https://1e22ccbe.sibforms.com/serve/MUIFAImNtjNmHq5LpaK-cn-6fXZj5OMRIVi_N2j6sO7lOgYfku227N7flq9_ysaKRpGIzgIY8btJ3-h4kOQhmC5l9ozewXKT_MEvCEYOwN1TiDHU49xmvpWYfkrX92_-kK8SYfS45ADUH_hwHxFeEND8x42g9boudtaQwXph5CfjEf-XeKGJZS0xPc7pZjPPJn9U_0uFCE_NhFOn" data-type="subscription">
+              <div style="padding:6px 0;">
+                <div class="sib-input sib-form-block">
+                  <div class="form__entry entry_block">
+                    <div class="form__label-row">
+                      <label class="entry__label" style="font-weight:400;" for="EMAIL" data-required="*">Tu dirección de email</label>
+                      <div class="entry__field">
+                        <input class="input" type="text" id="EMAIL" name="EMAIL" autocomplete="off" placeholder="tu@email.com" data-required="true" required/>
+                      </div>
+                    </div>
+                    <label class="entry__error entry__error--primary" style="font-size:13px;text-align:left;font-family:Helvetica,sans-serif;color:#661d1d;background-color:#ffeded;border-radius:0;border-color:#ff4949;"></label>
+                  </div>
+                </div>
+              </div>
+              <div style="padding:6px 0;">
+                <div class="sib-form-block" style="text-align:left;">
+                  <button class="sib-form-block__button sib-form-block__button-with-loader" form="sib-form" type="submit">
+                    <svg class="icon clickable__icon progress-indicator__icon sib-hide-loader-icon" viewBox="0 0 512 512"><path d="M460.116 373.846l-20.823-12.022c-5.541-3.199-7.54-10.159-4.663-15.874 30.137-59.886 28.343-131.652-5.386-189.946-33.641-58.394-94.896-95.833-161.827-99.676C261.028 55.961 256 50.751 256 44.352V20.309c0-6.904 5.808-12.337 12.703-11.982 83.556 4.306 160.163 50.864 202.11 123.677 42.063 72.696 44.079 162.316 6.031 236.832-3.14 6.148-10.75 8.461-16.728 5.01z"/></svg>
+                    UNIRME AL CLUB
+                  </button>
+                </div>
+              </div>
+              <input type="text" name="email_address_check" value="" class="input--hidden">
+              <input type="hidden" name="locale" value="es">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="home-proof">
+      <div class="proof-quote">"No es el crítico quien cuenta. El mérito pertenece al hombre que está realmente en la arena."</div>
+      <div class="proof-attr">Theodore Roosevelt</div>
+    </div>
+  </div>
+  <footer class="site-footer">
+    <div><div class="sf-brand">INSIDE Life</div><div class="sf-copy">© 2026 Jorge Lorenzo</div></div>
+    <div class="sf-links">
+      <a href="https://www.instagram.com/insidelife.club/" target="_blank">Instagram</a>
+      <a href="https://x.com/JLbasket" target="_blank">X</a>
+      <a href="https://www.linkedin.com/in/jorge-lorenzo-25ba3518/" target="_blank">LinkedIn</a>
+      <a href="mailto:jorge@insidelife.club">Contacto</a>
+    </div>
+  </footer>
+</section>
 
-  <!-- ── NEWSLETTER ── -->
-  <main class="nl-col">
+<!-- NEWSLETTER -->
+<section class="section" id="section-newsletter">
+  <div class="nl-archive">
+    <div class="page-kicker">✦ Archivo</div>
+    <h2 class="page-title">Newsletter</h2>
+    <p class="page-sub">Todas las ediciones. Cada una con su asistente 🪔 — 3 preguntas para profundizar en los temas.</p>
+    <div class="nl-grid">
+      <div class="nl-card" onclick="openReader()">
+        <div class="nl-card-num">Edición #042</div>
+        <div class="nl-card-title">IA, mercados y fútbol: la semana que lo cambió todo</div>
+        <div class="nl-card-tags">
+          <span class="nl-card-tag">Mercados</span>
+          <span class="nl-card-tag">OpenAI</span>
+          <span class="nl-card-tag">Deporte</span>
+          <span class="nl-card-tag">IA</span>
+        </div>
+        <div class="nl-card-date">7 Abril 2026 <span class="nl-card-arrow">→</span></div>
+      </div>
+      <div class="nl-card" style="opacity:.38;cursor:default;pointer-events:none;">
+        <div class="nl-card-num">Edición #043</div>
+        <div class="nl-card-title" style="color:#767676;">Próximamente</div>
+        <div class="nl-card-date">14 Abril 2026</div>
+      </div>
+      <div class="nl-card" style="opacity:.18;cursor:default;pointer-events:none;">
+        <div class="nl-card-num">Edición #044</div>
+        <div class="nl-card-title" style="color:#767676;">Próximamente</div>
+        <div class="nl-card-date">21 Abril 2026</div>
+      </div>
+    </div>
+  </div>
+  <footer class="site-footer">
+    <div><div class="sf-brand">INSIDE Life</div><div class="sf-copy">© 2026 Jorge Lorenzo</div></div>
+    <div class="sf-links">
+      <a href="https://www.instagram.com/insidelife.club/" target="_blank">Instagram</a>
+      <a href="https://x.com/JLbasket" target="_blank">X</a>
+      <a href="https://www.linkedin.com/in/jorge-lorenzo-25ba3518/" target="_blank">LinkedIn</a>
+      <a href="mailto:jorge@insidelife.club">Contacto</a>
+    </div>
+  </footer>
+</section>
 
+<!-- READER -->
+<section id="section-reader">
+  <div class="reader-back" style="grid-column:1/-1;">
+    <button class="back-btn" onclick="closeReader()">← Volver a Newsletter</button>
+  </div>
+  <div class="reader-nl">
     <section class="nl-hero">
-      <div class="hero-eyebrow">🌟 Edición semanal · Semana del 7 de abril</div>
+      <div class="hero-eyebrow">🌟 Edición #042 · 7 Abril 2026</div>
       <h1 class="hero-title">IA, mercados y fútbol:<br><em>la semana que lo cambió todo</em></h1>
-      <p class="hero-body">Esta semana la inteligencia artificial invadió Wall Street, entró en la tanda publicitaria del Mundial y demostró que puede usar tu ordenador. Bienvenido a la era donde la IA no asiste — actúa.</p>
+      <p class="hero-body">Esta semana la inteligencia artificial invadió Wall Street, entró en la tanda publicitaria del Mundial y demostró que puede usar tu ordenador.</p>
     </section>
-
     <div class="nl-index">
       <div class="idx-label">En esta edición</div>
       <div class="idx-list">
-        <a class="idx-link" href="#s1">IA y volatilidad: los algoritmos que mueven los mercados</a>
-        <a class="idx-link" href="#s2">OpenAI vale 852.000M sin cotizar en bolsa</a>
-        <a class="idx-link" href="#s3">ChatGPT compra la tanda de TV Globo para el Mundial</a>
-        <a class="idx-link" href="#s4">Claude ya puede usar tu ordenador por ti</a>
-        <a class="idx-link" href="#s5">Microsoft lanza sus modelos MAI de voz e imagen</a>
-        <a class="idx-link" href="#s6">8 prompts para automatizar sin saber programar</a>
+        <a class="idx-link" href="#r1">IA y volatilidad: los algoritmos que mueven los mercados</a>
+        <a class="idx-link" href="#r2">OpenAI vale 852.000M sin cotizar en bolsa</a>
+        <a class="idx-link" href="#r3">ChatGPT compra la tanda de TV Globo para el Mundial</a>
+        <a class="idx-link" href="#r4">Claude ya puede usar tu ordenador por ti</a>
+        <a class="idx-link" href="#r5">Microsoft lanza sus modelos MAI de voz e imagen</a>
+        <a class="idx-link" href="#r6">8 prompts para automatizar sin saber programar</a>
       </div>
     </div>
-
-    <section class="nl-section" id="s1">
-      <div class="sec-hdr">
-        <div class="sec-num">1</div>
-        <div><div class="sec-source">ReinoIA · Mercados &amp; IA</div><h2 class="sec-title">La IA que amplifica la volatilidad de 2026</h2></div>
-      </div>
-      <div class="sec-body">
-        <p>2026 es uno de los años más volátiles de la última década y la IA tiene un papel protagonista — pero ambiguo. La misma tecnología que promete predecir el mercado también lo está desestabilizando como nunca antes.</p>
-        <p>En febrero, el Dow Jones cayó 800 puntos por los aranceles de Trump. Ese mismo día, IBM perdió un 13% tras el anuncio de nuevas capacidades de Claude. Dos shocks distintos, el mismo día, a velocidad de algoritmo.</p>
-      </div>
-      <div class="stats">
-        <div class="stat"><div class="stat-n">41%</div><div class="stat-l">de operadores ve las tensiones geopolíticas como mayor factor (JPMorgan)</div></div>
-        <div class="stat"><div class="stat-n">19%</div><div class="stat-l">apunta a la innovación en IA como segundo factor más disruptivo</div></div>
-        <div class="stat"><div class="stat-n">54%</div><div class="stat-l">de empleos financieros en riesgo de automatización (FMI)</div></div>
-      </div>
-      <div class="callout"><div class="callout-lbl">📌 Por qué importa</div>Hay una dicotomía clara: empresas que ganan porque despliegan IA y empresas que pierden porque la IA las amenaza. El mercado ejecuta ese juicio en tiempo real. Cuando los algoritmos entran en pánico, lo hacen en bloque y a velocidad de máquina.</div>
-      <ul class="bullets">
-        <li>Sectores líderes en 2026: metales, minería, petróleo y telecomunicaciones</li>
-        <li>Más golpeados: software, publicidad y servicios financieros</li>
-        <li>Bank of America espera que la inversión en IA impulse el PIB de EE.UU. y China</li>
-      </ul>
-    </section>
-
-    <section class="nl-section" id="s2">
-      <div class="sec-hdr">
-        <div class="sec-num">2</div>
-        <div><div class="sec-source">ReinoIA · Big Tech</div><h2 class="sec-title">OpenAI vale 852.000M. Sin cotizar en bolsa.</h2></div>
-      </div>
-      <div class="sec-body">
-        <p>El 31 de marzo, OpenAI cerró la mayor ronda de su historia: 122.000 millones de dólares a una valoración de 852.000M. Más que LVMH, Toyota y Nestlé juntas. Y aún no cotiza en bolsa.</p>
-        <p>Por primera vez, abrió su capital a inversores individuales — señal inequívoca de que la IPO se acerca (Q4 2026).</p>
-      </div>
-      <div class="stats">
-        <div class="stat"><div class="stat-n">$2B</div><div class="stat-l">de ingresos al mes, 900M usuarios activos semanales</div></div>
-        <div class="stat"><div class="stat-n">50M</div><div class="stat-l">suscriptores de pago activos en la plataforma</div></div>
-        <div class="stat"><div class="stat-n">40%</div><div class="stat-l">de ingresos ya son B2B (vs 30% el año pasado)</div></div>
-      </div>
-      <div class="callout"><div class="callout-lbl">📌 Lección para emprendedores</div>El piloto publicitario generó más de 100M en ingresos anualizados en menos de seis semanas, con 600 anunciantes — el 80% pymes. La IA no es solo herramienta. Es el nuevo inventario publicitario.</div>
-    </section>
-
-    <section class="nl-section nl-section-dark" id="s3">
-      <div class="sec-hdr">
-        <div class="sec-num" style="background:#f5a58c;color:#0d0d0d;">3</div>
-        <div><div class="sec-source">Big Data Sports · Deporte &amp; IA</div><h2 class="sec-title">ChatGPT compra "la tanda" de TV Globo para el Mundial 2026</h2></div>
-      </div>
-      <div class="sec-body">
-        <p>Globo anunció 22 acuerdos de patrocinio por 388M de dólares. Entre Ambev, Itaú y Amazon aparece una novedad histórica: OpenAI pagó el equivalente a 11,6M de dólares para entrar como anunciante en TV abierta brasileña por primera vez.</p>
-      </div>
-      <div class="callout"><div class="callout-lbl">⚡ El detalle estratégico</div>OpenAI consiguió exclusividad de categoría: ninguna otra empresa de IA estará en Globo durante el Mundial. Google Gemini ya cerró con la CBF y Los Ángeles 2028. Una batalla de gigantes en clave IA.</div>
-      <ul class="bullets">
-        <li>Brasil: 3er mayor mercado de ChatGPT, 140M mensajes diarios, 50M usuarios activos mensuales</li>
-        <li>ChatGPT Go en Brasil: 39,99 reales/mes — 65% más barato que el plan Plus internacional</li>
-        <li>CazéTV tendrá los 104 partidos del Mundial; Globo solo 55</li>
-        <li>El fútbol se convierte en la primera pantalla donde la IA compite como producto masivo</li>
-      </ul>
-    </section>
-
-    <section class="nl-section" id="s4">
-      <div class="sec-hdr">
-        <div class="sec-num">4</div>
-        <div><div class="sec-source">ReinoIA · Herramientas</div><h2 class="sec-title">Claude ya puede usar tu ordenador por ti</h2></div>
-      </div>
-      <div class="sec-body">
-        <p>El 23 de marzo, Anthropic lanzó en preview algo inédito: Claude puede apuntar, hacer clic y realizar tareas directamente en tu pantalla. Sin configuración. Sin integraciones previas.</p>
-        <p>Con Dispatch, puedes asignarle tareas desde el móvil mientras haces otra cosa y encontrar el trabajo terminado al volver al ordenador.</p>
-      </div>
-      <ul class="bullets">
-        <li>Disponible en macOS, en preview para suscriptores Claude Pro y Max</li>
-        <li>Siempre pide permiso antes de acceder a una nueva aplicación</li>
-        <li>Funciona con cualquier software existente, sin necesidad de API</li>
-        <li>Casos de uso: briefings matinales, cambios en IDE, tests y Pull Requests automáticos</li>
-      </ul>
-      <div class="callout"><div class="callout-lbl">💡 La pregunta real de 2026</div>Hasta ahora la IA te ayudaba a hacer cosas. Con Computer Use, la IA hace las cosas por ti. La pregunta ya no es "¿puede hacerlo?" sino "¿estoy listo para confiar en que lo haga?"</div>
-    </section>
-
-    <section class="nl-section" id="s5">
-      <div class="sec-hdr">
-        <div class="sec-num">5</div>
-        <div><div class="sec-source">GptZone · Big Tech</div><h2 class="sec-title">Microsoft lanza MAI: voz, imagen y transcripción propios</h2></div>
-      </div>
-      <div class="sec-body"><p>Microsoft libera sus modelos MAI en Foundry: deja de venderte la interfaz para entregarte el motor directamente. Cualquier empresa puede construir sus propias aplicaciones sin depender de terceros.</p></div>
-      <div class="tools">
-        <div class="tool"><div class="tool-name">MAI-Transcribe-1</div><div class="tool-desc">25 idiomas, supera a Whisper-large-v3 en FLEURS. Precio: 0,36$/hora.</div></div>
-        <div class="tool"><div class="tool-name">MAI-Voice-1</div><div class="tool-desc">1 minuto de audio en 1 segundo. Clonación de voz. 22$/M caracteres.</div></div>
-        <div class="tool"><div class="tool-name">MAI-Image-2</div><div class="tool-desc">Contexto 32K, PNG, texto legible para publicidad. Hasta 33$/M tokens.</div></div>
-        <div class="tool"><div class="tool-name">Anthropic vs OpenClaw</div><div class="tool-desc">Desde el 4 de abril: las suscripciones de Claude ya no cubren herramientas externas. Toca pagar por token.</div></div>
-      </div>
-    </section>
-
-    <section class="nl-section" id="s6">
-      <div class="sec-hdr">
-        <div class="sec-num">6</div>
-        <div><div class="sec-source">ReinoIA · Productividad</div><h2 class="sec-title">8 prompts para Claude Code: automatiza sin saber programar</h2></div>
-      </div>
-      <div class="sec-body"><p>Sin tutoriales, sin Python, sin contratar a nadie — puedes automatizar el 80% de tu negocio con estos 8 prompts en Claude Code.</p></div>
-      <ul class="bullets">
-        <li><strong>Bot de Telegram</strong> — Funcionando en 10 minutos, desplegado gratis en Railway</li>
-        <li><strong>Dashboard interactivo</strong> — Panel Streamlit desde tu CSV. Sin Tableau ni Excel de pago</li>
-        <li><strong>Email marketing</strong> — Personalizado con Gmail SMTP, sin Mailchimp</li>
-        <li><strong>Scraper de datos</strong> — Precios, leads o competencia en CSV limpio</li>
-        <li><strong>Facturas PDF</strong> — Con tu logo, datos fiscales y numeración automática</li>
-        <li><strong>Monitor de precios</strong> — Alertas por Telegram cuando baja más de X%. 24/7 gratis</li>
-        <li><strong>Landing page</strong> — HTML responsive listo para subir a Netlify gratis</li>
-        <li><strong>API REST propia</strong> — Endpoints y Swagger, deployable en Render gratis</li>
-      </ul>
-      <div class="callout"><div class="callout-lbl">📌 Para emprendedores sin código</div>Sé específico: describe el comportamiento real, los errores posibles y los límites del sistema. Cuanto más preciso, mejor el resultado. Claude Code convierte eso en código funcional.</div>
-    </section>
-
-    <footer class="nl-footer">
-      <div>
-        <div class="footer-sig">Jorge Lorenzo</div>
-        <div class="footer-sub">"Haciendo que la tecnología trabaje para ti."</div>
-      </div>
-      <div class="footer-links">
-        <a href="https://insidelife.club">insidelife.club</a>
-        <a href="mailto:jorge@insidelife-club">Contacto</a>
-        <a href="https://www.instagram.com/insidelife.club/" target="_blank">Instagram</a>
-        <a href="https://x.com/JLbasket" target="_blank">X</a>
-      </div>
-    </footer>
-
-  </main>
-
-  <!-- ── CHAT ── -->
-  <aside class="chat-col">
-
+    <div class="nl-sec" id="r1"><div class="sec-hdr"><div class="sec-n">1</div><div><div class="sec-source">ReinoIA · Mercados &amp; IA</div><h2 class="sec-title">La IA que amplifica la volatilidad de 2026</h2></div></div><div class="sec-body"><p>2026 es uno de los años más volátiles de la última década y la IA tiene un papel protagonista — pero ambiguo. La misma tecnología que promete predecir el mercado también lo está desestabilizando.</p><p>En febrero, el Dow Jones cayó 800 puntos por los aranceles de Trump. Ese mismo día, IBM perdió un 13% tras el anuncio de nuevas capacidades de Claude.</p></div><div class="stats"><div class="stat"><div class="stat-n">41%</div><div class="stat-l">de operadores ve tensiones geopolíticas como mayor factor (JPMorgan)</div></div><div class="stat"><div class="stat-n">19%</div><div class="stat-l">apunta a la IA como segundo factor más disruptivo</div></div><div class="stat"><div class="stat-n">54%</div><div class="stat-l">de empleos financieros en riesgo de automatización (FMI)</div></div></div><div class="callout"><div class="callout-lbl">📌 Por qué importa</div>Empresas que ganan porque despliegan IA y empresas que pierden porque la IA las amenaza. El mercado ejecuta ese juicio en tiempo real.</div><ul class="bullets"><li>Sectores líderes: metales, minería, petróleo y telecomunicaciones</li><li>Más golpeados: software, publicidad y servicios financieros</li><li>Bank of America espera que la inversión en IA impulse el PIB de EE.UU. y China</li></ul></div>
+    <div class="nl-sec" id="r2"><div class="sec-hdr"><div class="sec-n">2</div><div><div class="sec-source">ReinoIA · Big Tech</div><h2 class="sec-title">OpenAI vale 852.000M. Sin cotizar en bolsa.</h2></div></div><div class="sec-body"><p>El 31 de marzo, OpenAI cerró la mayor ronda de su historia: 122.000 millones a una valoración de 852.000M. Más que LVMH, Toyota y Nestlé juntas. IPO prevista para Q4 2026.</p></div><div class="stats"><div class="stat"><div class="stat-n">$2B</div><div class="stat-l">de ingresos al mes, 900M usuarios activos semanales</div></div><div class="stat"><div class="stat-n">50M</div><div class="stat-l">suscriptores de pago activos</div></div><div class="stat"><div class="stat-n">40%</div><div class="stat-l">de ingresos ya son B2B (vs 30% el año pasado)</div></div></div><div class="callout"><div class="callout-lbl">📌 Lección para emprendedores</div>El piloto publicitario generó más de 100M anualizados en 6 semanas, con 600 anunciantes — el 80% pymes. La IA no es solo herramienta. Es el nuevo inventario publicitario.</div></div>
+    <div class="nl-sec nl-sec-dark" id="r3"><div class="sec-hdr"><div class="sec-n" style="background:#f5a58c;color:#0d0d0d;">3</div><div><div class="sec-source">Big Data Sports · Deporte &amp; IA</div><h2 class="sec-title">ChatGPT compra "la tanda" de TV Globo para el Mundial 2026</h2></div></div><div class="sec-body"><p>Globo anunció 22 acuerdos por 388M de dólares. OpenAI pagó 11,6M para entrar en TV abierta brasileña por primera vez, con exclusividad de categoría frente a Google Gemini.</p></div><div class="callout"><div class="callout-lbl">⚡ El detalle estratégico</div>Ninguna otra empresa de IA estará en Globo durante el Mundial. El fútbol se convierte en la primera pantalla donde la IA compite como producto masivo.</div><ul class="bullets"><li>Brasil: 3er mayor mercado de ChatGPT, 140M mensajes diarios, 50M usuarios mensuales</li><li>ChatGPT Go Brasil: 39,99 reales/mes — 65% más barato que el plan Plus</li><li>CazéTV tiene los 104 partidos; Globo solo 55 pero con 2.000 creadores de contenido</li></ul></div>
+    <div class="nl-sec" id="r4"><div class="sec-hdr"><div class="sec-n">4</div><div><div class="sec-source">ReinoIA · Herramientas</div><h2 class="sec-title">Claude ya puede usar tu ordenador por ti</h2></div></div><div class="sec-body"><p>El 23 de marzo, Anthropic lanzó en preview: Claude puede apuntar, hacer clic y realizar tareas directamente en tu pantalla. Con Dispatch, asignas tareas desde el móvil y encuentras el trabajo terminado al volver.</p></div><ul class="bullets"><li>Solo macOS, en preview para suscriptores Claude Pro y Max</li><li>Siempre pide permiso antes de acceder a una nueva aplicación</li><li>Funciona con cualquier software, sin necesidad de API</li></ul><div class="callout"><div class="callout-lbl">💡 La pregunta real de 2026</div>Hasta ahora la IA te ayudaba a hacer cosas. Con Computer Use, la IA hace las cosas por ti.</div></div>
+    <div class="nl-sec" id="r5"><div class="sec-hdr"><div class="sec-n">5</div><div><div class="sec-source">GptZone · Big Tech</div><h2 class="sec-title">Microsoft lanza MAI: voz, imagen y transcripción propios</h2></div></div><div class="sec-body"><p>Microsoft libera sus modelos MAI en Foundry para que cualquier empresa construya sin depender de terceros.</p></div><div class="tools"><div class="tool"><div class="tool-name">MAI-Transcribe-1</div><div class="tool-desc">25 idiomas, supera Whisper. 0,36$/hora.</div></div><div class="tool"><div class="tool-name">MAI-Voice-1</div><div class="tool-desc">1 min audio en 1 seg. Clonación de voz. 22$/M chars.</div></div><div class="tool"><div class="tool-name">MAI-Image-2</div><div class="tool-desc">32K contexto, PNG, texto legible. Hasta 33$/M tokens.</div></div><div class="tool"><div class="tool-name">Anthropic vs OpenClaw</div><div class="tool-desc">Desde el 4 de abril: suscripciones de Claude ya no cubren herramientas externas.</div></div></div></div>
+    <div class="nl-sec" id="r6"><div class="sec-hdr"><div class="sec-n">6</div><div><div class="sec-source">ReinoIA · Productividad</div><h2 class="sec-title">8 prompts para Claude Code: automatiza sin saber programar</h2></div></div><div class="sec-body"><p>Sin tutoriales, sin Python, sin contratar a nadie — automatiza el 80% de tu negocio con estos 8 prompts.</p></div><ul class="bullets"><li><strong>Bot de Telegram</strong> — 10 minutos, Railway gratis</li><li><strong>Dashboard Streamlit</strong> — Panel desde tu CSV, sin Tableau</li><li><strong>Email marketing</strong> — Gmail SMTP personalizado, sin Mailchimp</li><li><strong>Scraper de datos</strong> — Precios o leads en CSV limpio</li><li><strong>Facturas PDF</strong> — Logo, datos fiscales, numeración automática</li><li><strong>Monitor de precios</strong> — Alertas Telegram cuando baja X%. 24/7</li><li><strong>Landing page</strong> — HTML responsive, Netlify gratis</li><li><strong>API REST propia</strong> — Swagger + Render gratis</li></ul><div class="callout"><div class="callout-lbl">📌 Para emprendedores sin código</div>Sé específico: describe el comportamiento real y los límites del sistema. Cuanto más preciso, mejor el resultado.</div></div>
+    <div class="nl-footer-r"><div><div class="footer-sig">Jorge Lorenzo</div><div class="footer-sub">"Haciendo que la tecnología trabaje para ti."</div></div><div class="footer-links-r"><a href="https://insidelife.club">insidelife.club</a><a href="mailto:jorge@insidelife.club">Contacto</a><a href="https://www.instagram.com/insidelife.club/" target="_blank">Instagram</a><a href="https://x.com/JLbasket" target="_blank">X</a><a href="https://www.linkedin.com/in/jorge-lorenzo-25ba3518/" target="_blank">LinkedIn</a></div></div>
+  </div>
+  <div class="reader-chat">
     <div class="chat-head">
-      <div class="chat-head-row">
-        <div class="chat-avatar">🪔</div>
-        <div>
-          <div class="chat-head-name">El Genio de la Edición</div>
-          <div class="chat-head-sub">Solo sabe de esta edición</div>
-        </div>
-      </div>
-      <div class="wishes-wrap">
-        <div class="wishes-label">Tus deseos</div>
-        <div class="wishes-dots">
-          <div class="wish-dot" id="d1"></div>
-          <div class="wish-dot" id="d2"></div>
-          <div class="wish-dot" id="d3"></div>
-        </div>
-        <div class="wishes-count" id="wCount">3 restantes</div>
-      </div>
+      <div class="chat-head-row"><div class="chat-av">🪔</div><div><div class="chat-hname">El Genio de la Edición</div><div class="chat-hsub">Solo sabe de esta edición</div></div></div>
+      <div class="wishes-bar"><div class="wishes-lbl">Tus deseos</div><div class="wishes-dots"><div class="wdot" id="d1"></div><div class="wdot" id="d2"></div><div class="wdot" id="d3"></div></div><div class="wishes-ct" id="wct">3 restantes</div></div>
     </div>
-
     <div class="chat-msgs" id="msgs">
-      <div class="msg msg-ai">
-        <div class="msg-lbl">Genio</div>
-        <div class="msg-bubble">
-          Tus deseos son mis órdenes 🪔<br><br>
-          Tengo <strong>3 respuestas</strong> para ti sobre esta edición: mercados e IA, OpenAI a 852.000M, ChatGPT en el Mundial, Computer Use de Claude, los modelos MAI o los prompts de automatización.<br><br>
-          ¿Cuál es tu primer deseo?
-        </div>
+      <div class="msg msg-a"><div class="mlbl">Genio</div><div class="mbubble">Tus deseos son mis órdenes 🪔<br><br>Tengo <strong>3 respuestas</strong> para ti sobre esta edición. ¿Cuál es tu primer deseo?</div></div>
+    </div>
+    <div class="exhaust-msg" id="exhaust"><strong>Los 3 deseos se han cumplido ✨</strong>Vuelve la próxima semana con una nueva edición y 3 deseos nuevos.</div>
+    <div class="sugs" id="sugs">
+      <div class="sugs-lbl">Sugerencias</div>
+      <div class="sugs-wrap">
+        <button class="sug" onclick="useSug(this)">¿Cómo me afecta la volatilidad si tengo inversiones?</button>
+        <button class="sug" onclick="useSug(this)">¿Qué implica que ChatGPT patrocine el Mundial?</button>
+        <button class="sug" onclick="useSug(this)">¿Qué prompt de automatización empiezo primero?</button>
+        <button class="sug" onclick="useSug(this)">Explícame Computer Use con un ejemplo práctico</button>
       </div>
     </div>
-
-    <div class="exhausted-banner" id="exhaust">
-      <strong>Los 3 deseos se han cumplido ✨</strong>
-      Has agotado tus preguntas para esta edición. Vuelve la próxima semana con 3 deseos nuevos.
-    </div>
-
-    <div class="suggestions" id="sugs">
-      <div class="sug-lbl">Sugerencias</div>
-      <div class="sug-wrap">
-        <button class="sug-btn" onclick="useSug(this)">¿Cómo me afecta la volatilidad si tengo inversiones?</button>
-        <button class="sug-btn" onclick="useSug(this)">¿Qué implica que ChatGPT patrocine el Mundial?</button>
-        <button class="sug-btn" onclick="useSug(this)">¿Qué prompt de automatización empiezo primero?</button>
-        <button class="sug-btn" onclick="useSug(this)">Explícame Computer Use con un ejemplo práctico</button>
-      </div>
-    </div>
-
-    <div class="chat-input-area">
-      <div class="input-wrap">
-        <textarea class="chat-input" id="inp" placeholder="Escribe tu deseo…" rows="1" onkeydown="onKey(event)" oninput="resize(this)"></textarea>
-        <button class="send-btn" id="sBtn" onclick="send()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-        </button>
+    <div class="chat-inp-area">
+      <div class="inp-row">
+        <textarea class="cinput" id="inp" placeholder="Escribe tu deseo…" rows="1" onkeydown="onKey(event)" oninput="resize(this)"></textarea>
+        <button class="sbtn" id="snd" onclick="send()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
       </div>
       <div class="chat-note">Powered by Claude · Solo responde sobre esta edición</div>
     </div>
+  </div>
+</section>
 
-  </aside>
-
-</div>
+<!-- SOBRE MÍ -->
+<section class="section" id="section-sobre">
+  <div class="about-wrap">
+    <div class="about-kicker">✦ Sobre mí</div>
+    <h2 class="about-title">El chico que no hablaba<br>y fue Campeón del Mundo</h2>
+    <img class="about-img-main" src="https://newsletter.jorgelorenzo.coach/Copa_vertical.png" alt="Jorge Lorenzo con la Copa del Mundo 2019"/>
+    <div class="about-body">
+      <p>Hola, soy Jorge. No te voy a soltar un currículum lleno de títulos ni una historia con fuegos artificiales. Solo te diré esto: he estado en muchas pistas. Algunas eran de baloncesto. Otras, de esas que no se ven.</p>
+      <p>Desde los 16 años soy entrenador de baloncesto. En 2019, en mi primer torneo con la Selección Española en categoría senior, <strong>fuimos campeones del mundo</strong>. Desde entonces: <strong>Campeón del Eurobasket 2022</strong>, dos Juegos Olímpicos, y entrenador en Angola.</p>
+      <p>Con el tiempo construí otra pista paralela: <strong>IA, automatización y tecnología aplicadas al deporte</strong>. Los mismos principios que hacen ganar a un equipo — datos, decisiones rápidas, sistemas — funcionan igual fuera de la cancha. INSIDE Life nació de ahí.</p>
+    </div>
+    <div class="about-imgs">
+      <img src="https://newsletter.jorgelorenzo.coach/Con_Scariolo.png" alt="Con Scariolo, Eurobasket 2022"/>
+      <img src="https://newsletter.jorgelorenzo.coach/Con_Rudy.png" alt="Con Rudy Fernández, Eurobasket 2022"/>
+    </div>
+    <div class="about-promises">
+      <div class="ap-label">Tres promesas</div>
+      <ol class="ap-list">
+        <li>No hacerte perder el tiempo.</li>
+        <li>Enviar solo contenido que me gustaría recibir si estuviera en tu lugar.</li>
+        <li>Cuando venda algo, lo haré con la misma honestidad con la que entreno.</li>
+      </ol>
+    </div>
+    <div class="about-links">
+      <a class="about-link" href="https://jorgelorenzo.coach" target="_blank">jorgelorenzo.coach</a>
+      <a class="about-link" href="https://www.instagram.com/insidelife.club/" target="_blank">Instagram</a>
+      <a class="about-link" href="https://x.com/JLbasket" target="_blank">X / Twitter</a>
+      <a class="about-link" href="https://www.linkedin.com/in/jorge-lorenzo-25ba3518/" target="_blank">LinkedIn</a>
+      <a class="about-link" href="mailto:jorge@insidelife.club">Contacto</a>
+    </div>
+  </div>
+  <footer class="site-footer">
+    <div><div class="sf-brand">INSIDE Life</div><div class="sf-copy">© 2026 Jorge Lorenzo</div></div>
+    <div class="sf-links">
+      <a href="https://www.instagram.com/insidelife.club/" target="_blank">Instagram</a>
+      <a href="https://x.com/JLbasket" target="_blank">X</a>
+      <a href="https://www.linkedin.com/in/jorge-lorenzo-25ba3518/" target="_blank">LinkedIn</a>
+      <a href="mailto:jorge@insidelife.club">Contacto</a>
+    </div>
+  </footer>
+</section>
 
 <script>
-const SYS = `Eres el asistente conversacional de INSIDE Life, newsletter de Jorge Lorenzo sobre IA, tecnología y emprendimiento.
-
-REGLA ABSOLUTA: Solo respondes sobre los 6 temas de la edición del 7 de abril de 2026. Si preguntan algo fuera de ellos, di: "Ese tema no está en esta edición. Hoy cubrimos: mercados e IA, la valoración de OpenAI, ChatGPT en el Mundial, Computer Use de Claude, los modelos MAI de Microsoft y prompts de automatización. ¿Te puedo ayudar con alguno?"
-
-TEMAS:
-
-1. IA Y VOLATILIDAD DE MERCADOS 2026
-- Algoritmos de IA mueven mercados a velocidad de máquina
-- 41% de operadores señala tensiones geopolíticas como mayor factor (JPMorgan); 19% apunta a IA
-- Febrero: Dow Jones -800pts por aranceles Trump; ese día IBM -13% por nuevas capacidades de Claude
-- DeepSeek provocó corrección en semiconductores y Nvidia
-- Sectores ganadores: metales, minería, petróleo, telecomunicaciones
-- Sectores perdedores: software, publicidad, servicios financieros
-- FMI: 54% empleos financieros en riesgo de automatización
-- Bank of America: inversión en IA impulsará PIB de EE.UU. y China
-
-2. OPENAI A 852.000M SIN COTIZAR EN BOLSA
-- Ronda 122.000M el 31 de marzo 2026, valoración post-money 852.000M
-- Inversores: Amazon 50.000M (35.000M condicionales a IPO), SoftBank 30.000M, Nvidia 30.000M
-- Primera vez que abre capital a inversores individuales (3.000M del público)
-- IPO prevista Q4 2026
-- 2.000M$/mes de ingresos, 900M usuarios semanales, 50M suscriptores de pago
-- 40% ingresos B2B (vs 30% el año pasado)
-- Piloto publicitario: 100M anualizados en 6 semanas, 600 anunciantes, 80% pymes
-
-3. CHATGPT EN LA TANDA DE TV GLOBO PARA EL MUNDIAL 2026
-- Globo: 22 acuerdos por 388M de dólares
-- OpenAI pagó 11,6M de dólares (60M reales) — primera vez en TV abierta brasileña
-- Exclusividad de categoría: ninguna otra empresa de IA en Globo durante el Mundial
-- Google Gemini tiene acuerdo con CBF y JJ.OO. Los Ángeles 2028
-- Brasil: 3er mayor mercado de ChatGPT, 140M mensajes diarios, 50M usuarios mensuales
-- ChatGPT Go Brasil: 39,99 reales/mes (65% más barato que plan Plus)
-- CazéTV tiene 104 partidos; Globo solo 55 pero con 2.000 creadores de contenido
-
-4. CLAUDE COMPUTER USE: LA IA QUE USA TU ORDENADOR
-- Lanzado 23 de marzo en research preview por Anthropic
-- Puede apuntar, hacer clic, navegar y ejecutar tareas en pantalla sin configuración
-- Dispatch: asignar tareas desde móvil, Claude las ejecuta en Mac
-- Primero intenta conectores directos (Slack, Calendar); ordenador es último recurso
-- Siempre pide permiso antes de acceder a nueva aplicación
-- Solo macOS, preview para suscriptores Claude Pro y Max
-- Funciona con cualquier software sin necesidad de API
-
-5. MICROSOFT MODELOS MAI + ANTHROPIC VS OPENCLAW
-- MAI-Transcribe-1: 25 idiomas, supera a Whisper-large-v3, 0,36$/hora
-- MAI-Voice-1: 1 minuto de audio en 1 segundo, clonación de voz, 22$/M caracteres
-- MAI-Image-2: contexto 32K, soporte PNG, texto legible, hasta 33$/M tokens
-- Anthropic limitó OpenClaw desde 4 de abril: suscripciones ya no cubren herramientas externas, toca pagar por token con API Key propia
-
-6. 8 PROMPTS PARA AUTOMATIZAR CON CLAUDE CODE SIN SABER PROGRAMAR
-1. Bot Telegram: python-telegram-bot, Railway gratis, listo en 10 minutos
-2. Dashboard Streamlit: lee CSV, KPIs, gráficos. Sin Tableau ni Excel
-3. Email marketing: Gmail SMTP personalizado por CSV. Sin Mailchimp
-4. Scraper BeautifulSoup: paginación automática, guarda en CSV
-5. API REST FastAPI + SQLite: Swagger, deployable gratis en Render
-6. Facturas PDF con reportlab: logo, datos fiscales, numeración automática
-7. Monitor precios: alerta Telegram cuando baja X%, cron o GitHub Actions
-8. Landing page responsive HTML: deployable gratis en Netlify
-
-FORMATO: Máximo 3 párrafos, usa **negrita** para conceptos clave, responde en español, tono de experto amigo.`;
-
-let wishesLeft = 3, history = [], apiKey = null, busy = false;
-
-document.getElementById('apiIn').addEventListener('keydown', e => { if (e.key==='Enter') saveKey(); });
-
-function saveKey() {
-  const v = document.getElementById('apiIn').value.trim();
-  if (!v.startsWith('sk-ant-')) { document.getElementById('apiErr').style.display='block'; return; }
-  apiKey = v;
-  document.getElementById('modal').style.display = 'none';
+window.REQUIRED_CODE_ERROR_MESSAGE='Elija un código de país';window.LOCALE='es';
+window.EMAIL_INVALID_MESSAGE=window.SMS_INVALID_MESSAGE="Información no válida.";
+window.REQUIRED_ERROR_MESSAGE="Este campo no puede estar vacío.";
+window.GENERIC_INVALID_MESSAGE="Información no válida.";
+window.translation={common:{selectedList:'{quantity} lista seleccionada',selectedLists:'{quantity} listas seleccionadas',selectedOption:'{quantity} seleccionado',selectedOptions:'{quantity} seleccionados'}};
+var AUTOHIDE=Boolean(0);
+</script>
+<script defer src="https://sibforms.com/forms/end-form/build/main.js"></script>
+<script>
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('section-reader').style.display='none';
+  document.getElementById('section-reader').classList.remove('active');
+  document.getElementById('section-'+id).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  const nl=document.getElementById('nl-'+id);if(nl)nl.classList.add('active');
+  window.scrollTo(0,0);return false;
+}
+function openReader(){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  const r=document.getElementById('section-reader');
+  r.style.display='grid';r.classList.add('active');
+  window.scrollTo(0,0);
+  if(!apiKey)document.getElementById('modal').style.display='flex';
+}
+function closeReader(){
+  document.getElementById('section-reader').style.display='none';
+  document.getElementById('section-reader').classList.remove('active');
+  showSection('newsletter');
 }
 
-function refreshWishes() {
-  [document.getElementById('d1'), document.getElementById('d2'), document.getElementById('d3')]
-    .forEach((d, i) => d.className = 'wish-dot' + (i >= wishesLeft ? ' used' : ''));
-  const c = document.getElementById('wCount');
-  if (wishesLeft === 0) {
-    c.textContent = 'Agotados'; c.className = 'wishes-count zero'; lockUp();
-  } else {
-    c.textContent = wishesLeft + (wishesLeft===1?' restante':' restantes');
-    c.className = 'wishes-count';
-  }
+let apiKey=null;
+document.getElementById('mkey').addEventListener('keydown',e=>{if(e.key==='Enter')saveKey();});
+function saveKey(){
+  const v=document.getElementById('mkey').value.trim();
+  if(!v.startsWith('sk-ant-')){document.getElementById('merr').style.display='block';return;}
+  apiKey=v;document.getElementById('modal').style.display='none';
 }
 
-function lockUp() {
-  document.getElementById('inp').disabled = true;
-  document.getElementById('sBtn').disabled = true;
-  document.getElementById('sugs').style.display = 'none';
-  document.getElementById('exhaust').style.display = 'block';
+const SYS=`Eres el asistente conversacional de INSIDE Life, newsletter de Jorge Lorenzo sobre IA, tecnología y emprendimiento.
+REGLA ABSOLUTA: Solo respondes sobre los 6 temas de la edición del 7 de abril de 2026. Si preguntan algo fuera, di: "Ese tema no está en esta edición. Hoy cubrimos: mercados e IA, la valoración de OpenAI, ChatGPT en el Mundial, Computer Use de Claude, los modelos MAI de Microsoft y prompts de automatización."
+TEMAS: 1.IA y volatilidad 2026: algoritmos mueven mercados a velocidad de máquina; Dow -800pts Feb por aranceles Trump; IBM -13% ese día por capacidades Claude; FMI 54% empleos financieros en riesgo; sectores ganadores metales/minería/telecos, perdedores software/publicidad. 2.OpenAI 852.000M: ronda 122.000M 31 marzo; Amazon 50.000M, SoftBank 30.000M, Nvidia 30.000M; IPO Q4 2026; 2.000M$/mes; 900M usuarios; 50M suscriptores pago; piloto publicitario 100M anualizados en 6 semanas. 3.ChatGPT TV Globo Mundial: Globo 22 acuerdos 388M$; OpenAI 11,6M$ primera vez TV abierta brasileña; exclusividad categoría; Google Gemini tiene CBF y JJOO LA2028; ChatGPT Go Brasil 39,99 reales/mes (65% más barato). 4.Claude Computer Use: 23 marzo preview; clic/navegar en pantalla sin config; Dispatch tareas desde móvil; solo macOS Pro/Max; pide permiso siempre. 5.Microsoft MAI: Transcribe-1 25 idiomas supera Whisper 0,36$/h; Voice-1 1min audio en 1seg 22$/M; Image-2 32K PNG 33$/M; Anthropic limitó OpenClaw 4 abril pay-per-token. 6.8 prompts Claude Code: bot Telegram Railway, dashboard Streamlit CSV, email Gmail SMTP, scraper BeautifulSoup, API FastAPI+SQLite Render, facturas reportlab, monitor precios Telegram+cron, landing Netlify.
+FORMATO: máximo 3 párrafos, **negrita** para conceptos clave, español, tono experto amigo.`;
+
+let wLeft=3,hist=[],busy=false;
+function refreshW(){
+  ['d1','d2','d3'].forEach((id,i)=>{document.getElementById(id).className='wdot'+(i>=wLeft?' off':'');});
+  const c=document.getElementById('wct');
+  if(wLeft===0){c.textContent='Agotados';c.className='wishes-ct zero';lockChat();}
+  else{c.textContent=wLeft+(wLeft===1?' restante':' restantes');c.className='wishes-ct';}
 }
-
-function resize(el) { el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,110)+'px'; }
-function onKey(e) { if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();} }
-function useSug(btn) { document.getElementById('inp').value=btn.textContent; document.getElementById('sugs').style.display='none'; send(); }
-function scrollEnd() { const el=document.getElementById('msgs'); el.scrollTop=el.scrollHeight; }
-
-function addMsg(role, text) {
-  const wrap=document.getElementById('msgs');
-  const d=document.createElement('div'); d.className=`msg msg-${role}`;
-  const l=document.createElement('div'); l.className='msg-lbl'; l.textContent=role==='user'?'Tú':'Genio';
-  const b=document.createElement('div'); b.className='msg-bubble';
-  b.innerHTML=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>').replace(/\n/g,'<br>');
-  d.appendChild(l); d.appendChild(b); wrap.appendChild(d); scrollEnd();
+function lockChat(){document.getElementById('inp').disabled=true;document.getElementById('snd').disabled=true;document.getElementById('sugs').style.display='none';document.getElementById('exhaust').style.display='block';}
+function resize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,95)+'px';}
+function onKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}}
+function useSug(btn){document.getElementById('inp').value=btn.textContent;document.getElementById('sugs').style.display='none';send();}
+function scrollEnd(){const el=document.getElementById('msgs');el.scrollTop=el.scrollHeight;}
+function addMsg(role,text){
+  const w=document.getElementById('msgs');
+  const d=document.createElement('div');d.className='msg msg-'+(role==='user'?'u':'a');
+  const l=document.createElement('div');l.className='mlbl';l.textContent=role==='user'?'Tú':'Genio';
+  const b=document.createElement('div');b.className='mbubble';
+  b.innerHTML=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
+  d.appendChild(l);d.appendChild(b);w.appendChild(d);scrollEnd();
 }
-
-function showTyping() {
-  const wrap=document.getElementById('msgs');
-  const d=document.createElement('div'); d.className='msg msg-ai'; d.id='tdiv';
-  const l=document.createElement('div'); l.className='msg-lbl'; l.textContent='Genio';
-  const ind=document.createElement('div'); ind.className='typing';
-  ind.innerHTML='<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
-  d.appendChild(l); d.appendChild(ind); wrap.appendChild(d); scrollEnd();
-}
-function hideTyping() { const t=document.getElementById('tdiv'); if(t) t.remove(); }
-
-async function send() {
-  if (busy || wishesLeft<=0) return;
-  const inp=document.getElementById('inp');
-  const txt=inp.value.trim(); if(!txt) return;
-  inp.value=''; inp.style.height='auto';
+function showTyping(){const w=document.getElementById('msgs');const d=document.createElement('div');d.className='msg msg-a';d.id='td';const l=document.createElement('div');l.className='mlbl';l.textContent='Genio';const i=document.createElement('div');i.className='typing';i.innerHTML='<div class="tdot"></div><div class="tdot"></div><div class="tdot"></div>';d.appendChild(l);d.appendChild(i);w.appendChild(d);scrollEnd();}
+function hideTyping(){const t=document.getElementById('td');if(t)t.remove();}
+async function send(){
+  if(busy||wLeft<=0)return;
+  const inp=document.getElementById('inp');const txt=inp.value.trim();if(!txt)return;
+  inp.value='';inp.style.height='auto';
   document.getElementById('sugs').style.display='none';
-  document.getElementById('sBtn').disabled=true;
-  busy=true;
-
-  wishesLeft--;
-  refreshWishes();
-
-  addMsg('user', txt);
-  history.push({role:'user', content:txt});
-  showTyping();
-
-  try {
-    const r = await fetch('https://api.anthropic.com/v1/messages', {
-      method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body: JSON.stringify({model:'claude-sonnet-4-20250514', max_tokens:1000, system:SYS, messages:history})
-    });
-    const data = await r.json();
-    hideTyping();
-    if (data.error) { addMsg('ai', `⚠️ ${data.error.message}`); }
-    else { const rep=data.content[0].text; history.push({role:'assistant',content:rep}); addMsg('ai',rep); }
-  } catch(e) {
-    hideTyping();
-    addMsg('ai','⚠️ No se pudo conectar. Comprueba tu conexión e inténtalo de nuevo.');
-  }
-
-  busy=false;
-  if(wishesLeft>0) document.getElementById('sBtn').disabled=false;
+  document.getElementById('snd').disabled=true;
+  busy=true;wLeft--;refreshW();
+  addMsg('user',txt);hist.push({role:'user',content:txt});showTyping();
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:SYS,messages:hist})});
+    const data=await r.json();hideTyping();
+    if(data.error){addMsg('ai','⚠️ '+data.error.message);}
+    else{const rep=data.content[0].text;hist.push({role:'assistant',content:rep});addMsg('ai',rep);}
+  }catch(e){hideTyping();addMsg('ai','⚠️ No se pudo conectar. Inténtalo de nuevo.');}
+  busy=false;if(wLeft>0)document.getElementById('snd').disabled=false;
 }
-
-refreshWishes();
+refreshW();
 </script>
 </body>
 </html>
