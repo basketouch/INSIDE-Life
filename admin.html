@@ -96,6 +96,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--off); color: var(--
 .struct-row.fixed { background: var(--surface); }
 .struct-row.admin { background: #fffaf7; border-left: 3px solid var(--red); margin-left: 0; }
 .struct-row.slot-hint { background: var(--off); font-size: 10px; color: var(--mid); border-left: 3px dashed var(--rule); }
+.struct-row.native-art { background: #f3f2ef; border-left: 3px solid var(--ink); }
 .struct-badge { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .08em; text-transform: uppercase; color: var(--mid); min-width: 76px; flex-shrink: 0; line-height: 1.35; }
 .struct-body { flex: 1; min-width: 0; font-size: 12px; line-height: 1.45; color: var(--ink); }
 .struct-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 8px; }
@@ -264,7 +265,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--off); color: var(--
       <!-- Mapa: piezas del newsletter + tus bloques (mover / editar) -->
       <div class="panel-section" id="structureSection" style="display:none;">
         <div class="panel-title">Piezas del newsletter</div>
-        <p class="struct-hint">Orden real de la página: titular, bloques tuyos «Arriba», índice, notas del HTML, bloques «Abajo» y pie. <strong>Subir / Bajar</strong> solo afecta a tus bloques dentro de la misma zona.</p>
+        <p class="struct-hint">Orden de la página: titular, tus bloques «Arriba», índice, <strong>notas del HTML</strong> (puedes reordenarlas con Subir/Bajar; al publicar se renumeran y el índice se actualiza), barra de archivo, tus bloques «Abajo» y pie.</p>
         <div class="structure-map" id="structureMap"></div>
       </div>
 
@@ -300,6 +301,7 @@ var blocks         = [];     // bloques añadidos por el admin
 var blockPos       = 'top';  // top | bottom
 var currentType    = null;
 var editingBlockId = null;   // si no null, addBlock() actualiza ese bloque
+var articleOrder   = [];     // orden de ids de .nl-art (ej. a1,a2…) dentro del reader; se renumeran al generar HTML
 
 function apiHeaders(jsonBody) {
   var h = { Authorization: 'Bearer ' + apiBearer };
@@ -335,6 +337,7 @@ async function loadNewsletter() {
     if (data.error) throw new Error(data.error);
     originalHTML = data.content;
     currentSHA   = data.sha;
+    syncArticleOrderFromHtml();
     setStatus('ok', 'Newsletter cargado');
     document.getElementById('publishBtn').disabled = false;
     renderStructureMap();
@@ -407,6 +410,128 @@ function decodeHtmlEntities(s) {
   var t = document.createElement('textarea');
   t.innerHTML = (s || '').trim();
   return t.value;
+}
+
+function extractArticleSidsInOrder(cleanHtml) {
+  try {
+    var doc = new DOMParser().parseFromString(cleanHtml, 'text/html');
+    var sec = doc.getElementById('sec-reader');
+    if (!sec) return [];
+    var out = [];
+    for (var i = 0; i < sec.children.length; i++) {
+      var c = sec.children[i];
+      if (c.nodeType !== 1) continue;
+      if (c.classList.contains('nl-art') && /^a\d+$/.test(c.id)) out.push(c.id);
+    }
+    return out;
+  } catch (e) {
+    return [];
+  }
+}
+
+function syncArticleOrderFromHtml() {
+  var clean = stripInjectedAdminBlocks(originalHTML || '');
+  articleOrder = extractArticleSidsInOrder(clean);
+}
+
+function serializeHTMLDocument(doc) {
+  var dt = '<!DOCTYPE html>\n';
+  if (doc.doctype) dt = '<!DOCTYPE ' + doc.doctype.name + '>\n';
+  return dt + doc.documentElement.outerHTML;
+}
+
+// Reordena .nl-art según articleOrder; reasigna id a1…aN, .art-n y enlaces del índice
+function applyNativeArticleReorder(html) {
+  if (!html || !articleOrder.length) return html;
+  try {
+    var doc = new DOMParser().parseFromString(html, 'text/html');
+    var sec = doc.getElementById('sec-reader');
+    if (!sec) return html;
+
+    var toRemove = [];
+    var map = {};
+    for (var i = 0; i < sec.children.length; i++) {
+      var c = sec.children[i];
+      if (c.nodeType !== 1) continue;
+      if (c.classList.contains('nl-art') && /^a\d+$/.test(c.id)) {
+        toRemove.push(c);
+        map[c.id] = c.cloneNode(true);
+      }
+    }
+    if (Object.keys(map).length === 0) return html;
+
+    var order = articleOrder.filter(function(sid) { return map[sid]; });
+    Object.keys(map).forEach(function(sid) {
+      if (order.indexOf(sid) < 0) order.push(sid);
+    });
+
+    for (var r = toRemove.length - 1; r >= 0; r--) sec.removeChild(toRemove[r]);
+
+    var archEl = sec.querySelector('.nl-archivo-bar');
+    if (!archEl) return html;
+
+    for (var j = order.length - 1; j >= 0; j--) {
+      var sid = order[j];
+      var node = map[sid];
+      var newI = j + 1;
+      node.id = 'a' + newI;
+      var artN = node.querySelector('.art-hdr .art-n');
+      if (artN) artN.textContent = String(newI);
+      sec.insertBefore(node, archEl);
+    }
+
+    var idxEl = sec.querySelector('.nl-idx');
+    if (idxEl) {
+      var list = idxEl.querySelector('.nl-idx-list');
+      if (list) {
+        while (list.firstChild) list.removeChild(list.firstChild);
+        for (var k = 0; k < order.length; k++) {
+          var sid2 = order[k];
+          var srcNode = map[sid2];
+          var ord = k + 1;
+          var h2 = srcNode.querySelector('h2.art-h2');
+          var title = h2 ? h2.textContent.replace(/\s+/g, ' ').trim() : 'Nota ' + ord;
+          var a = doc.createElement('a');
+          a.className = 'nl-idx-a';
+          a.href = '#a' + ord;
+          a.textContent = title;
+          list.appendChild(a);
+        }
+      }
+    }
+
+    return serializeHTMLDocument(doc);
+  } catch (e) {
+    console.warn('applyNativeArticleReorder', e);
+    return html;
+  }
+}
+
+function moveNativeArticle(sid, delta) {
+  var i = articleOrder.indexOf(sid);
+  if (i < 0) return;
+  var j = i + delta;
+  if (j < 0 || j >= articleOrder.length) return;
+  var t = articleOrder[i];
+  articleOrder[i] = articleOrder[j];
+  articleOrder[j] = t;
+  renderStructureMap();
+  renderPreview();
+}
+
+function structRowNativeArticle(sid, title, posIndex, total) {
+  var canUp = posIndex > 0;
+  var canDown = posIndex < total - 1;
+  return (
+    '<div class="struct-row native-art">' +
+    '<div class="struct-badge">Nota<br>· ' + esc(sid) + '</div>' +
+    '<div class="struct-body" style="width:100%">' +
+    esc(title) +
+    '<div class="struct-actions">' +
+    '<button type="button" class="struct-btn" onclick="moveNativeArticle(\'' + sid + '\',-1)"' + (canUp ? '' : ' disabled') + '>Subir</button>' +
+    '<button type="button" class="struct-btn" onclick="moveNativeArticle(\'' + sid + '\',1)"' + (canDown ? '' : ' disabled') + '>Bajar</button>' +
+    '</div></div></div>'
+  );
 }
 
 function parseHeroTitle(html) {
@@ -482,7 +607,8 @@ function renderStructureMap() {
   }
   sec.style.display = 'block';
 
-  var articles = parseNativeArticles(originalHTML);
+  var artMeta = {};
+  parseNativeArticles(originalHTML).forEach(function(a) { artMeta[a.sid] = a.title; });
   var heroTitle = parseHeroTitle(originalHTML);
   var topList = blocks.filter(function(b) { return b.pos === 'top'; });
   var botList = blocks.filter(function(b) { return b.pos === 'bottom'; });
@@ -498,11 +624,11 @@ function renderStructureMap() {
 
   rows.push(structRowFixed('Índice', '«En esta edición» — enlaces a las notas (viene del HTML)', 'idx'));
 
-  if (articles.length === 0) {
-    rows.push(structSlotHint('No se detectaron artículos (.nl-art) en el HTML cargado.'));
+  if (articleOrder.length === 0) {
+    rows.push(structSlotHint('No se detectaron notas (.nl-art con id a1, a2…) en el HTML cargado.'));
   } else {
-    articles.forEach(function(a, i) {
-      rows.push(structRowFixed('Nota ' + (i + 1), a.title, 'art'));
+    articleOrder.forEach(function(sid, i) {
+      rows.push(structRowNativeArticle(sid, artMeta[sid] || sid, i, articleOrder.length));
     });
   }
 
@@ -638,6 +764,7 @@ function stripInjectedAdminBlocks(html) {
 function buildFinalHTML() {
   if (!originalHTML) return '';
   var html = stripInjectedAdminBlocks(originalHTML);
+  html = applyNativeArticleReorder(html);
 
   var topBlocks = blocks.filter(function(b) { return b.pos === 'top'; });
   var bottomBlocks = blocks.filter(function(b) { return b.pos === 'bottom'; });
@@ -649,9 +776,11 @@ function buildFinalHTML() {
       replaced = true;
       return nl + topHTML + nl + indent + '<div class="nl-idx">';
     });
-    if (!replaced) {
-      console.warn('Admin: no se encontró .nl-idx; bloques superiores no insertados.');
+    if (!replaced && html.indexOf('<div class="nl-idx">') >= 0) {
+      html = html.replace('<div class="nl-idx">', topHTML + '\n    <div class="nl-idx">');
+      replaced = true;
     }
+    if (!replaced) console.warn('Admin: no se encontró .nl-idx; bloques superiores no insertados.');
   }
 
   if (bottomBlocks.length > 0) {
@@ -661,9 +790,11 @@ function buildFinalHTML() {
       replacedB = true;
       return nl + botHTML + nl + indent + '<div class="nl-foot">';
     });
-    if (!replacedB) {
-      console.warn('Admin: no se encontró .nl-foot; bloques inferiores no insertados.');
+    if (!replacedB && html.indexOf('<div class="nl-foot">') >= 0) {
+      html = html.replace('<div class="nl-foot">', botHTML + '\n    <div class="nl-foot">');
+      replacedB = true;
     }
+    if (!replacedB) console.warn('Admin: no se encontró .nl-foot; bloques inferiores no insertados.');
   }
 
   return html;
