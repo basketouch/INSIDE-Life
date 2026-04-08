@@ -18,7 +18,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
 /* ── TOP NAV ── */
 .topnav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: 54px; background: var(--white); border-bottom: 1px solid var(--rule); display: flex; align-items: center; justify-content: space-between; padding: 0 40px; }
 .nav-brand { display: flex; align-items: center; gap: 9px; cursor: pointer; }
-.nav-badge { background: var(--ink); color: var(--white); font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .15em; text-transform: uppercase; padding: 3px 7px; line-height: 1; }
+.nav-badge { background: var(--ink); color: var(--white); font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .06em; padding: 3px 7px; line-height: 1; }
 .nav-title { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 900; color: var(--ink); letter-spacing: -.02em; }
 .nav-links { display: flex; gap: 28px; list-style: none; }
 .nav-links button { background: none; border: none; cursor: pointer; padding: 0; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--mid); transition: color .15s; }
@@ -201,8 +201,8 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
 <!-- TOP NAV -->
 <header class="topnav">
   <div class="nav-brand" onclick="show('home')">
-    <div class="nav-badge">by Jorge Lorenzo</div>
     <div class="nav-title">INSIDE Life</div>
+    <div class="nav-badge">By Jorge Lorenzo</div>
   </div>
   <ul class="nav-links">
     <li><button onclick="show('home')" id="tn-home" class="active">Inicio</button></li>
