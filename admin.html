@@ -50,8 +50,8 @@ body { font-family: 'DM Sans', sans-serif; background: var(--off); color: var(--
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
 .status-txt { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--mid); }
 
-/* MAIN LAYOUT */
-.main { display: grid; grid-template-columns: 340px 1fr; flex: 1; gap: 0; }
+/* MAIN LAYOUT — columna izquierda un poco más ancha para el mapa */
+.main { display: grid; grid-template-columns: minmax(300px, 380px) 1fr; flex: 1; gap: 0; }
 
 /* LEFT PANEL — editor */
 .panel-left { background: var(--white); border-right: 1px solid var(--rule); display: flex; flex-direction: column; overflow-y: auto; }
@@ -82,10 +82,26 @@ body { font-family: 'DM Sans', sans-serif; background: var(--off); color: var(--
 .block-item-info { flex: 1; min-width: 0; }
 .block-item-type { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .1em; text-transform: uppercase; color: var(--red); margin-bottom: 2px; }
 .block-item-preview { font-size: 12px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.block-item-actions { display: flex; gap: 5px; flex-shrink: 0; }
-.icon-btn { background: none; border: 1px solid var(--rule); width: 26px; height: 26px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; transition: all .15s; }
+.block-item-actions { display: flex; gap: 5px; flex-shrink: 0; align-items: center; }
+.icon-btn { background: none; border: 1px solid var(--rule); width: 26px; height: 26px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; transition: all .15s; flex-shrink: 0; }
 .icon-btn:hover { border-color: var(--ink); }
 .icon-btn.del:hover { border-color: var(--red); color: var(--red); }
+.block-order { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--mid); margin-right: 2px; min-width: 1.2em; text-align: center; }
+
+/* Mapa de estructura del newsletter */
+.struct-hint { font-size: 11px; color: var(--mid); line-height: 1.55; margin: -6px 0 12px; }
+.structure-map { display: flex; flex-direction: column; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.struct-row { padding: 10px 12px; display: flex; align-items: flex-start; gap: 10px; border-bottom: 1px solid var(--rule); }
+.struct-row:last-child { border-bottom: none; }
+.struct-row.fixed { background: var(--surface); }
+.struct-row.admin { background: #fffaf7; border-left: 3px solid var(--red); margin-left: 0; }
+.struct-row.slot-hint { background: var(--off); font-size: 10px; color: var(--mid); border-left: 3px dashed var(--rule); }
+.struct-badge { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .08em; text-transform: uppercase; color: var(--mid); min-width: 76px; flex-shrink: 0; line-height: 1.35; }
+.struct-body { flex: 1; min-width: 0; font-size: 12px; line-height: 1.45; color: var(--ink); }
+.struct-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 8px; }
+.struct-btn { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .08em; text-transform: uppercase; padding: 7px 11px; border: 1px solid var(--rule); background: var(--white); cursor: pointer; color: var(--ink); transition: border-color .15s, background .15s; }
+.struct-btn:hover:not(:disabled) { border-color: var(--ink); background: var(--surface); }
+.struct-btn:disabled { opacity: .38; cursor: not-allowed; }
 
 /* Position selector */
 .pos-selector { display: flex; gap: 6px; }
@@ -240,15 +256,16 @@ body { font-family: 'DM Sans', sans-serif; background: var(--off); color: var(--
 
           <div class="editor-actions">
             <button class="btn btn-ghost" onclick="cancelBlock()" style="flex:1;">Cancelar</button>
-            <button class="btn btn-primary" onclick="addBlock()" style="flex:2;">Añadir bloque →</button>
+            <button class="btn btn-primary" id="saveBlockBtn" onclick="addBlock()" style="flex:2;">Añadir bloque →</button>
           </div>
         </div>
       </div>
 
-      <!-- Lista de bloques añadidos -->
-      <div class="panel-section" id="blocksSection" style="display:none;">
-        <div class="panel-title">Bloques añadidos</div>
-        <div class="blocks-list" id="blocksList"></div>
+      <!-- Mapa: piezas del newsletter + tus bloques (mover / editar) -->
+      <div class="panel-section" id="structureSection" style="display:none;">
+        <div class="panel-title">Piezas del newsletter</div>
+        <p class="struct-hint">Orden real de la página: titular, bloques tuyos «Arriba», índice, notas del HTML, bloques «Abajo» y pie. <strong>Subir / Bajar</strong> solo afecta a tus bloques dentro de la misma zona.</p>
+        <div class="structure-map" id="structureMap"></div>
       </div>
 
     </aside>
@@ -279,9 +296,10 @@ const API        = '/api/github';
 var apiBearer    = '';     // Bearer = misma clave que ADMIN_PASS tras login
 var originalHTML = '';
 var currentSHA   = '';
-var blocks       = [];     // bloques añadidos por el admin
-var blockPos     = 'top';  // top | bottom
-var currentType  = null;
+var blocks         = [];     // bloques añadidos por el admin
+var blockPos       = 'top';  // top | bottom
+var currentType    = null;
+var editingBlockId = null;   // si no null, addBlock() actualiza ese bloque
 
 function apiHeaders(jsonBody) {
   var h = { Authorization: 'Bearer ' + apiBearer };
@@ -319,6 +337,7 @@ async function loadNewsletter() {
     currentSHA   = data.sha;
     setStatus('ok', 'Newsletter cargado');
     document.getElementById('publishBtn').disabled = false;
+    renderStructureMap();
     renderPreview();
     toast('Newsletter cargado ✓', 'green');
   } catch (e) {
@@ -329,6 +348,8 @@ async function loadNewsletter() {
 
 // ─── BLOCK TYPES ──────────────────────────────────
 function selectBlockType(type) {
+  editingBlockId = null;
+  document.getElementById('saveBlockBtn').textContent = 'Añadir bloque →';
   currentType = type;
   var titles = { texto:'Bloque de texto', callout:'Bloque callout', promo:'Bloque promoción', imagen:'Bloque imagen' };
   document.getElementById('editorTitle').textContent = titles[type];
@@ -340,6 +361,8 @@ function selectBlockType(type) {
 
 function cancelBlock() {
   currentType = null;
+  editingBlockId = null;
+  document.getElementById('saveBlockBtn').textContent = 'Añadir bloque →';
   document.getElementById('blockEditor').classList.remove('on');
 }
 
@@ -376,7 +399,139 @@ function esc(s) {
   return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-// ─── ADD BLOCK ────────────────────────────────────
+function stripTags(s) {
+  return (s || '').replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]+>/g, '');
+}
+
+function decodeHtmlEntities(s) {
+  var t = document.createElement('textarea');
+  t.innerHTML = (s || '').trim();
+  return t.value;
+}
+
+function parseHeroTitle(html) {
+  var clean = stripInjectedAdminBlocks(html || '');
+  var bm = clean.match(/<h1 class="nl-h1">([\s\S]*?)<\/h1>/);
+  if (!bm) return 'Titular del newsletter';
+  var txt = decodeHtmlEntities(stripTags(bm[1]).replace(/\s+/g, ' ').trim());
+  return txt.length > 100 ? txt.substring(0, 97) + '…' : txt;
+}
+
+function parseNativeArticles(html) {
+  var clean = stripInjectedAdminBlocks(html || '');
+  var matches = [];
+  var reId = /<div class="nl-art[^"]*" id="(a\d+)">/g;
+  var m;
+  while ((m = reId.exec(clean)) !== null) {
+    matches.push({ id: m[1], index: m.index });
+  }
+  return matches.map(function(item, i) {
+    var nextIdx = i + 1 < matches.length ? matches[i + 1].index : clean.indexOf('class="nl-archivo-bar"', item.index);
+    if (nextIdx < 0) nextIdx = item.index + 16000;
+    var slice = clean.slice(item.index, nextIdx);
+    var h2 = slice.match(/<h2 class="art-h2"[^>]*>([\s\S]*?)<\/h2>/);
+    var raw = h2 ? h2[1] : '';
+    var title = decodeHtmlEntities(stripTags(raw).replace(/\s+/g, ' ').trim());
+    if (!title) title = 'Artículo ' + item.id;
+    return { sid: item.id, title: title.length > 92 ? title.substring(0, 89) + '…' : title };
+  });
+}
+
+function structRowFixed(badge, title, kind) {
+  return (
+    '<div class="struct-row fixed" data-kind="' + esc(kind) + '">' +
+    '<div class="struct-badge">' + esc(badge) + '</div>' +
+    '<div class="struct-body">' + esc(title) + '</div></div>'
+  );
+}
+
+function structSlotHint(text) {
+  return (
+    '<div class="struct-row slot-hint">' +
+    '<div class="struct-body" style="width:100%">' + esc(text) + '</div></div>'
+  );
+}
+
+function structRowAdmin(b) {
+  var preview = (b.data && (b.data.title || b.data.body || b.data.label || b.data.url)) || '';
+  var info = sameZoneIndex(b.id);
+  var canUp = info.idx > 0;
+  var canDown = info.idx >= 0 && info.idx < info.list.length - 1;
+  var zone = b.pos === 'top' ? '↑ Tu bloque · arriba' : '↓ Tu bloque · abajo';
+  return (
+    '<div class="struct-row admin">' +
+    '<div class="struct-badge">' + esc(zone) + '<br><span style="color:var(--red)">' + esc(b.type) + '</span></div>' +
+    '<div class="struct-body" style="width:100%">' +
+    '<div style="font-size:12px">' + esc(preview.substring(0, 100)) + (preview.length > 100 ? '…' : '') + '</div>' +
+    '<div class="struct-actions">' +
+    '<button type="button" class="struct-btn" onclick="moveBlockInZone(' + b.id + ',-1)"' + (canUp ? '' : ' disabled') + '>Subir</button>' +
+    '<button type="button" class="struct-btn" onclick="moveBlockInZone(' + b.id + ',1)"' + (canDown ? '' : ' disabled') + '>Bajar</button>' +
+    '<button type="button" class="struct-btn" onclick="editBlock(' + b.id + ')">Editar</button>' +
+    '<button type="button" class="struct-btn" onclick="removeBlock(' + b.id + ')" style="border-color:#c43; color:#a32">Eliminar</button>' +
+    '</div></div></div>'
+  );
+}
+
+function renderStructureMap() {
+  var sec = document.getElementById('structureSection');
+  var el = document.getElementById('structureMap');
+  if (!el || !sec) return;
+  if (!originalHTML) {
+    sec.style.display = 'none';
+    return;
+  }
+  sec.style.display = 'block';
+
+  var articles = parseNativeArticles(originalHTML);
+  var heroTitle = parseHeroTitle(originalHTML);
+  var topList = blocks.filter(function(b) { return b.pos === 'top'; });
+  var botList = blocks.filter(function(b) { return b.pos === 'bottom'; });
+
+  var rows = [];
+  rows.push(structRowFixed('Titular', heroTitle, 'hero'));
+  rows.push(structSlotHint('Tus bloques con posición «Arriba» aparecen aquí (encima del índice).'));
+  if (topList.length === 0) {
+    rows.push(structSlotHint('Aún no hay bloques en esta zona. Añade uno y elige ↑ Arriba.'));
+  } else {
+    topList.forEach(function(b) { rows.push(structRowAdmin(b)); });
+  }
+
+  rows.push(structRowFixed('Índice', '«En esta edición» — enlaces a las notas (viene del HTML)', 'idx'));
+
+  if (articles.length === 0) {
+    rows.push(structSlotHint('No se detectaron artículos (.nl-art) en el HTML cargado.'));
+  } else {
+    articles.forEach(function(a, i) {
+      rows.push(structRowFixed('Nota ' + (i + 1), a.title, 'art'));
+    });
+  }
+
+  rows.push(structRowFixed('Archivo', 'Barra «Ver todas las ediciones»', 'arch'));
+
+  rows.push(structSlotHint('Tus bloques con posición «Abajo» van justo antes del pie.'));
+  if (botList.length === 0) {
+    rows.push(structSlotHint('Ningún bloque abajo. Añade uno y elige ↓ Abajo.'));
+  } else {
+    botList.forEach(function(b) { rows.push(structRowAdmin(b)); });
+  }
+
+  rows.push(structRowFixed('Pie', 'Firma, redes y enlaces legales', 'foot'));
+
+  el.innerHTML = rows.join('');
+}
+
+function setFieldVal(id, v) {
+  var el = document.getElementById(id);
+  if (el) el.value = v != null && v !== undefined ? v : '';
+}
+
+function resetBlockFormFields() {
+  ['ef-texto-title','ef-texto-body','ef-callout-lbl','ef-callout-body','ef-promo-title','ef-promo-body','ef-promo-link','ef-promo-btn','ef-imagen-url','ef-imagen-caption'].forEach(function(id) {
+    setFieldVal(id, '');
+  });
+}
+
+// ─── ADD / SAVE BLOCK ─────────────────────────────
 function addBlock() {
   if (!currentType) return;
   var data = {};
@@ -385,63 +540,130 @@ function addBlock() {
   if (currentType === 'promo')   { data = { title: val('ef-promo-title'), body: val('ef-promo-body'), link: val('ef-promo-link'), btn: val('ef-promo-btn') }; if (!data.title) { toast('Añade título a la promo', 'red'); return; } }
   if (currentType === 'imagen')  { data = { url: val('ef-imagen-url'), caption: val('ef-imagen-caption') }; if (!data.url) { toast('Añade una URL de imagen', 'red'); return; } }
 
+  if (editingBlockId != null) {
+    var bi = blocks.findIndex(function(b) { return b.id === editingBlockId; });
+    if (bi < 0) {
+      editingBlockId = null;
+      document.getElementById('saveBlockBtn').textContent = 'Añadir bloque →';
+      return;
+    }
+    blocks[bi] = { id: blocks[bi].id, type: currentType, data: data, pos: blockPos, html: buildBlockHTML(currentType, data) };
+    editingBlockId = null;
+    document.getElementById('saveBlockBtn').textContent = 'Añadir bloque →';
+    renderStructureMap();
+    renderPreview();
+    toast('Bloque actualizado ✓', 'green');
+    resetBlockFormFields();
+    cancelBlock();
+    return;
+  }
+
   blocks.push({ id: Date.now(), type: currentType, data: data, pos: blockPos, html: buildBlockHTML(currentType, data) });
-  renderBlocksList();
-  cancelBlock();
+  renderStructureMap();
   renderPreview();
   toast('Bloque añadido ✓', 'green');
+  resetBlockFormFields();
+  cancelBlock();
+}
 
-  // Reset fields
-  ['ef-texto-title','ef-texto-body','ef-callout-lbl','ef-callout-body','ef-promo-title','ef-promo-body','ef-promo-link','ef-promo-btn','ef-imagen-url','ef-imagen-caption'].forEach(function(id) {
-    var el = document.getElementById(id); if (el) el.value = '';
+function editBlock(id) {
+  var b = blocks.find(function(x) { return x.id === id; });
+  if (!b) return;
+  editingBlockId = id;
+  currentType = b.type;
+  var titles = { texto:'Bloque de texto', callout:'Bloque callout', promo:'Bloque promoción', imagen:'Bloque imagen' };
+  document.getElementById('editorTitle').textContent = 'Editar: ' + titles[b.type];
+  document.getElementById('saveBlockBtn').textContent = 'Guardar cambios';
+  ['texto','callout','promo','imagen'].forEach(function(t) {
+    document.getElementById('ef-'+t).style.display = t === b.type ? 'block' : 'none';
   });
+  var d = b.data || {};
+  setFieldVal('ef-texto-title', d.title);
+  setFieldVal('ef-texto-body', currentType === 'texto' ? d.body : '');
+  setFieldVal('ef-callout-lbl', d.label);
+  setFieldVal('ef-callout-body', currentType === 'callout' ? d.body : '');
+  setFieldVal('ef-promo-title', d.title);
+  setFieldVal('ef-promo-body', currentType === 'promo' ? d.body : '');
+  setFieldVal('ef-promo-link', d.link);
+  setFieldVal('ef-promo-btn', d.btn);
+  setFieldVal('ef-imagen-url', d.url);
+  setFieldVal('ef-imagen-caption', d.caption);
+  setPos(b.pos);
+  document.getElementById('blockEditor').classList.add('on');
+}
+
+function sameZoneIndex(id) {
+  var target = blocks.find(function(b) { return b.id === id; });
+  if (!target) return { idx: -1, list: [] };
+  var list = [];
+  for (var i = 0; i < blocks.length; i++) {
+    if (blocks[i].pos === target.pos) list.push(blocks[i].id);
+  }
+  return { idx: list.indexOf(id), list: list };
+}
+
+function moveBlockInZone(id, delta) {
+  var info = sameZoneIndex(id);
+  if (info.idx < 0) return;
+  var k = info.idx + delta;
+  if (k < 0 || k >= info.list.length) return;
+  var idA = info.list[info.idx];
+  var idB = info.list[k];
+  var iA = blocks.findIndex(function(b) { return b.id === idA; });
+  var iB = blocks.findIndex(function(b) { return b.id === idB; });
+  if (iA < 0 || iB < 0) return;
+  var t = blocks[iA];
+  blocks[iA] = blocks[iB];
+  blocks[iB] = t;
+  renderStructureMap();
+  renderPreview();
 }
 
 function val(id) { return (document.getElementById(id)||{}).value || ''; }
 
 function removeBlock(id) {
+  if (editingBlockId === id) cancelBlock();
   blocks = blocks.filter(function(b) { return b.id !== id; });
-  renderBlocksList();
+  renderStructureMap();
   renderPreview();
 }
 
-function renderBlocksList() {
-  var list = document.getElementById('blocksList');
-  var sec  = document.getElementById('blocksSection');
-  if (blocks.length === 0) { sec.style.display = 'none'; return; }
-  sec.style.display = 'block';
-  list.innerHTML = blocks.map(function(b) {
-    var preview = b.data.title || b.data.body || b.data.label || b.data.url || '';
-    return '<div class="block-item">' +
-      '<div class="block-item-info">' +
-        '<div class="block-item-type">' + (b.pos === 'top' ? '↑ ' : '↓ ') + b.type + '</div>' +
-        '<div class="block-item-preview">' + esc(preview.substring(0,60)) + '</div>' +
-      '</div>' +
-      '<div class="block-item-actions">' +
-        '<button class="icon-btn del" onclick="removeBlock(' + b.id + ')" title="Eliminar">✕</button>' +
-      '</div>' +
-    '</div>';
-  }).join('');
+// ─── PREVIEW ──────────────────────────────────────
+function stripInjectedAdminBlocks(html) {
+  return (html || '')
+    .replace(/<!-- ADMIN BLOCKS TOP -->[\s\S]*?<!-- \/ADMIN BLOCKS TOP -->/gi, '')
+    .replace(/<!-- ADMIN BLOCKS BOTTOM -->[\s\S]*?<!-- \/ADMIN BLOCKS BOTTOM -->/gi, '');
 }
 
-// ─── PREVIEW ──────────────────────────────────────
 function buildFinalHTML() {
   if (!originalHTML) return '';
-  var html = originalHTML;
+  var html = stripInjectedAdminBlocks(originalHTML);
 
-  // Inject top blocks after <body>
   var topBlocks = blocks.filter(function(b) { return b.pos === 'top'; });
   var bottomBlocks = blocks.filter(function(b) { return b.pos === 'bottom'; });
 
   if (topBlocks.length > 0) {
     var topHTML = '<!-- ADMIN BLOCKS TOP -->' + topBlocks.map(function(b) { return b.html; }).join('') + '<!-- /ADMIN BLOCKS TOP -->';
-    // Insert after nl-hero section
-    html = html.replace('</div>\n    <div class="nl-idx">', '</div>\n' + topHTML + '\n    <div class="nl-idx">');
+    var replaced = false;
+    html = html.replace(/(\r?\n)(\s*)<div class="nl-idx">/, function(_, nl, indent) {
+      replaced = true;
+      return nl + topHTML + nl + indent + '<div class="nl-idx">';
+    });
+    if (!replaced) {
+      console.warn('Admin: no se encontró .nl-idx; bloques superiores no insertados.');
+    }
   }
 
   if (bottomBlocks.length > 0) {
     var botHTML = '<!-- ADMIN BLOCKS BOTTOM -->' + bottomBlocks.map(function(b) { return b.html; }).join('') + '<!-- /ADMIN BLOCKS BOTTOM -->';
-    html = html.replace('<div class="nl-foot">', botHTML + '\n    <div class="nl-foot">');
+    var replacedB = false;
+    html = html.replace(/(\r?\n)(\s*)<div class="nl-foot">/, function(_, nl, indent) {
+      replacedB = true;
+      return nl + botHTML + nl + indent + '<div class="nl-foot">';
+    });
+    if (!replacedB) {
+      console.warn('Admin: no se encontró .nl-foot; bloques inferiores no insertados.');
+    }
   }
 
   return html;
