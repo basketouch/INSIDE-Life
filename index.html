@@ -151,7 +151,8 @@ body{font-family:var(--sans);background:var(--white);color:var(--ink);-webkit-fo
 .sf-links a:hover{color:var(--ink);}
 
 @media(max-width:800px){
-  .nav{padding:0 16px;}.nav-links{display:none;}.nav-mobile{display:flex;gap:0;}
+  .nav{padding:0 16px;}.nav-links{display:none;}.bottom-nav{display:flex;}
+  .section{padding-bottom:66px;}
   #section-reader.active{grid-template-columns:1fr;}
     .nl-hero,.nl-index,.nl-sec,.nl-footer-r{padding-left:22px;padding-right:22px;}
   .reader-back{padding:12px 22px;}
@@ -200,16 +201,16 @@ body{font-family:var(--sans);background:var(--white);color:var(--ink);-webkit-fo
 
 
 <nav class="nav">
-  <div class="nav-logo" onclick="showSection('home')">
+  <div class="nav-logo" onclick="showSection('home');return false;" style="cursor:pointer;">
     <div class="nav-badge">by Jorge Lorenzo</div>
     <div class="nav-name">INSIDE Life</div>
   </div>
   <ul class="nav-links">
-    <li><a onclick="showSection('home')" id="nl-home" class="active">Inicio</a></li>
-    <li><a onclick="showSection('newsletter')" id="nl-newsletter">Newsletter</a></li>
-    <li><a onclick="showSection('sobre')" id="nl-sobre">Sobre mí</a></li>
+    <li><a href="#" onclick="showSection('home');return false;" id="nl-home" class="active">Inicio</a></li>
+    <li><a href="#" onclick="showSection('newsletter');return false;" id="nl-newsletter">Newsletter</a></li>
+    <li><a href="#" onclick="showSection('sobre');return false;" id="nl-sobre">Sobre mí</a></li>
   </ul>
-  <a onclick="showSection('home');setTimeout(()=>{const el=document.getElementById('EMAIL');if(el){el.scrollIntoView({behavior:'smooth',block:'center'});el.focus();}},150);" class="nav-btn">Suscribirse</a>
+  <a href="#" onclick="showSection('home');setTimeout(()=>{const el=document.getElementById('EMAIL');if(el){el.scrollIntoView({behavior:'smooth',block:'center'});el.focus();}},150);" class="nav-btn">Suscribirse</a>
 </nav>
 
 <!-- HOME -->
@@ -294,7 +295,7 @@ body{font-family:var(--sans);background:var(--white);color:var(--ink);-webkit-fo
     <h2 class="page-title">Newsletter</h2>
     <p class="page-sub">Todas las ediciones. Cada una con su asistente 🪔 — 3 preguntas para profundizar en los temas.</p>
     <div class="nl-grid">
-      <div class="nl-card" onclick="openReader()">
+      <div class="nl-card" onclick="openReader();return false;" role="button" tabindex="0">
         <div class="nl-card-num">Edición #042</div>
         <div class="nl-card-title">IA, mercados y fútbol: la semana que lo cambió todo</div>
         <div class="nl-card-tags">
@@ -331,7 +332,7 @@ body{font-family:var(--sans);background:var(--white);color:var(--ink);-webkit-fo
 <!-- READER -->
 <section id="section-reader">
   <div class="reader-back" style="grid-column:1/-1;">
-    <button class="back-btn" onclick="closeReader()">← Volver a Newsletter</button>
+    <button class="back-btn" onclick="closeReader();return false;">← Volver a Newsletter</button>
   </div>
   <div class="reader-nl">
     <section class="nl-hero">
@@ -441,9 +442,9 @@ function closeReader(){
 
 <!-- BOTTOM NAV (mobile only) -->
 <nav class="bottom-nav" id="bottomNav">
-  <a onclick="showSection('home')" id="bn-home" class="active">Inicio</a>
-  <a onclick="showSection('newsletter')" id="bn-newsletter">Newsletter</a>
-  <a onclick="showSection('sobre')" id="bn-sobre">Sobre mí</a>
+  <a href="#" onclick="showSection('home');return false;" id="bn-home" class="active">Inicio</a>
+  <a href="#" onclick="showSection('newsletter');return false;" id="bn-newsletter">Newsletter</a>
+  <a href="#" onclick="showSection('sobre');return false;" id="bn-sobre">Sobre mí</a>
 </nav>
 </body>
 </html>
