@@ -270,16 +270,24 @@ body { font-family: 'DM Sans', sans-serif; background: var(--off); color: var(--
 
 <script>
 // ─── CONFIG ───────────────────────────────────────
-const ADMIN_PASS = 'insidelife2026'; // Cambia esto
+// Debe coincidir con ADMIN_API_SECRET en Vercel (Settings → Environment Variables).
+const ADMIN_PASS = 'insidelife2026'; // Cambia esto en producción
 const FILE       = 'newsletter.html';
 const API        = '/api/github';
 
 // ─── STATE ────────────────────────────────────────
+var apiBearer    = '';     // Bearer = misma clave que ADMIN_PASS tras login
 var originalHTML = '';
 var currentSHA   = '';
 var blocks       = [];     // bloques añadidos por el admin
 var blockPos     = 'top';  // top | bottom
 var currentType  = null;
+
+function apiHeaders(jsonBody) {
+  var h = { Authorization: 'Bearer ' + apiBearer };
+  if (jsonBody) h['Content-Type'] = 'application/json';
+  return h;
+}
 
 // ─── LOGIN ────────────────────────────────────────
 document.getElementById('loginPass').addEventListener('keydown', function(e) {
@@ -289,6 +297,7 @@ document.getElementById('loginPass').addEventListener('keydown', function(e) {
 function doLogin() {
   var pass = document.getElementById('loginPass').value;
   if (pass === ADMIN_PASS) {
+    apiBearer = pass;
     document.getElementById('loginOv').style.display = 'none';
     document.getElementById('app').classList.add('on');
     loadNewsletter();
@@ -303,7 +312,7 @@ function doLogin() {
 async function loadNewsletter() {
   setStatus('loading', 'Cargando...');
   try {
-    var r = await fetch(API + '?file=' + FILE);
+    var r = await fetch(API + '?file=' + encodeURIComponent(FILE), { headers: apiHeaders(false) });
     var data = await r.json();
     if (data.error) throw new Error(data.error);
     originalHTML = data.content;
@@ -466,7 +475,7 @@ async function publish() {
     var finalHTML = buildFinalHTML();
     var r = await fetch(API, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: apiHeaders(true),
       body: JSON.stringify({
         file: FILE,
         content: finalHTML,

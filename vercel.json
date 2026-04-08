@@ -13,6 +13,8 @@
     { "source": "/documentos-legales/terminos-y-condiciones-de-uso", "destination": "/documentos-legales/terminos-y-condiciones-de-uso.html" },
     { "source": "/documentos-legales/terminos-y-condiciones-de-uso/", "destination": "/documentos-legales/terminos-y-condiciones-de-uso.html" },
     { "source": "/documentos-legales/politica-de-cookies", "destination": "/documentos-legales/politica-de-cookies.html" },
-    { "source": "/documentos-legales/politica-de-cookies/", "destination": "/documentos-legales/politica-de-cookies.html" }
+    { "source": "/documentos-legales/politica-de-cookies/", "destination": "/documentos-legales/politica-de-cookies.html" },
+    { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/admin/", "destination": "/admin.html" }
   ]
 }
