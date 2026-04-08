@@ -470,7 +470,7 @@ function applyNativeArticleReorder(html) {
     var archEl = sec.querySelector('.nl-archivo-bar');
     if (!archEl) return html;
 
-    for (var j = order.length - 1; j >= 0; j--) {
+    for (var j = 0; j < order.length; j++) {
       var sid = order[j];
       var node = map[sid];
       var newI = j + 1;
