@@ -51,7 +51,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--off); color: var(--
 .status-txt { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--mid); }
 
 /* MAIN LAYOUT — columna izquierda un poco más ancha para el mapa */
-.main { display: grid; grid-template-columns: minmax(300px, 380px) 1fr; flex: 1; gap: 0; }
+.main { display: grid; grid-template-columns: minmax(340px, 460px) 1fr; flex: 1; gap: 0; }
 
 /* LEFT PANEL — editor */
 .panel-left { background: var(--white); border-right: 1px solid var(--rule); display: flex; flex-direction: column; overflow-y: auto; }
@@ -154,6 +154,26 @@ body { font-family: 'DM Sans', sans-serif; background: var(--off); color: var(--
 
     <!-- LEFT: EDITOR -->
     <aside class="panel-left">
+
+      <div class="panel-section">
+        <div class="panel-title">Titular</div>
+        <div class="field-group">
+          <label class="field-lbl" for="heroPageTitle">Título (pestaña del navegador)</label>
+          <input class="field-in" type="text" id="heroPageTitle" onchange="renderPreview()"/>
+        </div>
+        <div class="field-group">
+          <label class="field-lbl" for="heroEditionLine">Línea de edición</label>
+          <input class="field-in" type="text" id="heroEditionLine" onchange="renderPreview()" placeholder="Ej: 🌟 Edición #042 · 7 Abril 2026"/>
+        </div>
+        <div class="field-group">
+          <label class="field-lbl" for="heroH1Html">Titular principal</label>
+          <textarea class="field-in" id="heroH1Html" rows="4" onchange="renderPreview()" placeholder="HTML: &lt;br&gt;, &lt;em&gt;…&lt;/em&gt;"></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-lbl" for="heroMetaDesc">Descripción (meta)</label>
+          <input class="field-in" type="text" id="heroMetaDesc" onchange="renderPreview()"/>
+        </div>
+      </div>
 
       <!-- Añadir bloque -->
       <div class="panel-section">
@@ -346,6 +366,7 @@ async function loadNewsletter() {
     nativeArticleOverrides = {};
     cancelNativeArticleEdit();
     syncArticleOrderFromHtml();
+    populateHeroFieldsFromHtml();
     setStatus('ok', 'Newsletter cargado');
     document.getElementById('publishBtn').disabled = false;
     renderStructureMap();
@@ -800,10 +821,47 @@ function stripInjectedAdminBlocks(html) {
     .replace(/<!-- ADMIN BLOCKS BOTTOM -->[\s\S]*?<!-- \/ADMIN BLOCKS BOTTOM -->/gi, '');
 }
 
+function populateHeroFieldsFromHtml() {
+  try {
+    var raw = stripInjectedAdminBlocks(originalHTML || '');
+    var doc = new DOMParser().parseFromString(raw, 'text/html');
+    var t = doc.querySelector('title');
+    setFieldVal('heroPageTitle', t ? t.textContent : '');
+    var md = doc.querySelector('meta[name="description"]');
+    setFieldVal('heroMetaDesc', md ? (md.getAttribute('content') || '') : '');
+    var h1 = doc.querySelector('h1.nl-h1');
+    setFieldVal('heroH1Html', h1 ? h1.innerHTML : '');
+    var ey = doc.querySelector('.nl-ey');
+    setFieldVal('heroEditionLine', ey ? ey.textContent.trim() : '');
+  } catch (e) {}
+}
+
+function applyHeroEditsFromForm(html) {
+  try {
+    var doc = new DOMParser().parseFromString(html, 'text/html');
+    var tel = doc.querySelector('title');
+    if (tel) tel.textContent = val('heroPageTitle');
+    var meta = doc.querySelector('meta[name="description"]');
+    if (meta) meta.setAttribute('content', val('heroMetaDesc'));
+    var h1 = doc.querySelector('h1.nl-h1');
+    if (h1) h1.innerHTML = val('heroH1Html');
+    var ed = val('heroEditionLine');
+    var ey = doc.querySelector('.nl-ey');
+    if (ey) ey.textContent = ed;
+    var re = doc.querySelector('.reader-edition');
+    if (re) re.textContent = ed;
+    return serializeHTMLDocument(doc);
+  } catch (e) {
+    console.warn('applyHeroEditsFromForm', e);
+    return html;
+  }
+}
+
 function buildFinalHTML() {
   if (!originalHTML) return '';
   var html = stripInjectedAdminBlocks(originalHTML);
   html = applyNativeArticleReorder(html);
+  html = applyHeroEditsFromForm(html);
 
   var topBlocks = blocks.filter(function(b) { return b.pos === 'top'; });
   var bottomBlocks = blocks.filter(function(b) { return b.pos === 'bottom'; });
