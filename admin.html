@@ -58,6 +58,40 @@ body { font-family: 'DM Sans', sans-serif; background: var(--off); color: var(--
 .panel-section { padding: 20px 22px; border-bottom: 1px solid var(--rule); }
 .panel-title { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--mid); margin-bottom: 14px; }
 
+/* Secciones plegables (Titular, Añadir bloque, Orden) */
+details.panel-collapsible { padding: 20px 22px; border-bottom: 1px solid var(--rule); }
+details.panel-collapsible > summary.panel-disclosure {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--mid);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  user-select: none;
+}
+details.panel-collapsible > summary.panel-disclosure::-webkit-details-marker { display: none; }
+details.panel-collapsible > summary.panel-disclosure::after {
+  content: '';
+  width: 0; height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid var(--mid);
+  flex-shrink: 0;
+  transition: transform .18s ease;
+  opacity: .75;
+}
+details.panel-collapsible:not([open]) > summary.panel-disclosure::after {
+  transform: rotate(-90deg);
+}
+details.panel-collapsible[open] > summary.panel-disclosure {
+  margin-bottom: 14px;
+}
+
 /* Block adder */
 .block-types { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
 .block-type-btn { background: var(--off); border: 1px solid var(--rule); padding: 10px 12px; cursor: pointer; transition: all .15s; text-align: left; font-family: 'DM Sans', sans-serif; }
@@ -155,8 +189,8 @@ body { font-family: 'DM Sans', sans-serif; background: var(--off); color: var(--
     <!-- LEFT: EDITOR -->
     <aside class="panel-left">
 
-      <div class="panel-section">
-        <div class="panel-title">Titular</div>
+      <details class="panel-collapsible" open>
+        <summary class="panel-disclosure">Titular</summary>
         <div class="field-group">
           <label class="field-lbl" for="heroPageTitle">Título (pestaña del navegador)</label>
           <input class="field-in" type="text" id="heroPageTitle" onchange="renderPreview()"/>
@@ -173,11 +207,11 @@ body { font-family: 'DM Sans', sans-serif; background: var(--off); color: var(--
           <label class="field-lbl" for="heroMetaDesc">Descripción (meta)</label>
           <input class="field-in" type="text" id="heroMetaDesc" onchange="renderPreview()"/>
         </div>
-      </div>
+      </details>
 
       <!-- Añadir bloque -->
-      <div class="panel-section">
-        <div class="panel-title">Añadir bloque</div>
+      <details class="panel-collapsible" open>
+        <summary class="panel-disclosure">Añadir bloque</summary>
         <div class="block-types">
           <button class="block-type-btn" onclick="selectBlockType('texto')">
             <span class="bt-icon">📝</span>
@@ -200,7 +234,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--off); color: var(--
             <div class="bt-desc">URL de imagen</div>
           </button>
         </div>
-      </div>
+      </details>
 
       <!-- Editor de bloque activo -->
       <div class="panel-section">
@@ -280,8 +314,8 @@ body { font-family: 'DM Sans', sans-serif; background: var(--off); color: var(--
       </div>
 
       <!-- Mapa: piezas del newsletter + tus bloques (mover / editar) -->
-      <div class="panel-section" id="structureSection" style="display:none;">
-        <div class="panel-title">Orden</div>
+      <details class="panel-collapsible" id="structureSection" style="display:none;" open>
+        <summary class="panel-disclosure">Orden</summary>
         <div class="structure-map" id="structureMap"></div>
         <div id="nativeArticleEditor" style="display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--rule);">
           <div class="panel-title">Editar nota <span id="nativeEditSidLabel"></span></div>
@@ -291,7 +325,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--off); color: var(--
             <button type="button" class="btn btn-primary" onclick="saveNativeArticleEdit()" style="flex:2;">Guardar nota</button>
           </div>
         </div>
-      </div>
+      </details>
 
     </aside>
 
@@ -590,6 +624,8 @@ function getNativeArticleOuterHtmlBySid(sid) {
 function editNativeArticle(sid) {
   cancelBlock();
   editingNativeSid = sid;
+  var ord = document.getElementById('structureSection');
+  if (ord && ord.tagName === 'DETAILS') ord.open = true;
   var panel = document.getElementById('nativeArticleEditor');
   document.getElementById('nativeEditSidLabel').textContent = '· ' + sid;
   setFieldVal('nativeArticleEditorHtml', getNativeArticleOuterHtmlBySid(sid));
