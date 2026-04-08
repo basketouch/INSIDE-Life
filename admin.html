@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INSIDE Life — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white: #ffffff; --off: #f8f6f2; --ink: #111111;
+  --mid: #767676; --rule: #e8e4de; --red: #e8401c;
+  --green: #1a9e5c; --surface: #fafaf8;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: var(--off); color: var(--ink); -webkit-font-smoothing: antialiased; min-height: 100vh; }
+
+/* ── LOGIN ── */
+.login-ov { position: fixed; inset: 0; background: var(--off); display: flex; align-items: center; justify-content: center; z-index: 999; padding: 20px; }
+.login-box { background: var(--white); box-shadow: 8px 8px 0 var(--ink); padding: 40px 36px; max-width: 400px; width: 100%; }
+.login-logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: var(--ink); margin-bottom: 4px; }
+.login-sub { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--red); margin-bottom: 24px; }
+.login-lbl { display: block; font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--mid); margin-bottom: 7px; }
+.login-in { width: 100%; border: 1px solid var(--rule); background: var(--off); font-family: 'DM Mono', monospace; font-size: 13px; padding: 11px 14px; color: var(--ink); outline: none; margin-bottom: 12px; transition: border-color .15s; }
+.login-in:focus { border-color: var(--ink); }
+.login-btn { width: 100%; background: var(--ink); color: #fff; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; padding: 13px; border: none; cursor: pointer; transition: background .15s; }
+.login-btn:hover { background: var(--red); }
+.login-err { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--red); margin-bottom: 10px; display: none; }
+
+/* ── APP ── */
+.app { display: none; flex-direction: column; min-height: 100vh; }
+.app.on { display: flex; }
+
+/* TOP BAR */
+.topbar { background: var(--white); border-bottom: 1px solid var(--rule); height: 54px; display: flex; align-items: center; justify-content: space-between; padding: 0 32px; position: sticky; top: 0; z-index: 50; }
+.topbar-brand { display: flex; align-items: center; gap: 10px; }
+.topbar-logo { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 900; color: var(--ink); }
+.topbar-tag { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .14em; text-transform: uppercase; background: var(--red); color: #fff; padding: 3px 7px; }
+.topbar-actions { display: flex; align-items: center; gap: 10px; }
+.btn { font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; padding: 8px 16px; border: none; cursor: pointer; transition: all .15s; }
+.btn-ghost { background: none; border: 1px solid var(--rule); color: var(--mid); }
+.btn-ghost:hover { border-color: var(--ink); color: var(--ink); }
+.btn-primary { background: var(--ink); color: #fff; }
+.btn-primary:hover { background: var(--red); }
+.btn-publish { background: var(--green); color: #fff; font-size: 10px; }
+.btn-publish:hover { opacity: .88; }
+.btn-publish:disabled { opacity: .4; cursor: not-allowed; }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--rule); display: inline-block; margin-right: 6px; }
+.status-dot.ok { background: var(--green); }
+.status-dot.loading { background: #f5a51c; animation: pulse 1s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+.status-txt { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--mid); }
+
+/* MAIN LAYOUT */
+.main { display: grid; grid-template-columns: 340px 1fr; flex: 1; gap: 0; }
+
+/* LEFT PANEL — editor */
+.panel-left { background: var(--white); border-right: 1px solid var(--rule); display: flex; flex-direction: column; overflow-y: auto; }
+.panel-section { padding: 20px 22px; border-bottom: 1px solid var(--rule); }
+.panel-title { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--mid); margin-bottom: 14px; }
+
+/* Block adder */
+.block-types { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+.block-type-btn { background: var(--off); border: 1px solid var(--rule); padding: 10px 12px; cursor: pointer; transition: all .15s; text-align: left; font-family: 'DM Sans', sans-serif; }
+.block-type-btn:hover { border-color: var(--ink); background: var(--white); }
+.bt-icon { font-size: 16px; display: block; margin-bottom: 4px; }
+.bt-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink); }
+.bt-desc { font-size: 10px; color: var(--mid); margin-top: 2px; }
+
+/* Block editor */
+.block-editor { display: none; }
+.block-editor.on { display: block; }
+.field-group { margin-bottom: 12px; }
+.field-lbl { display: block; font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--mid); margin-bottom: 5px; }
+.field-in { width: 100%; border: 1px solid var(--rule); background: var(--off); font-family: 'DM Sans', sans-serif; font-size: 13px; padding: 9px 12px; color: var(--ink); outline: none; transition: border-color .15s; resize: vertical; min-height: 38px; }
+.field-in:focus { border-color: var(--ink); }
+.field-select { width: 100%; border: 1px solid var(--rule); background: var(--off); font-family: 'DM Mono', monospace; font-size: 11px; padding: 9px 12px; color: var(--ink); outline: none; cursor: pointer; }
+.editor-actions { display: flex; gap: 8px; margin-top: 14px; }
+
+/* Blocks list */
+.blocks-list { display: flex; flex-direction: column; gap: 6px; }
+.block-item { background: var(--off); border: 1px solid var(--rule); padding: 10px 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.block-item-info { flex: 1; min-width: 0; }
+.block-item-type { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .1em; text-transform: uppercase; color: var(--red); margin-bottom: 2px; }
+.block-item-preview { font-size: 12px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.block-item-actions { display: flex; gap: 5px; flex-shrink: 0; }
+.icon-btn { background: none; border: 1px solid var(--rule); width: 26px; height: 26px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; transition: all .15s; }
+.icon-btn:hover { border-color: var(--ink); }
+.icon-btn.del:hover { border-color: var(--red); color: var(--red); }
+
+/* Position selector */
+.pos-selector { display: flex; gap: 6px; }
+.pos-btn { flex: 1; padding: 7px; font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; border: 1px solid var(--rule); background: var(--off); cursor: pointer; transition: all .15s; color: var(--mid); }
+.pos-btn.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+/* RIGHT PANEL — preview */
+.panel-right { background: #f0eee9; overflow-y: auto; display: flex; flex-direction: column; align-items: center; padding: 32px 24px; }
+.preview-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--mid); margin-bottom: 16px; align-self: flex-start; }
+.preview-frame { width: 100%; max-width: 680px; background: var(--white); box-shadow: 0 4px 24px rgba(0,0,0,.1); }
+.preview-frame iframe { width: 100%; border: none; display: block; }
+
+/* TOAST */
+.toast { position: fixed; bottom: 24px; right: 24px; background: var(--ink); color: #fff; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: .08em; padding: 12px 20px; z-index: 999; transform: translateY(80px); opacity: 0; transition: all .25s; }
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.green { background: var(--green); }
+.toast.red { background: var(--red); }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-ov" id="loginOv">
+  <div class="login-box">
+    <div class="login-logo">INSIDE Life</div>
+    <div class="login-sub">Panel de administración</div>
+    <div class="login-err" id="loginErr">Contraseña incorrecta</div>
+    <label class="login-lbl" for="loginPass">Contraseña</label>
+    <input class="login-in" type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password"/>
+    <button class="login-btn" onclick="doLogin()">Entrar →</button>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app" id="app">
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-brand">
+      <div class="topbar-logo">INSIDE Life</div>
+      <div class="topbar-tag">Admin</div>
+    </div>
+    <div class="topbar-actions">
+      <span><span class="status-dot" id="statusDot"></span><span class="status-txt" id="statusTxt">Cargando...</span></span>
+      <button class="btn btn-ghost" onclick="loadNewsletter()">↻ Recargar</button>
+      <button class="btn btn-ghost" onclick="togglePreview()">👁 Preview</button>
+      <button class="btn btn-publish" id="publishBtn" onclick="publish()" disabled>▲ Publicar</button>
+    </div>
+  </header>
+
+  <div class="main">
+
+    <!-- LEFT: EDITOR -->
+    <aside class="panel-left">
+
+      <!-- Añadir bloque -->
+      <div class="panel-section">
+        <div class="panel-title">Añadir bloque</div>
+        <div class="block-types">
+          <button class="block-type-btn" onclick="selectBlockType('texto')">
+            <span class="bt-icon">📝</span>
+            <span class="bt-label">Texto</span>
+            <div class="bt-desc">Párrafo libre</div>
+          </button>
+          <button class="block-type-btn" onclick="selectBlockType('callout')">
+            <span class="bt-icon">📌</span>
+            <span class="bt-label">Callout</span>
+            <div class="bt-desc">Bloque destacado</div>
+          </button>
+          <button class="block-type-btn" onclick="selectBlockType('promo')">
+            <span class="bt-icon">🔥</span>
+            <span class="bt-label">Promo</span>
+            <div class="bt-desc">Fondo oscuro</div>
+          </button>
+          <button class="block-type-btn" onclick="selectBlockType('imagen')">
+            <span class="bt-icon">🖼</span>
+            <span class="bt-label">Imagen</span>
+            <div class="bt-desc">URL de imagen</div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Editor de bloque activo -->
+      <div class="panel-section">
+        <div class="block-editor" id="blockEditor">
+          <div class="panel-title" id="editorTitle">Nuevo bloque</div>
+
+          <!-- Texto -->
+          <div id="ef-texto">
+            <div class="field-group">
+              <label class="field-lbl">Título (opcional)</label>
+              <input class="field-in" type="text" id="ef-texto-title" placeholder="Ej: Esta semana..."/>
+            </div>
+            <div class="field-group">
+              <label class="field-lbl">Contenido</label>
+              <textarea class="field-in" id="ef-texto-body" rows="5" placeholder="Escribe aquí el contenido del bloque..."></textarea>
+            </div>
+          </div>
+
+          <!-- Callout -->
+          <div id="ef-callout" style="display:none;">
+            <div class="field-group">
+              <label class="field-lbl">Etiqueta</label>
+              <input class="field-in" type="text" id="ef-callout-lbl" placeholder="Ej: 📌 Por qué importa"/>
+            </div>
+            <div class="field-group">
+              <label class="field-lbl">Texto</label>
+              <textarea class="field-in" id="ef-callout-body" rows="4" placeholder="Contenido del callout..."></textarea>
+            </div>
+          </div>
+
+          <!-- Promo -->
+          <div id="ef-promo" style="display:none;">
+            <div class="field-group">
+              <label class="field-lbl">Título</label>
+              <input class="field-in" type="text" id="ef-promo-title" placeholder="Ej: 🔥 Oferta especial"/>
+            </div>
+            <div class="field-group">
+              <label class="field-lbl">Texto</label>
+              <textarea class="field-in" id="ef-promo-body" rows="3" placeholder="Descripción de la promo..."></textarea>
+            </div>
+            <div class="field-group">
+              <label class="field-lbl">Enlace (opcional)</label>
+              <input class="field-in" type="text" id="ef-promo-link" placeholder="https://..."/>
+            </div>
+            <div class="field-group">
+              <label class="field-lbl">Texto del botón</label>
+              <input class="field-in" type="text" id="ef-promo-btn" placeholder="Ej: Ver más →"/>
+            </div>
+          </div>
+
+          <!-- Imagen -->
+          <div id="ef-imagen" style="display:none;">
+            <div class="field-group">
+              <label class="field-lbl">URL de la imagen</label>
+              <input class="field-in" type="text" id="ef-imagen-url" placeholder="https://..."/>
+            </div>
+            <div class="field-group">
+              <label class="field-lbl">Pie de foto (opcional)</label>
+              <input class="field-in" type="text" id="ef-imagen-caption" placeholder="Descripción de la imagen"/>
+            </div>
+          </div>
+
+          <!-- Posición -->
+          <div class="field-group" style="margin-top:16px;">
+            <label class="field-lbl">Posición en el newsletter</label>
+            <div class="pos-selector">
+              <button class="pos-btn active" id="pos-top" onclick="setPos('top')">↑ Arriba</button>
+              <button class="pos-btn" id="pos-bottom" onclick="setPos('bottom')">↓ Abajo</button>
+            </div>
+          </div>
+
+          <div class="editor-actions">
+            <button class="btn btn-ghost" onclick="cancelBlock()" style="flex:1;">Cancelar</button>
+            <button class="btn btn-primary" onclick="addBlock()" style="flex:2;">Añadir bloque →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lista de bloques añadidos -->
+      <div class="panel-section" id="blocksSection" style="display:none;">
+        <div class="panel-title">Bloques añadidos</div>
+        <div class="blocks-list" id="blocksList"></div>
+      </div>
+
+    </aside>
+
+    <!-- RIGHT: PREVIEW -->
+    <div class="panel-right" id="panelRight">
+      <div class="preview-label">Vista previa del newsletter</div>
+      <div class="preview-frame">
+        <iframe id="previewFrame" style="min-height:600px;"></iframe>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── CONFIG ───────────────────────────────────────
+const ADMIN_PASS = 'insidelife2026'; // Cambia esto
+const FILE       = 'newsletter.html';
+const API        = '/api/github';
+
+// ─── STATE ────────────────────────────────────────
+var originalHTML = '';
+var currentSHA   = '';
+var blocks       = [];     // bloques añadidos por el admin
+var blockPos     = 'top';  // top | bottom
+var currentType  = null;
+
+// ─── LOGIN ────────────────────────────────────────
+document.getElementById('loginPass').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') doLogin();
+});
+
+function doLogin() {
+  var pass = document.getElementById('loginPass').value;
+  if (pass === ADMIN_PASS) {
+    document.getElementById('loginOv').style.display = 'none';
+    document.getElementById('app').classList.add('on');
+    loadNewsletter();
+  } else {
+    document.getElementById('loginErr').style.display = 'block';
+    document.getElementById('loginPass').value = '';
+    document.getElementById('loginPass').focus();
+  }
+}
+
+// ─── LOAD NEWSLETTER ──────────────────────────────
+async function loadNewsletter() {
+  setStatus('loading', 'Cargando...');
+  try {
+    var r = await fetch(API + '?file=' + FILE);
+    var data = await r.json();
+    if (data.error) throw new Error(data.error);
+    originalHTML = data.content;
+    currentSHA   = data.sha;
+    setStatus('ok', 'Newsletter cargado');
+    document.getElementById('publishBtn').disabled = false;
+    renderPreview();
+    toast('Newsletter cargado ✓', 'green');
+  } catch (e) {
+    setStatus('', 'Error al cargar');
+    toast('Error: ' + e.message, 'red');
+  }
+}
+
+// ─── BLOCK TYPES ──────────────────────────────────
+function selectBlockType(type) {
+  currentType = type;
+  var titles = { texto:'Bloque de texto', callout:'Bloque callout', promo:'Bloque promoción', imagen:'Bloque imagen' };
+  document.getElementById('editorTitle').textContent = titles[type];
+  ['texto','callout','promo','imagen'].forEach(function(t) {
+    document.getElementById('ef-'+t).style.display = t === type ? 'block' : 'none';
+  });
+  document.getElementById('blockEditor').classList.add('on');
+}
+
+function cancelBlock() {
+  currentType = null;
+  document.getElementById('blockEditor').classList.remove('on');
+}
+
+function setPos(p) {
+  blockPos = p;
+  document.getElementById('pos-top').classList.toggle('active', p === 'top');
+  document.getElementById('pos-bottom').classList.toggle('active', p === 'bottom');
+}
+
+// ─── BUILD BLOCK HTML ─────────────────────────────
+function buildBlockHTML(type, data) {
+  if (type === 'texto') {
+    var t = data.title ? '<h2 class="art-h2" style="font-family:\'Playfair Display\',serif;font-size:19px;font-weight:700;line-height:1.22;color:#111;margin-bottom:10px;">' + esc(data.title) + '</h2>' : '';
+    return '<div class="nl-art" style="padding:28px 40px;border-bottom:1px solid #e8e4de;">' + t + '<div class="art-body" style="font-size:13.5px;line-height:1.8;color:#2d2d2d;">' + esc(data.body).replace(/\n/g,'<br>') + '</div></div>';
+  }
+  if (type === 'callout') {
+    return '<div style="padding:0 40px 0;"><div class="callout" style="background:#f8f6f2;border-left:3px solid #e8401c;padding:11px 14px;margin:15px 0;font-size:12.5px;line-height:1.65;color:#333;"><div style="font-family:\'DM Mono\',monospace;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:#e8401c;margin-bottom:5px;">' + esc(data.label) + '</div>' + esc(data.body).replace(/\n/g,'<br>') + '</div></div>';
+  }
+  if (type === 'promo') {
+    var btn = data.link ? '<a href="' + esc(data.link) + '" style="display:inline-block;margin-top:14px;background:#fff;color:#111;font-family:\'DM Mono\',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:10px 20px;text-decoration:none;">' + esc(data.btn || 'Ver más →') + '</a>' : '';
+    return '<div style="background:#111;padding:28px 40px;">' +
+      '<h2 style="font-family:\'Playfair Display\',serif;font-size:19px;font-weight:700;color:#fff;margin-bottom:10px;">' + esc(data.title) + '</h2>' +
+      '<p style="font-size:13.5px;line-height:1.8;color:rgba(255,255,255,.78);">' + esc(data.body).replace(/\n/g,'<br>') + '</p>' + btn + '</div>';
+  }
+  if (type === 'imagen') {
+    var cap = data.caption ? '<div style="font-family:\'DM Mono\',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#767676;margin-top:8px;">' + esc(data.caption) + '</div>' : '';
+    return '<div style="padding:20px 40px;">' +
+      '<img src="' + esc(data.url) + '" style="width:100%;display:block;" alt="' + esc(data.caption||'') + '"/>' + cap + '</div>';
+  }
+  return '';
+}
+
+function esc(s) {
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ─── ADD BLOCK ────────────────────────────────────
+function addBlock() {
+  if (!currentType) return;
+  var data = {};
+  if (currentType === 'texto')   { data = { title: val('ef-texto-title'), body: val('ef-texto-body') }; if (!data.body) { toast('Añade contenido al bloque', 'red'); return; } }
+  if (currentType === 'callout') { data = { label: val('ef-callout-lbl'), body: val('ef-callout-body') }; if (!data.body) { toast('Añade contenido al callout', 'red'); return; } }
+  if (currentType === 'promo')   { data = { title: val('ef-promo-title'), body: val('ef-promo-body'), link: val('ef-promo-link'), btn: val('ef-promo-btn') }; if (!data.title) { toast('Añade título a la promo', 'red'); return; } }
+  if (currentType === 'imagen')  { data = { url: val('ef-imagen-url'), caption: val('ef-imagen-caption') }; if (!data.url) { toast('Añade una URL de imagen', 'red'); return; } }
+
+  blocks.push({ id: Date.now(), type: currentType, data: data, pos: blockPos, html: buildBlockHTML(currentType, data) });
+  renderBlocksList();
+  cancelBlock();
+  renderPreview();
+  toast('Bloque añadido ✓', 'green');
+
+  // Reset fields
+  ['ef-texto-title','ef-texto-body','ef-callout-lbl','ef-callout-body','ef-promo-title','ef-promo-body','ef-promo-link','ef-promo-btn','ef-imagen-url','ef-imagen-caption'].forEach(function(id) {
+    var el = document.getElementById(id); if (el) el.value = '';
+  });
+}
+
+function val(id) { return (document.getElementById(id)||{}).value || ''; }
+
+function removeBlock(id) {
+  blocks = blocks.filter(function(b) { return b.id !== id; });
+  renderBlocksList();
+  renderPreview();
+}
+
+function renderBlocksList() {
+  var list = document.getElementById('blocksList');
+  var sec  = document.getElementById('blocksSection');
+  if (blocks.length === 0) { sec.style.display = 'none'; return; }
+  sec.style.display = 'block';
+  list.innerHTML = blocks.map(function(b) {
+    var preview = b.data.title || b.data.body || b.data.label || b.data.url || '';
+    return '<div class="block-item">' +
+      '<div class="block-item-info">' +
+        '<div class="block-item-type">' + (b.pos === 'top' ? '↑ ' : '↓ ') + b.type + '</div>' +
+        '<div class="block-item-preview">' + esc(preview.substring(0,60)) + '</div>' +
+      '</div>' +
+      '<div class="block-item-actions">' +
+        '<button class="icon-btn del" onclick="removeBlock(' + b.id + ')" title="Eliminar">✕</button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+// ─── PREVIEW ──────────────────────────────────────
+function buildFinalHTML() {
+  if (!originalHTML) return '';
+  var html = originalHTML;
+
+  // Inject top blocks after <body>
+  var topBlocks = blocks.filter(function(b) { return b.pos === 'top'; });
+  var bottomBlocks = blocks.filter(function(b) { return b.pos === 'bottom'; });
+
+  if (topBlocks.length > 0) {
+    var topHTML = '<!-- ADMIN BLOCKS TOP -->' + topBlocks.map(function(b) { return b.html; }).join('') + '<!-- /ADMIN BLOCKS TOP -->';
+    // Insert after nl-hero section
+    html = html.replace('</div>\n    <div class="nl-idx">', '</div>\n' + topHTML + '\n    <div class="nl-idx">');
+  }
+
+  if (bottomBlocks.length > 0) {
+    var botHTML = '<!-- ADMIN BLOCKS BOTTOM -->' + bottomBlocks.map(function(b) { return b.html; }).join('') + '<!-- /ADMIN BLOCKS BOTTOM -->';
+    html = html.replace('<div class="nl-foot">', botHTML + '\n    <div class="nl-foot">');
+  }
+
+  return html;
+}
+
+function renderPreview() {
+  var frame = document.getElementById('previewFrame');
+  var html = buildFinalHTML();
+  if (!html) return;
+  frame.srcdoc = html;
+  // Auto-resize iframe
+  frame.onload = function() {
+    try { frame.style.height = frame.contentDocument.body.scrollHeight + 'px'; } catch(e) {}
+  };
+}
+
+function togglePreview() {
+  var p = document.getElementById('panelRight');
+  p.style.display = p.style.display === 'none' ? 'flex' : 'none';
+}
+
+// ─── PUBLISH ──────────────────────────────────────
+async function publish() {
+  if (!originalHTML || !currentSHA) { toast('Carga el newsletter primero', 'red'); return; }
+  var btn = document.getElementById('publishBtn');
+  btn.disabled = true;
+  btn.textContent = '▲ Publicando...';
+  setStatus('loading', 'Publicando...');
+
+  try {
+    var finalHTML = buildFinalHTML();
+    var r = await fetch(API, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        file: FILE,
+        content: finalHTML,
+        sha: currentSHA,
+        message: 'Admin: update newsletter ' + new Date().toISOString().split('T')[0]
+      })
+    });
+    var data = await r.json();
+    if (data.error) throw new Error(data.error);
+
+    setStatus('ok', 'Publicado ✓');
+    toast('¡Publicado en GitHub! Vercel redeploya en ~30s 🚀', 'green');
+
+    // Reload to get new SHA
+    setTimeout(loadNewsletter, 3000);
+  } catch(e) {
+    setStatus('', 'Error al publicar');
+    toast('Error: ' + e.message, 'red');
+  }
+
+  btn.disabled = false;
+  btn.textContent = '▲ Publicar';
+}
+
+// ─── HELPERS ──────────────────────────────────────
+function setStatus(state, txt) {
+  var dot = document.getElementById('statusDot');
+  var t   = document.getElementById('statusTxt');
+  dot.className = 'status-dot' + (state ? ' ' + state : '');
+  t.textContent = txt;
+}
+
+var toastTimer;
+function toast(msg, type) {
+  var el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show' + (type ? ' ' + type : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function() { el.className = 'toast'; }, 3500);
+}
+</script>
+</body>
+</html>
