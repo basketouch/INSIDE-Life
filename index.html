@@ -62,35 +62,9 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
 #sec-reader.on { display: block; }
 
 /* ── HOME ── */
-.home-in {
-  max-width: 720px; margin: 0 auto; padding: 88px 32px 80px;
-  display: grid;
-  grid-template-columns: minmax(148px, 200px) minmax(0, 1fr);
-  column-gap: clamp(28px, 5vw, 48px);
-  row-gap: 32px;
-  align-items: start;
-}
-.home-avatar-col {
-  grid-column: 1; grid-row: 1;
-  align-self: center;
-  width: 100%;
-  max-width: 200px;
-}
-.home-avatar {
-  display: block; width: 100%; aspect-ratio: 1; height: auto; border-radius: 50%; object-fit: cover;
-  border: 1px solid var(--rule); filter: grayscale(1) contrast(1.06);
-  box-shadow: 0 1px 0 rgba(17,17,17,.06), 0 12px 28px rgba(17,17,17,.07);
-}
-.home-hero-copy {
-  grid-column: 2; grid-row: 1;
-  align-self: center;
-  min-width: 0;
-}
-.home-hero-copy .kicker { margin-bottom: 16px; }
-.home-hero-copy .home-h1 { margin-bottom: 0; }
-.home-stack { grid-column: 2; grid-row: 2; min-width: 0; }
+.home-in { max-width: 560px; margin: 0 auto; padding: 88px 32px 80px; }
 .kicker { font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: .18em; text-transform: uppercase; color: var(--red); margin-bottom: 22px; }
-.home-h1 { font-family: 'Playfair Display', serif; font-size: clamp(38px, 6.4vw, 64px); font-weight: 900; line-height: 1.05; letter-spacing: -.03em; color: var(--ink); margin-bottom: 24px; }
+.home-h1 { font-family: 'Playfair Display', serif; font-size: clamp(40px,7vw,68px); font-weight: 900; line-height: 1.04; letter-spacing: -.03em; color: var(--ink); margin-bottom: 24px; }
 .home-h1 em { font-style: italic; color: var(--mid); }
 .home-desc { font-size: 15.5px; line-height: 1.78; color: var(--mid); margin-bottom: 40px; }
 .tags { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 44px; }
@@ -219,22 +193,6 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
   .about-duo { grid-template-columns: 1fr; }
   .sfoot { padding: 20px 22px; flex-direction: column; align-items: flex-start; }
   .sub-box { padding: 28px 22px; }
-  .home-in {
-    grid-template-columns: 1fr;
-    row-gap: 26px;
-    padding-top: 76px;
-  }
-  .home-avatar-col {
-    grid-column: 1; grid-row: 1;
-    justify-self: center;
-    max-width: min(168px, 44vw);
-  }
-  .home-hero-copy {
-    grid-column: 1; grid-row: 2;
-    text-align: left;
-  }
-  .home-hero-copy .kicker { margin-bottom: 14px; }
-  .home-stack { grid-column: 1; grid-row: 3; }
 }
 </style>
 </head>
@@ -297,27 +255,20 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
   <!-- HOME -->
   <section class="sec on" id="sec-home">
     <div class="home-in">
-      <div class="home-avatar-col">
-        <img class="home-avatar" src="assets/profile.png" alt="Jorge Lorenzo" width="400" height="400"/>
+      <div class="kicker">✦ El Club para mentes inquietas</div>
+      <h1 class="home-h1">El Club para<br><em>mentes inquietas</em></h1>
+      <p class="home-desc">IA, automatización, deporte y emprendimiento. Cada semana, las ideas y herramientas que realmente mueven el mundo — sin ruido, sin relleno.</p>
+      <div class="tags">
+        <span class="tag">Inteligencia Artificial</span>
+        <span class="tag">Automatización</span>
+        <span class="tag">Deporte</span>
+        <span class="tag">Emprendimiento</span>
       </div>
-      <div class="home-hero-copy">
-        <div class="kicker">✦ Newsletter semanal · martes y jueves</div>
-        <h1 class="home-h1">El Club para<br><em>mentes inquietas</em></h1>
-      </div>
-      <div class="home-stack">
-        <p class="home-desc">IA, automatización, deporte y emprendimiento. Cada semana, las ideas y herramientas que realmente mueven el mundo — sin ruido, sin relleno.</p>
-        <div class="tags">
-          <span class="tag">Inteligencia Artificial</span>
-          <span class="tag">Automatización</span>
-          <span class="tag">Deporte</span>
-          <span class="tag">Emprendimiento</span>
-        </div>
-        <button class="home-cta" onclick="openSub()">UNIRME AL CLUB →</button>
-        <div class="home-cta-sub">Sin spam · Cada martes y jueves · Baja cuando quieras</div>
-        <div class="proof">
-          <div class="proof-q">"No es el crítico quien cuenta. El mérito pertenece al hombre que está realmente en la arena."</div>
-          <div class="proof-a">Theodore Roosevelt</div>
-        </div>
+      <button class="home-cta" onclick="openSub()">UNIRME AL CLUB →</button>
+      <div class="home-cta-sub">Sin spam · Cada martes y jueves · Baja cuando quieras</div>
+      <div class="proof">
+        <div class="proof-q">"No es el crítico quien cuenta. El mérito pertenece al hombre que está realmente en la arena."</div>
+        <div class="proof-a">Theodore Roosevelt</div>
       </div>
     </div>
     <footer class="sfoot">
