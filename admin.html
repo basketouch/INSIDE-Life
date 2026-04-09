@@ -178,7 +178,8 @@ details.panel-collapsible[open] > summary.panel-disclosure {
     </div>
     <div class="topbar-actions">
       <span><span class="status-dot" id="statusDot"></span><span class="status-txt" id="statusTxt">Cargando...</span></span>
-      <button class="btn btn-ghost" onclick="loadNewsletter()">↻ Recargar</button>
+      <button class="btn btn-ghost" onclick="loadDraft()" title="Cargar borrador generado por Claude">📥 Draft</button>
+      <button class="btn btn-ghost" onclick="loadNewsletter()">↻ Live</button>
       <button class="btn btn-ghost" onclick="togglePreview()">👁 Preview</button>
       <button class="btn btn-publish" id="publishBtn" onclick="publish()" disabled>▲ Publicar</button>
     </div>
@@ -385,6 +386,30 @@ function doLogin() {
     document.getElementById('loginErr').style.display = 'block';
     document.getElementById('loginPass').value = '';
     document.getElementById('loginPass').focus();
+  }
+}
+
+// ─── LOAD DRAFT ───────────────────────────────────
+async function loadDraft() {
+  setStatus('loading', 'Cargando draft...');
+  try {
+    var r = await fetch(API + '?file=' + encodeURIComponent('newsletter-draft.html'), { headers: apiHeaders(false) });
+    var data = await r.json();
+    if (data.error) throw new Error(data.error);
+    originalHTML = data.content;
+    currentSHA   = data.sha;
+    nativeArticleOverrides = {};
+    articleOrder = [];
+    blocks = [];
+    document.getElementById('publishBtn').disabled = false;
+    setStatus('ok', 'Draft cargado ✓');
+    populateHeroFieldsFromHtml();
+    buildStructureMap();
+    renderPreview();
+    toast('Draft cargado — revisa y publica cuando esté listo', 'green');
+  } catch(e) {
+    setStatus('', 'Error al cargar draft');
+    toast('Error: ' + e.message, 'red');
   }
 }
 
