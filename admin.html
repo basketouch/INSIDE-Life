@@ -574,9 +574,9 @@ function applyNativeArticleReorder(html) {
       return serializeHTMLDocument(doc);
     }
 
-    var archEl = sec.querySelector('.nl-archivo-bar');
-    if (!archEl) return html;
-
+    // Find insertion point: nl-archivo-bar or nl-foot (Claude may not include nl-archivo-bar)
+    var archEl = sec.querySelector('.nl-archivo-bar') || sec.querySelector('.nl-foot');
+    
     for (var j = 0; j < order.length; j++) {
       var sid = order[j];
       var node = map[sid];
@@ -584,7 +584,11 @@ function applyNativeArticleReorder(html) {
       node.id = 'a' + newI;
       var artN = node.querySelector('.art-hdr .art-n');
       if (artN) artN.textContent = String(newI);
-      sec.insertBefore(node, archEl);
+      if (archEl) {
+        sec.insertBefore(node, archEl);
+      } else {
+        sec.appendChild(node);
+      }
     }
 
     var idxEl = sec.querySelector('.nl-idx');
