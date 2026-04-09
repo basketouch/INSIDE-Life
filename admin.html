@@ -151,59 +151,9 @@ details.panel-collapsible[open] > summary.panel-disclosure {
 .toast.show { transform: translateY(0); opacity: 1; }
 .toast.green { background: var(--green); }
 .toast.red { background: var(--red); }
-
-/* ── SELECTOR DE NOTICIAS ── */
-.selector-ov { display: none; position: fixed; inset: 0; z-index: 200; background: var(--off); flex-direction: column; }
-.selector-ov.on { display: flex; }
-.selector-top { background: var(--white); border-bottom: 1px solid var(--rule); padding: 0 32px; height: 54px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
-.selector-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 900; color: var(--ink); }
-.selector-count { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--mid); }
-.selector-body { flex: 1; overflow-y: auto; padding: 28px 32px; }
-.selector-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
-.selector-field { display: flex; flex-direction: column; gap: 5px; }
-.selector-field label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--mid); }
-.selector-field input, .selector-field textarea { border: 1px solid var(--rule); background: var(--white); font-family: 'DM Sans', sans-serif; font-size: 13px; padding: 9px 12px; color: var(--ink); outline: none; width: 100%; }
-.selector-field input:focus, .selector-field textarea:focus { border-color: var(--ink); }
-.selector-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 10px; }
-.news-card { background: var(--white); border: 2px solid var(--rule); padding: 16px; cursor: pointer; transition: all .15s; user-select: none; position: relative; }
-.news-card:hover { border-color: var(--ink); }
-.news-card.selected { border-color: var(--red); background: #fff8f7; }
-.news-card-check { display: none; position: absolute; top: 10px; right: 12px; background: var(--red); color: #fff; width: 20px; height: 20px; border-radius: 50%; align-items: center; justify-content: center; font-size: 11px; }
-.news-card.selected .news-card-check { display: flex; }
-.news-card-cat { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .12em; text-transform: uppercase; color: var(--red); margin-bottom: 6px; padding-right: 28px; }
-.news-card-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; line-height: 1.25; color: var(--ink); margin-bottom: 8px; }
-.news-card-body { font-size: 11.5px; line-height: 1.6; color: var(--mid); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-.news-card-url { font-family: 'DM Mono', monospace; font-size: 8px; color: var(--mid); margin-top: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.news-card-dark { font-family: 'DM Mono', monospace; font-size: 7px; letter-spacing: .1em; text-transform: uppercase; background: var(--ink); color: #fff; padding: 2px 6px; display: inline-block; margin-bottom: 6px; }
-.selector-footer { background: var(--white); border-top: 1px solid var(--rule); padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
-.selector-hint { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--mid); }
-@media (max-width: 760px) { .selector-meta { grid-template-columns: 1fr; } .selector-grid { grid-template-columns: 1fr; } .selector-body { padding: 16px; } }
 </style>
 </head>
 <body>
-
-<!-- SELECTOR DE NOTICIAS -->
-<div class="selector-ov" id="selectorOv">
-  <div class="selector-top">
-    <div class="selector-title">INSIDE Life <span style="font-family:'DM Mono',monospace;font-size:10px;font-weight:400;color:var(--mid);">Selecciona las noticias</span></div>
-    <div class="selector-count" id="selectorCount">0 / 6 seleccionadas</div>
-  </div>
-  <div class="selector-body">
-    <div class="selector-meta">
-      <div class="selector-field"><label for="selEdicion">Numero de edicion</label><input type="text" id="selEdicion" placeholder="043"/></div>
-      <div class="selector-field"><label for="selFecha">Fecha</label><input type="text" id="selFecha" placeholder="14 Abril 2026"/></div>
-      <div class="selector-field"><label for="selTitular">Titular principal</label><input type="text" id="selTitular" placeholder="El titular de esta semana"/></div>
-      <div class="selector-field"><label for="selSubtitulo">Subtitulo (cursiva)</label><input type="text" id="selSubtitulo" placeholder="y lo que significa para ti"/></div>
-      <div class="selector-field" style="grid-column: 1 / -1;"><label for="selLead">Introduccion (lead)</label><textarea id="selLead" rows="3" placeholder="Introduccion de 2-3 frases..."></textarea></div>
-    </div>
-    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--mid);margin-bottom:12px;">Noticias disponibles -- selecciona entre 4 y 6</div>
-    <div class="selector-grid" id="selectorGrid"></div>
-  </div>
-  <div class="selector-footer">
-    <div class="selector-hint" id="selectorHint">Selecciona entre 4 y 6 noticias para continuar</div>
-    <button class="btn btn-publish" id="selectorConfirm" onclick="confirmSelection()" disabled>Generar newsletter &rarr;</button>
-  </div>
-</div>
 
 <!-- LOGIN -->
 <div class="login-ov" id="loginOv">
@@ -228,7 +178,7 @@ details.panel-collapsible[open] > summary.panel-disclosure {
     </div>
     <div class="topbar-actions">
       <span><span class="status-dot" id="statusDot"></span><span class="status-txt" id="statusTxt">Cargando...</span></span>
-      <button class="btn btn-ghost" onclick="loadDraft()" title="Cargar borrador JSON">📥 Draft</button>
+      <button class="btn btn-ghost" onclick="loadDraft()" title="Cargar borrador de Claude">📥 Draft</button>
       <button class="btn btn-ghost" onclick="loadNewsletter()">↻ Live</button>
       <button class="btn btn-ghost" onclick="togglePreview()">👁 Preview</button>
       <button class="btn btn-publish" id="publishBtn" onclick="publish()" disabled>▲ Publicar</button>
@@ -395,7 +345,695 @@ details.panel-collapsible[open] > summary.panel-disclosure {
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
+<script>
+// ─── CONFIG ───────────────────────────────────────
+// Paso 2 seguridad: mismo valor en Vercel → Settings → Environment Variables → ADMIN_API_SECRET
+const ADMIN_PASS = 'bpM58914032-*';
+const FILE       = 'newsletter.html';
+const API        = '/api/github';
 
+// ─── STATE ────────────────────────────────────────
+var apiBearer    = '';     // Bearer = misma clave que ADMIN_PASS tras login
+var originalHTML = '';
+var currentSHA   = '';
+var blocks         = [];     // bloques añadidos por el admin
+var blockPos       = 'top';  // top | bottom
+var currentType    = null;
+var editingBlockId = null;   // si no null, addBlock() actualiza ese bloque
+var articleOrder   = [];     // orden de ids de .nl-art (ej. a1,a2…) dentro del reader; se renumeran al generar HTML
+var nativeArticleOverrides = {}; // sid -> outerHTML del .nl-art editado (solo sesión hasta publicar / recargar)
+var editingNativeSid = null;
 
+function apiHeaders(jsonBody) {
+  var h = { Authorization: 'Bearer ' + apiBearer };
+  if (jsonBody) h['Content-Type'] = 'application/json';
+  return h;
+}
+
+// ─── LOGIN ────────────────────────────────────────
+document.getElementById('loginPass').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') doLogin();
+});
+
+function doLogin() {
+  var pass = document.getElementById('loginPass').value;
+  if (pass === ADMIN_PASS) {
+    apiBearer = pass;
+    document.getElementById('loginOv').style.display = 'none';
+    document.getElementById('app').classList.add('on');
+    loadNewsletter();
+  } else {
+    document.getElementById('loginErr').style.display = 'block';
+    document.getElementById('loginPass').value = '';
+    document.getElementById('loginPass').focus();
+  }
+}
+
+// ─── LOAD DRAFT (HTML) ───────────────────────────
+async function loadDraft() {
+  setStatus('loading', 'Cargando draft...');
+  try {
+    var [rDraft, rLive] = await Promise.all([
+      fetch(API + '?file=' + encodeURIComponent('newsletter-draft.html'), { headers: apiHeaders(false) }),
+      fetch(API + '?file=' + encodeURIComponent(FILE), { headers: apiHeaders(false) })
+    ]);
+    var draft = await rDraft.json();
+    var live  = await rLive.json();
+    if (draft.error) throw new Error('Draft no encontrado: ' + draft.error);
+    if (live.error)  throw new Error(live.error);
+    originalHTML = draft.content;
+    currentSHA   = live.sha;
+    nativeArticleOverrides = {};
+    articleOrder = [];
+    blocks = [];
+    document.getElementById('publishBtn').disabled = false;
+    setStatus('ok', 'Draft cargado ✓');
+    populateHeroFieldsFromHtml();
+    syncArticleOrderFromHtml();
+    cancelNativeArticleEdit();
+    renderStructureMap();
+    renderPreview();
+    toast('Draft listo — revisa y publica cuando quieras', 'green');
+  } catch(e) {
+    setStatus('', 'Error al cargar draft');
+    toast('Error: ' + e.message, 'red');
+  }
+}
+
+// ─── LOAD NEWSLETTER ──────────────────────────────
+async function loadNewsletter() {
+  setStatus('loading', 'Cargando...');
+  try {
+    var r = await fetch(API + '?file=' + encodeURIComponent(FILE), { headers: apiHeaders(false) });
+    var data = await r.json();
+    if (data.error) throw new Error(data.error);
+    originalHTML = data.content;
+    currentSHA   = data.sha;
+    nativeArticleOverrides = {};
+    cancelNativeArticleEdit();
+    syncArticleOrderFromHtml();
+    populateHeroFieldsFromHtml();
+    setStatus('ok', 'Newsletter cargado');
+    document.getElementById('publishBtn').disabled = false;
+    renderStructureMap();
+    renderPreview();
+    toast('Newsletter cargado ✓', 'green');
+  } catch (e) {
+    setStatus('', 'Error al cargar');
+    toast('Error: ' + e.message, 'red');
+  }
+}
+
+// ─── BLOCK TYPES ──────────────────────────────────
+function selectBlockType(type) {
+  cancelNativeArticleEdit();
+  editingBlockId = null;
+  document.getElementById('saveBlockBtn').textContent = 'Añadir bloque →';
+  currentType = type;
+  var titles = { texto:'Bloque de texto', callout:'Bloque callout', promo:'Bloque promoción', imagen:'Bloque imagen' };
+  document.getElementById('editorTitle').textContent = titles[type];
+  ['texto','callout','promo','imagen'].forEach(function(t) {
+    document.getElementById('ef-'+t).style.display = t === type ? 'block' : 'none';
+  });
+  document.getElementById('blockEditor').classList.add('on');
+}
+
+function cancelBlock() {
+  currentType = null;
+  editingBlockId = null;
+  document.getElementById('saveBlockBtn').textContent = 'Añadir bloque →';
+  document.getElementById('blockEditor').classList.remove('on');
+}
+
+function setPos(p) {
+  blockPos = p;
+  document.getElementById('pos-top').classList.toggle('active', p === 'top');
+  document.getElementById('pos-bottom').classList.toggle('active', p === 'bottom');
+}
+
+// ─── BUILD BLOCK HTML ─────────────────────────────
+function buildBlockHTML(type, data) {
+  if (type === 'texto') {
+    var t = data.title ? '<h2 class="art-h2" style="font-family:\'Playfair Display\',serif;font-size:19px;font-weight:700;line-height:1.22;color:#111;margin-bottom:10px;">' + esc(data.title) + '</h2>' : '';
+    return '<div class="nl-art" style="padding:28px 40px;border-bottom:1px solid #e8e4de;">' + t + '<div class="art-body" style="font-size:13.5px;line-height:1.8;color:#2d2d2d;">' + esc(data.body).replace(/\n/g,'<br>') + '</div></div>';
+  }
+  if (type === 'callout') {
+    return '<div style="padding:0 40px 0;"><div class="callout" style="background:#f8f6f2;border-left:3px solid #e8401c;padding:11px 14px;margin:15px 0;font-size:12.5px;line-height:1.65;color:#333;"><div style="font-family:\'DM Mono\',monospace;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:#e8401c;margin-bottom:5px;">' + esc(data.label) + '</div>' + esc(data.body).replace(/\n/g,'<br>') + '</div></div>';
+  }
+  if (type === 'promo') {
+    var btn = data.link ? '<a href="' + esc(data.link) + '" style="display:inline-block;margin-top:14px;background:#fff;color:#111;font-family:\'DM Mono\',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:10px 20px;text-decoration:none;">' + esc(data.btn || 'Ver más →') + '</a>' : '';
+    return '<div style="background:#111;padding:28px 40px;">' +
+      '<h2 style="font-family:\'Playfair Display\',serif;font-size:19px;font-weight:700;color:#fff;margin-bottom:10px;">' + esc(data.title) + '</h2>' +
+      '<p style="font-size:13.5px;line-height:1.8;color:rgba(255,255,255,.78);">' + esc(data.body).replace(/\n/g,'<br>') + '</p>' + btn + '</div>';
+  }
+  if (type === 'imagen') {
+    var cap = data.caption ? '<div style="font-family:\'DM Mono\',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#767676;margin-top:8px;">' + esc(data.caption) + '</div>' : '';
+    return '<div style="padding:20px 40px;">' +
+      '<img src="' + esc(data.url) + '" style="width:100%;display:block;" alt="' + esc(data.caption||'') + '"/>' + cap + '</div>';
+  }
+  return '';
+}
+
+function esc(s) {
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function stripTags(s) {
+  return (s || '').replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]+>/g, '');
+}
+
+function decodeHtmlEntities(s) {
+  var t = document.createElement('textarea');
+  t.innerHTML = (s || '').trim();
+  return t.value;
+}
+
+function extractArticleSidsInOrder(cleanHtml) {
+  try {
+    var doc = new DOMParser().parseFromString(cleanHtml, 'text/html');
+    var sec = doc.getElementById('sec-reader');
+    if (!sec) return [];
+    var out = [];
+    for (var i = 0; i < sec.children.length; i++) {
+      var c = sec.children[i];
+      if (c.nodeType !== 1) continue;
+      if (c.classList.contains('nl-art') && /^a\d+$/.test(c.id)) out.push(c.id);
+    }
+    return out;
+  } catch (e) {
+    return [];
+  }
+}
+
+function syncArticleOrderFromHtml() {
+  var clean = stripInjectedAdminBlocks(originalHTML || '');
+  articleOrder = extractArticleSidsInOrder(clean);
+}
+
+function serializeHTMLDocument(doc) {
+  var dt = '<!DOCTYPE html>\n';
+  if (doc.doctype) dt = '<!DOCTYPE ' + doc.doctype.name + '>\n';
+  return dt + doc.documentElement.outerHTML;
+}
+
+// Reordena .nl-art según articleOrder; reasigna id a1…aN, .art-n y enlaces del índice.
+// Solo se muestran los ids presentes en articleOrder (puedes dejar la edición con menos notas).
+function applyNativeArticleReorder(html) {
+  if (!html) return html;
+  try {
+    var doc = new DOMParser().parseFromString(html, 'text/html');
+    var sec = doc.getElementById('sec-reader');
+    if (!sec) return html;
+
+    var toRemove = [];
+    var map = {};
+    for (var i = 0; i < sec.children.length; i++) {
+      var c = sec.children[i];
+      if (c.nodeType !== 1) continue;
+      if (c.classList.contains('nl-art') && /^a\d+$/.test(c.id)) {
+        toRemove.push(c);
+        if (nativeArticleOverrides[c.id]) {
+          var wrap = doc.createElement('div');
+          wrap.innerHTML = nativeArticleOverrides[c.id].trim();
+          var fr = wrap.firstElementChild;
+          map[c.id] = fr ? fr.cloneNode(true) : c.cloneNode(true);
+        } else {
+          map[c.id] = c.cloneNode(true);
+        }
+      }
+    }
+    if (Object.keys(map).length === 0) return html;
+
+    var order = articleOrder.filter(function(sid) { return map[sid]; });
+
+    for (var r = toRemove.length - 1; r >= 0; r--) sec.removeChild(toRemove[r]);
+
+    if (order.length === 0) {
+      var idxEmpty = sec.querySelector('.nl-idx .nl-idx-list');
+      if (idxEmpty) while (idxEmpty.firstChild) idxEmpty.removeChild(idxEmpty.firstChild);
+      return serializeHTMLDocument(doc);
+    }
+
+    var archEl = sec.querySelector('.nl-archivo-bar');
+    if (!archEl) return html;
+
+    for (var j = 0; j < order.length; j++) {
+      var sid = order[j];
+      var node = map[sid];
+      var newI = j + 1;
+      node.id = 'a' + newI;
+      var artN = node.querySelector('.art-hdr .art-n');
+      if (artN) artN.textContent = String(newI);
+      sec.insertBefore(node, archEl);
+    }
+
+    var idxEl = sec.querySelector('.nl-idx');
+    if (idxEl) {
+      var list = idxEl.querySelector('.nl-idx-list');
+      if (list) {
+        while (list.firstChild) list.removeChild(list.firstChild);
+        for (var k = 0; k < order.length; k++) {
+          var sid2 = order[k];
+          var srcNode = map[sid2];
+          var ord = k + 1;
+          var h2 = srcNode.querySelector('h2.art-h2');
+          var title = h2 ? h2.textContent.replace(/\s+/g, ' ').trim() : 'Nota ' + ord;
+          var a = doc.createElement('a');
+          a.className = 'nl-idx-a';
+          a.href = '#a' + ord;
+          a.textContent = title;
+          list.appendChild(a);
+        }
+      }
+    }
+
+    return serializeHTMLDocument(doc);
+  } catch (e) {
+    console.warn('applyNativeArticleReorder', e);
+    return html;
+  }
+}
+
+function moveNativeArticle(sid, delta) {
+  var i = articleOrder.indexOf(sid);
+  if (i < 0) return;
+  var j = i + delta;
+  if (j < 0 || j >= articleOrder.length) return;
+  var t = articleOrder[i];
+  articleOrder[i] = articleOrder[j];
+  articleOrder[j] = t;
+  renderStructureMap();
+  renderPreview();
+}
+
+function deleteNativeArticle(sid) {
+  if (!confirm('¿Quitar esta nota? Quedará guardada al publicar. Si no has publicado, «Recargar» restaura el newsletter del repo.')) return;
+  articleOrder = articleOrder.filter(function(s) { return s !== sid; });
+  delete nativeArticleOverrides[sid];
+  if (editingNativeSid === sid) cancelNativeArticleEdit();
+  renderStructureMap();
+  renderPreview();
+  toast('Nota quitada ✓', 'green');
+}
+
+function titleFromArticleHtmlString(htmlStr) {
+  if (!htmlStr) return '';
+  var m = htmlStr.match(/<h2 class="art-h2"[^>]*>([\s\S]*?)<\/h2>/i);
+  if (!m) return '';
+  var t = decodeHtmlEntities(stripTags(m[1]).replace(/\s+/g, ' ').trim());
+  return t.length > 92 ? t.substring(0, 89) + '…' : t;
+}
+
+function getNativeArticleOuterHtmlBySid(sid) {
+  if (nativeArticleOverrides[sid]) return nativeArticleOverrides[sid];
+  var clean = stripInjectedAdminBlocks(originalHTML || '');
+  var doc = new DOMParser().parseFromString(clean, 'text/html');
+  var el = doc.getElementById(sid);
+  if (!el || !el.classList.contains('nl-art')) return '';
+  return el.outerHTML;
+}
+
+function editNativeArticle(sid) {
+  cancelBlock();
+  editingNativeSid = sid;
+  var ord = document.getElementById('structureSection');
+  if (ord && ord.tagName === 'DETAILS') ord.open = true;
+  var panel = document.getElementById('nativeArticleEditor');
+  document.getElementById('nativeEditSidLabel').textContent = '· ' + sid;
+  setFieldVal('nativeArticleEditorHtml', getNativeArticleOuterHtmlBySid(sid));
+  panel.style.display = 'block';
+  try { panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (e) {}
+}
+
+function cancelNativeArticleEdit() {
+  editingNativeSid = null;
+  var panel = document.getElementById('nativeArticleEditor');
+  if (panel) panel.style.display = 'none';
+  setFieldVal('nativeArticleEditorHtml', '');
+}
+
+function saveNativeArticleEdit() {
+  if (!editingNativeSid) return;
+  var html = val('nativeArticleEditorHtml').trim();
+  if (!html) {
+    toast('La nota no puede estar vacía', 'red');
+    return;
+  }
+  nativeArticleOverrides[editingNativeSid] = html;
+  cancelNativeArticleEdit();
+  renderStructureMap();
+  renderPreview();
+  toast('Nota actualizada ✓', 'green');
+}
+
+function structRowNativeArticle(sid, title, posIndex, total) {
+  var canUp = posIndex > 0;
+  var canDown = posIndex < total - 1;
+  return (
+    '<div class="struct-row native-art">' +
+    '<div class="struct-badge">Nota<br>· ' + esc(sid) + '</div>' +
+    '<div class="struct-body" style="width:100%">' +
+    esc(title) +
+    '<div class="struct-actions">' +
+    '<button type="button" class="struct-btn" onclick="moveNativeArticle(\'' + sid + '\',-1)"' + (canUp ? '' : ' disabled') + '>Subir</button>' +
+    '<button type="button" class="struct-btn" onclick="moveNativeArticle(\'' + sid + '\',1)"' + (canDown ? '' : ' disabled') + '>Bajar</button>' +
+    '<button type="button" class="struct-btn" onclick="editNativeArticle(\'' + sid + '\')">Editar</button>' +
+    '<button type="button" class="struct-btn" onclick="deleteNativeArticle(\'' + sid + '\')" style="border-color:#c43;color:#a32">Eliminar</button>' +
+    '</div></div></div>'
+  );
+}
+
+function parseNativeArticles(html) {
+  var clean = stripInjectedAdminBlocks(html || '');
+  var matches = [];
+  var reId = /<div class="nl-art[^"]*" id="(a\d+)">/g;
+  var m;
+  while ((m = reId.exec(clean)) !== null) {
+    matches.push({ id: m[1], index: m.index });
+  }
+  return matches.map(function(item, i) {
+    var nextIdx = i + 1 < matches.length ? matches[i + 1].index : clean.indexOf('class="nl-archivo-bar"', item.index);
+    if (nextIdx < 0) nextIdx = item.index + 16000;
+    var slice = clean.slice(item.index, nextIdx);
+    var h2 = slice.match(/<h2 class="art-h2"[^>]*>([\s\S]*?)<\/h2>/);
+    var raw = h2 ? h2[1] : '';
+    var title = decodeHtmlEntities(stripTags(raw).replace(/\s+/g, ' ').trim());
+    if (!title) title = 'Artículo ' + item.id;
+    return { sid: item.id, title: title.length > 92 ? title.substring(0, 89) + '…' : title };
+  });
+}
+
+function structRowAdmin(b) {
+  var preview = (b.data && (b.data.title || b.data.body || b.data.label || b.data.url)) || '';
+  var info = sameZoneIndex(b.id);
+  var canUp = info.idx > 0;
+  var canDown = info.idx >= 0 && info.idx < info.list.length - 1;
+  var zone = b.pos === 'top' ? '↑ Tu bloque · arriba' : '↓ Tu bloque · abajo';
+  return (
+    '<div class="struct-row admin">' +
+    '<div class="struct-badge">' + esc(zone) + '<br><span style="color:var(--red)">' + esc(b.type) + '</span></div>' +
+    '<div class="struct-body" style="width:100%">' +
+    '<div style="font-size:12px">' + esc(preview.substring(0, 100)) + (preview.length > 100 ? '…' : '') + '</div>' +
+    '<div class="struct-actions">' +
+    '<button type="button" class="struct-btn" onclick="moveBlockInZone(' + b.id + ',-1)"' + (canUp ? '' : ' disabled') + '>Subir</button>' +
+    '<button type="button" class="struct-btn" onclick="moveBlockInZone(' + b.id + ',1)"' + (canDown ? '' : ' disabled') + '>Bajar</button>' +
+    '<button type="button" class="struct-btn" onclick="editBlock(' + b.id + ')">Editar</button>' +
+    '<button type="button" class="struct-btn" onclick="removeBlock(' + b.id + ')" style="border-color:#c43; color:#a32">Eliminar</button>' +
+    '</div></div></div>'
+  );
+}
+
+function renderStructureMap() {
+  var sec = document.getElementById('structureSection');
+  var el = document.getElementById('structureMap');
+  if (!el || !sec) return;
+  if (!originalHTML) {
+    sec.style.display = 'none';
+    return;
+  }
+  sec.style.display = 'block';
+
+  var artMeta = {};
+  parseNativeArticles(originalHTML).forEach(function(a) { artMeta[a.sid] = a.title; });
+  var topList = blocks.filter(function(b) { return b.pos === 'top'; });
+  var botList = blocks.filter(function(b) { return b.pos === 'bottom'; });
+
+  var rows = [];
+  topList.forEach(function(b) { rows.push(structRowAdmin(b)); });
+  articleOrder.forEach(function(sid, i) {
+    var t = artMeta[sid] || sid;
+    if (nativeArticleOverrides[sid]) {
+      var ot = titleFromArticleHtmlString(nativeArticleOverrides[sid]);
+      if (ot) t = ot;
+    }
+    rows.push(structRowNativeArticle(sid, t, i, articleOrder.length));
+  });
+  botList.forEach(function(b) { rows.push(structRowAdmin(b)); });
+
+  el.innerHTML = rows.join('');
+}
+
+function setFieldVal(id, v) {
+  var el = document.getElementById(id);
+  if (el) el.value = v != null && v !== undefined ? v : '';
+}
+
+function resetBlockFormFields() {
+  ['ef-texto-title','ef-texto-body','ef-callout-lbl','ef-callout-body','ef-promo-title','ef-promo-body','ef-promo-link','ef-promo-btn','ef-imagen-url','ef-imagen-caption'].forEach(function(id) {
+    setFieldVal(id, '');
+  });
+}
+
+// ─── ADD / SAVE BLOCK ─────────────────────────────
+function addBlock() {
+  if (!currentType) return;
+  var data = {};
+  if (currentType === 'texto')   { data = { title: val('ef-texto-title'), body: val('ef-texto-body') }; if (!data.body) { toast('Añade contenido al bloque', 'red'); return; } }
+  if (currentType === 'callout') { data = { label: val('ef-callout-lbl'), body: val('ef-callout-body') }; if (!data.body) { toast('Añade contenido al callout', 'red'); return; } }
+  if (currentType === 'promo')   { data = { title: val('ef-promo-title'), body: val('ef-promo-body'), link: val('ef-promo-link'), btn: val('ef-promo-btn') }; if (!data.title) { toast('Añade título a la promo', 'red'); return; } }
+  if (currentType === 'imagen')  { data = { url: val('ef-imagen-url'), caption: val('ef-imagen-caption') }; if (!data.url) { toast('Añade una URL de imagen', 'red'); return; } }
+
+  if (editingBlockId != null) {
+    var bi = blocks.findIndex(function(b) { return b.id === editingBlockId; });
+    if (bi < 0) {
+      editingBlockId = null;
+      document.getElementById('saveBlockBtn').textContent = 'Añadir bloque →';
+      return;
+    }
+    blocks[bi] = { id: blocks[bi].id, type: currentType, data: data, pos: blockPos, html: buildBlockHTML(currentType, data) };
+    editingBlockId = null;
+    document.getElementById('saveBlockBtn').textContent = 'Añadir bloque →';
+    renderStructureMap();
+    renderPreview();
+    toast('Bloque actualizado ✓', 'green');
+    resetBlockFormFields();
+    cancelBlock();
+    return;
+  }
+
+  blocks.push({ id: Date.now(), type: currentType, data: data, pos: blockPos, html: buildBlockHTML(currentType, data) });
+  renderStructureMap();
+  renderPreview();
+  toast('Bloque añadido ✓', 'green');
+  resetBlockFormFields();
+  cancelBlock();
+}
+
+function editBlock(id) {
+  var b = blocks.find(function(x) { return x.id === id; });
+  if (!b) return;
+  cancelNativeArticleEdit();
+  editingBlockId = id;
+  currentType = b.type;
+  var titles = { texto:'Bloque de texto', callout:'Bloque callout', promo:'Bloque promoción', imagen:'Bloque imagen' };
+  document.getElementById('editorTitle').textContent = 'Editar: ' + titles[b.type];
+  document.getElementById('saveBlockBtn').textContent = 'Guardar cambios';
+  ['texto','callout','promo','imagen'].forEach(function(t) {
+    document.getElementById('ef-'+t).style.display = t === b.type ? 'block' : 'none';
+  });
+  var d = b.data || {};
+  setFieldVal('ef-texto-title', d.title);
+  setFieldVal('ef-texto-body', currentType === 'texto' ? d.body : '');
+  setFieldVal('ef-callout-lbl', d.label);
+  setFieldVal('ef-callout-body', currentType === 'callout' ? d.body : '');
+  setFieldVal('ef-promo-title', d.title);
+  setFieldVal('ef-promo-body', currentType === 'promo' ? d.body : '');
+  setFieldVal('ef-promo-link', d.link);
+  setFieldVal('ef-promo-btn', d.btn);
+  setFieldVal('ef-imagen-url', d.url);
+  setFieldVal('ef-imagen-caption', d.caption);
+  setPos(b.pos);
+  document.getElementById('blockEditor').classList.add('on');
+}
+
+function sameZoneIndex(id) {
+  var target = blocks.find(function(b) { return b.id === id; });
+  if (!target) return { idx: -1, list: [] };
+  var list = [];
+  for (var i = 0; i < blocks.length; i++) {
+    if (blocks[i].pos === target.pos) list.push(blocks[i].id);
+  }
+  return { idx: list.indexOf(id), list: list };
+}
+
+function moveBlockInZone(id, delta) {
+  var info = sameZoneIndex(id);
+  if (info.idx < 0) return;
+  var k = info.idx + delta;
+  if (k < 0 || k >= info.list.length) return;
+  var idA = info.list[info.idx];
+  var idB = info.list[k];
+  var iA = blocks.findIndex(function(b) { return b.id === idA; });
+  var iB = blocks.findIndex(function(b) { return b.id === idB; });
+  if (iA < 0 || iB < 0) return;
+  var t = blocks[iA];
+  blocks[iA] = blocks[iB];
+  blocks[iB] = t;
+  renderStructureMap();
+  renderPreview();
+}
+
+function val(id) { return (document.getElementById(id)||{}).value || ''; }
+
+function removeBlock(id) {
+  if (editingBlockId === id) cancelBlock();
+  blocks = blocks.filter(function(b) { return b.id !== id; });
+  renderStructureMap();
+  renderPreview();
+}
+
+// ─── PREVIEW ──────────────────────────────────────
+function stripInjectedAdminBlocks(html) {
+  return (html || '')
+    .replace(/<!-- ADMIN BLOCKS TOP -->[\s\S]*?<!-- \/ADMIN BLOCKS TOP -->/gi, '')
+    .replace(/<!-- ADMIN BLOCKS BOTTOM -->[\s\S]*?<!-- \/ADMIN BLOCKS BOTTOM -->/gi, '');
+}
+
+function populateHeroFieldsFromHtml() {
+  try {
+    var raw = stripInjectedAdminBlocks(originalHTML || '');
+    var doc = new DOMParser().parseFromString(raw, 'text/html');
+    var t = doc.querySelector('title');
+    setFieldVal('heroPageTitle', t ? t.textContent : '');
+    var md = doc.querySelector('meta[name="description"]');
+    setFieldVal('heroMetaDesc', md ? (md.getAttribute('content') || '') : '');
+    var h1 = doc.querySelector('h1.nl-h1');
+    setFieldVal('heroH1Html', h1 ? h1.innerHTML : '');
+    var ey = doc.querySelector('.nl-ey');
+    setFieldVal('heroEditionLine', ey ? ey.textContent.trim() : '');
+  } catch (e) {}
+}
+
+function applyHeroEditsFromForm(html) {
+  try {
+    var doc = new DOMParser().parseFromString(html, 'text/html');
+    var tel = doc.querySelector('title');
+    if (tel) tel.textContent = val('heroPageTitle');
+    var meta = doc.querySelector('meta[name="description"]');
+    if (meta) meta.setAttribute('content', val('heroMetaDesc'));
+    var h1 = doc.querySelector('h1.nl-h1');
+    if (h1) h1.innerHTML = val('heroH1Html');
+    var ed = val('heroEditionLine');
+    var ey = doc.querySelector('.nl-ey');
+    if (ey) ey.textContent = ed;
+    var re = doc.querySelector('.reader-edition');
+    if (re) re.textContent = ed;
+    return serializeHTMLDocument(doc);
+  } catch (e) {
+    console.warn('applyHeroEditsFromForm', e);
+    return html;
+  }
+}
+
+function buildFinalHTML() {
+  if (!originalHTML) return '';
+  var html = stripInjectedAdminBlocks(originalHTML);
+  html = applyNativeArticleReorder(html);
+  html = applyHeroEditsFromForm(html);
+
+  var topBlocks = blocks.filter(function(b) { return b.pos === 'top'; });
+  var bottomBlocks = blocks.filter(function(b) { return b.pos === 'bottom'; });
+
+  if (topBlocks.length > 0) {
+    var topHTML = '<!-- ADMIN BLOCKS TOP -->' + topBlocks.map(function(b) { return b.html; }).join('') + '<!-- /ADMIN BLOCKS TOP -->';
+    var replaced = false;
+    html = html.replace(/(\r?\n)(\s*)<div class="nl-idx">/, function(_, nl, indent) {
+      replaced = true;
+      return nl + topHTML + nl + indent + '<div class="nl-idx">';
+    });
+    if (!replaced && html.indexOf('<div class="nl-idx">') >= 0) {
+      html = html.replace('<div class="nl-idx">', topHTML + '\n    <div class="nl-idx">');
+      replaced = true;
+    }
+    if (!replaced) console.warn('Admin: no se encontró .nl-idx; bloques superiores no insertados.');
+  }
+
+  if (bottomBlocks.length > 0) {
+    var botHTML = '<!-- ADMIN BLOCKS BOTTOM -->' + bottomBlocks.map(function(b) { return b.html; }).join('') + '<!-- /ADMIN BLOCKS BOTTOM -->';
+    var replacedB = false;
+    html = html.replace(/(\r?\n)(\s*)<div class="nl-foot">/, function(_, nl, indent) {
+      replacedB = true;
+      return nl + botHTML + nl + indent + '<div class="nl-foot">';
+    });
+    if (!replacedB && html.indexOf('<div class="nl-foot">') >= 0) {
+      html = html.replace('<div class="nl-foot">', botHTML + '\n    <div class="nl-foot">');
+      replacedB = true;
+    }
+    if (!replacedB) console.warn('Admin: no se encontró .nl-foot; bloques inferiores no insertados.');
+  }
+
+  return html;
+}
+
+function renderPreview() {
+  var frame = document.getElementById('previewFrame');
+  var html = buildFinalHTML();
+  if (!html) return;
+  frame.srcdoc = html;
+  // Auto-resize iframe
+  frame.onload = function() {
+    try { frame.style.height = frame.contentDocument.body.scrollHeight + 'px'; } catch(e) {}
+  };
+}
+
+function togglePreview() {
+  var p = document.getElementById('panelRight');
+  p.style.display = p.style.display === 'none' ? 'flex' : 'none';
+}
+
+// ─── PUBLISH ──────────────────────────────────────
+async function publish() {
+  if (!originalHTML || !currentSHA) { toast('Carga el newsletter primero', 'red'); return; }
+  var btn = document.getElementById('publishBtn');
+  btn.disabled = true;
+  btn.textContent = '▲ Publicando...';
+  setStatus('loading', 'Publicando...');
+
+  try {
+    var finalHTML = buildFinalHTML();
+    var r = await fetch(API, {
+      method: 'PUT',
+      headers: apiHeaders(true),
+      body: JSON.stringify({
+        file: FILE,
+        content: finalHTML,
+        sha: currentSHA,
+        message: 'Admin: update newsletter ' + new Date().toISOString().split('T')[0]
+      })
+    });
+    var data = await r.json();
+    if (data.error) throw new Error(data.error);
+
+    setStatus('ok', 'Publicado ✓');
+    toast('¡Publicado en GitHub! Vercel redeploya en ~30s 🚀', 'green');
+
+    // Reload to get new SHA
+    setTimeout(loadNewsletter, 3000);
+  } catch(e) {
+    setStatus('', 'Error al publicar');
+    toast('Error: ' + e.message, 'red');
+  }
+
+  btn.disabled = false;
+  btn.textContent = '▲ Publicar';
+}
+
+// ─── HELPERS ──────────────────────────────────────
+function setStatus(state, txt) {
+  var dot = document.getElementById('statusDot');
+  var t   = document.getElementById('statusTxt');
+  dot.className = 'status-dot' + (state ? ' ' + state : '');
+  t.textContent = txt;
+}
+
+var toastTimer;
+function toast(msg, type) {
+  var el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show' + (type ? ' ' + type : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function() { el.className = 'toast'; }, 3500);
+}
+</script>
 </body>
 </html>
