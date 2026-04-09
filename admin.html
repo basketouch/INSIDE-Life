@@ -393,11 +393,17 @@ function doLogin() {
 async function loadDraft() {
   setStatus('loading', 'Cargando draft...');
   try {
-    var r = await fetch(API + '?file=' + encodeURIComponent('newsletter-draft.html'), { headers: apiHeaders(false) });
-    var data = await r.json();
-    if (data.error) throw new Error(data.error);
-    originalHTML = data.content;
-    currentSHA   = data.sha;
+    // Carga el contenido del draft Y el SHA del newsletter live en paralelo
+    var [rDraft, rLive] = await Promise.all([
+      fetch(API + '?file=' + encodeURIComponent('newsletter-draft.html'), { headers: apiHeaders(false) }),
+      fetch(API + '?file=' + encodeURIComponent(FILE), { headers: apiHeaders(false) })
+    ]);
+    var draft = await rDraft.json();
+    var live  = await rLive.json();
+    if (draft.error) throw new Error(draft.error);
+    if (live.error)  throw new Error(live.error);
+    originalHTML = draft.content;   // contenido del draft
+    currentSHA   = live.sha;        // SHA del newsletter.html (para poder publicar)
     nativeArticleOverrides = {};
     articleOrder = [];
     blocks = [];
