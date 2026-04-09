@@ -151,6 +151,16 @@ details.panel-collapsible[open] > summary.panel-disclosure {
 .toast.show { transform: translateY(0); opacity: 1; }
 .toast.green { background: var(--green); }
 .toast.red { background: var(--red); }
+
+/* ── ARTICULO AZUL ── */
+.nl-art-blue { background: #eef4fb; border-left: 4px solid #2d7dd2; }
+.nl-art-blue .art-h2 { color: #1a3a5c; }
+.nl-art-blue .art-src { color: #2d7dd2; }
+.nl-art-blue .art-body { color: #2d3748; }
+.nl-art-blue .art-n { background: #2d7dd2; }
+.nl-art-blue .callout { background: rgba(45,125,210,.08); border-left-color: #2d7dd2; }
+.nl-art-blue .callout-lbl { color: #2d7dd2; }
+.nl-art-blue .art-link a { color: #2d7dd2; }
 </style>
 </head>
 <body>
@@ -618,6 +628,28 @@ function applyNativeArticleReorder(html) {
   }
 }
 
+
+function setArticleStyle(sid, styleClass) {
+  var outerHtml = getNativeArticleOuterHtmlBySid(sid);
+  if (!outerHtml) return;
+  // Remove existing style classes
+  outerHtml = outerHtml.replace(/class="nl-art([^"]*)"/,  function(match, rest) {
+    var cleaned = rest.replace(/\s*(nl-art-dark|nl-art-blue)/g, '').trim();
+    var newClass = 'nl-art' + (cleaned ? ' ' + cleaned : '') + (styleClass ? ' ' + styleClass : '');
+    return 'class="' + newClass.trim() + '"';
+  });
+  // Fix art-n color for dark
+  if (styleClass === 'nl-art-dark') {
+    outerHtml = outerHtml.replace(/<div class="art-n"[^>]*>/, '<div class="art-n" style="background:#f5a58c;color:#0d0d0d;">');
+  } else {
+    outerHtml = outerHtml.replace(/<div class="art-n"[^>]*>/, '<div class="art-n">');
+  }
+  nativeArticleOverrides[sid] = outerHtml;
+  renderStructureMap();
+  renderPreview();
+  toast('Estilo actualizado', 'green');
+}
+
 function moveNativeArticle(sid, delta) {
   var i = articleOrder.indexOf(sid);
   if (i < 0) return;
@@ -702,6 +734,9 @@ function structRowNativeArticle(sid, title, posIndex, total) {
     '<button type="button" class="struct-btn" onclick="moveNativeArticle(\'' + sid + '\',-1)"' + (canUp ? '' : ' disabled') + '>Subir</button>' +
     '<button type="button" class="struct-btn" onclick="moveNativeArticle(\'' + sid + '\',1)"' + (canDown ? '' : ' disabled') + '>Bajar</button>' +
     '<button type="button" class="struct-btn" onclick="editNativeArticle(\'' + sid + '\')">Editar</button>' +
+    '<button type="button" class="struct-btn" onclick="setArticleStyle(\'' + sid + '\',\'\')" title="Normal">⬜</button>' +
+    '<button type="button" class="struct-btn" onclick="setArticleStyle(\'' + sid + '\',\'nl-art-dark\')" title="Destacado" style="background:#111;color:#fff;border-color:#111;">⬛</button>' +
+    '<button type="button" class="struct-btn" onclick="setArticleStyle(\'' + sid + '\',\'nl-art-blue\')" title="Azul" style="background:#eef4fb;color:#2d7dd2;border-color:#2d7dd2;">🟦</button>' +
     '<button type="button" class="struct-btn" onclick="deleteNativeArticle(\'' + sid + '\')" style="border-color:#c43;color:#a32">Eliminar</button>' +
     '</div></div></div>'
   );
