@@ -482,10 +482,10 @@ function buildBlockHTML(type, data) {
     return '<div style="padding:0 40px 0;"><div class="callout" style="background:#f8f6f2;border-left:3px solid #e8401c;padding:11px 14px;margin:15px 0;font-size:12.5px;line-height:1.65;color:#333;"><div style="font-family:\'DM Mono\',monospace;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:#e8401c;margin-bottom:5px;">' + esc(data.label) + '</div>' + esc(data.body).replace(/\n/g,'<br>') + '</div></div>';
   }
   if (type === 'promo') {
-    var btn = data.link ? '<a href="' + esc(data.link) + '" style="display:inline-block;margin-top:14px;background:#fff;color:#111;font-family:\'DM Mono\',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:10px 20px;text-decoration:none;">' + esc(data.btn || 'Ver más →') + '</a>' : '';
-    return '<div style="background:#111;padding:28px 40px;">' +
-      '<h2 style="font-family:\'Playfair Display\',serif;font-size:19px;font-weight:700;color:#fff;margin-bottom:10px;">' + esc(data.title) + '</h2>' +
-      '<p style="font-size:13.5px;line-height:1.8;color:rgba(255,255,255,.78);">' + esc(data.body).replace(/\n/g,'<br>') + '</p>' + btn + '</div>';
+    var btn = data.link ? '<a href="' + esc(data.link) + '" style="display:inline-block;margin-top:14px;background:var(--ink);color:#fff;font-family:\'DM Mono\',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:10px 20px;text-decoration:none;">' + esc(data.btn || 'Ver más →') + '</a>' : '';
+    return '<div style="background:#fdf0ec;border-left:4px solid var(--red);padding:24px 28px;margin:0;">' +
+      '<div style="font-family:\'DM Mono\',monospace;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:8px;">🔥 ' + esc(data.title) + '</div>' +
+      '<p style="font-size:13.5px;line-height:1.8;color:#2d2d2d;">' + esc(data.body).replace(/\n/g,'<br>') + '</p>' + btn + '</div>';
   }
   if (type === 'imagen') {
     var cap = data.caption ? '<div style="font-family:\'DM Mono\',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#767676;margin-top:8px;">' + esc(data.caption) + '</div>' : '';
