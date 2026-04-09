@@ -404,7 +404,9 @@ async function loadDraft() {
     document.getElementById('publishBtn').disabled = false;
     setStatus('ok', 'Draft cargado ✓');
     populateHeroFieldsFromHtml();
-    buildStructureMap();
+    syncArticleOrderFromHtml();
+    cancelNativeArticleEdit();
+    renderStructureMap();
     renderPreview();
     toast('Draft cargado — revisa y publica cuando esté listo', 'green');
   } catch(e) {
