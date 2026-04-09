@@ -1,3 +1,401 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INSIDE Life — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white: #ffffff; --off: #f8f6f2; --ink: #111111;
+  --mid: #767676; --rule: #e8e4de; --red: #e8401c;
+  --green: #1a9e5c; --surface: #fafaf8;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: var(--off); color: var(--ink); -webkit-font-smoothing: antialiased; min-height: 100vh; }
+
+/* ── LOGIN ── */
+.login-ov { position: fixed; inset: 0; background: var(--off); display: flex; align-items: center; justify-content: center; z-index: 999; padding: 20px; }
+.login-box { background: var(--white); box-shadow: 8px 8px 0 var(--ink); padding: 40px 36px; max-width: 400px; width: 100%; }
+.login-logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: var(--ink); margin-bottom: 4px; }
+.login-sub { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--red); margin-bottom: 24px; }
+.login-lbl { display: block; font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--mid); margin-bottom: 7px; }
+.login-in { width: 100%; border: 1px solid var(--rule); background: var(--off); font-family: 'DM Mono', monospace; font-size: 13px; padding: 11px 14px; color: var(--ink); outline: none; margin-bottom: 12px; transition: border-color .15s; }
+.login-in:focus { border-color: var(--ink); }
+.login-btn { width: 100%; background: var(--ink); color: #fff; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; padding: 13px; border: none; cursor: pointer; transition: background .15s; }
+.login-btn:hover { background: var(--red); }
+.login-err { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--red); margin-bottom: 10px; display: none; }
+
+/* ── APP ── */
+.app { display: none; flex-direction: column; min-height: 100vh; }
+.app.on { display: flex; }
+
+/* TOP BAR */
+.topbar { background: var(--white); border-bottom: 1px solid var(--rule); height: 54px; display: flex; align-items: center; justify-content: space-between; padding: 0 32px; position: sticky; top: 0; z-index: 50; }
+.topbar-brand { display: flex; align-items: center; gap: 10px; }
+.topbar-logo { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 900; color: var(--ink); }
+.topbar-tag { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .14em; text-transform: uppercase; background: var(--red); color: #fff; padding: 3px 7px; }
+.topbar-actions { display: flex; align-items: center; gap: 10px; }
+.btn { font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; padding: 8px 16px; border: none; cursor: pointer; transition: all .15s; }
+.btn-ghost { background: none; border: 1px solid var(--rule); color: var(--mid); }
+.btn-ghost:hover { border-color: var(--ink); color: var(--ink); }
+.btn-primary { background: var(--ink); color: #fff; }
+.btn-primary:hover { background: var(--red); }
+.btn-publish { background: var(--green); color: #fff; font-size: 10px; }
+.btn-publish:hover { opacity: .88; }
+.btn-publish:disabled { opacity: .4; cursor: not-allowed; }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--rule); display: inline-block; margin-right: 6px; }
+.status-dot.ok { background: var(--green); }
+.status-dot.loading { background: #f5a51c; animation: pulse 1s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+.status-txt { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--mid); }
+
+/* MAIN LAYOUT — columna izquierda un poco más ancha para el mapa */
+.main { display: grid; grid-template-columns: minmax(340px, 460px) 1fr; flex: 1; gap: 0; }
+
+/* LEFT PANEL — editor */
+.panel-left { background: var(--white); border-right: 1px solid var(--rule); display: flex; flex-direction: column; overflow-y: auto; }
+.panel-section { padding: 20px 22px; border-bottom: 1px solid var(--rule); }
+.panel-title { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--mid); margin-bottom: 14px; }
+
+/* Secciones plegables (Titular, Añadir bloque, Orden) */
+details.panel-collapsible { padding: 20px 22px; border-bottom: 1px solid var(--rule); }
+details.panel-collapsible > summary.panel-disclosure {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--mid);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  user-select: none;
+}
+details.panel-collapsible > summary.panel-disclosure::-webkit-details-marker { display: none; }
+details.panel-collapsible > summary.panel-disclosure::after {
+  content: '';
+  width: 0; height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid var(--mid);
+  flex-shrink: 0;
+  transition: transform .18s ease;
+  opacity: .75;
+}
+details.panel-collapsible:not([open]) > summary.panel-disclosure::after {
+  transform: rotate(-90deg);
+}
+details.panel-collapsible[open] > summary.panel-disclosure {
+  margin-bottom: 14px;
+}
+
+/* Block adder */
+.block-types { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+.block-type-btn { background: var(--off); border: 1px solid var(--rule); padding: 10px 12px; cursor: pointer; transition: all .15s; text-align: left; font-family: 'DM Sans', sans-serif; }
+.block-type-btn:hover { border-color: var(--ink); background: var(--white); }
+.bt-icon { font-size: 16px; display: block; margin-bottom: 4px; }
+.bt-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink); }
+.bt-desc { font-size: 10px; color: var(--mid); margin-top: 2px; }
+
+/* Block editor */
+.block-editor { display: none; }
+.block-editor.on { display: block; }
+.field-group { margin-bottom: 12px; }
+.field-lbl { display: block; font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--mid); margin-bottom: 5px; }
+.field-in { width: 100%; border: 1px solid var(--rule); background: var(--off); font-family: 'DM Sans', sans-serif; font-size: 13px; padding: 9px 12px; color: var(--ink); outline: none; transition: border-color .15s; resize: vertical; min-height: 38px; }
+.field-in:focus { border-color: var(--ink); }
+.field-select { width: 100%; border: 1px solid var(--rule); background: var(--off); font-family: 'DM Mono', monospace; font-size: 11px; padding: 9px 12px; color: var(--ink); outline: none; cursor: pointer; }
+.editor-actions { display: flex; gap: 8px; margin-top: 14px; }
+
+/* Blocks list */
+.blocks-list { display: flex; flex-direction: column; gap: 6px; }
+.block-item { background: var(--off); border: 1px solid var(--rule); padding: 10px 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.block-item-info { flex: 1; min-width: 0; }
+.block-item-type { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .1em; text-transform: uppercase; color: var(--red); margin-bottom: 2px; }
+.block-item-preview { font-size: 12px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.block-item-actions { display: flex; gap: 5px; flex-shrink: 0; align-items: center; }
+.icon-btn { background: none; border: 1px solid var(--rule); width: 26px; height: 26px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; transition: all .15s; flex-shrink: 0; }
+.icon-btn:hover { border-color: var(--ink); }
+.icon-btn.del:hover { border-color: var(--red); color: var(--red); }
+.block-order { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--mid); margin-right: 2px; min-width: 1.2em; text-align: center; }
+
+/* Mapa de estructura del newsletter */
+.structure-map { display: flex; flex-direction: column; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.struct-row { padding: 10px 12px; display: flex; align-items: flex-start; gap: 10px; border-bottom: 1px solid var(--rule); }
+.struct-row:last-child { border-bottom: none; }
+.struct-row.admin { background: #fffaf7; border-left: 3px solid var(--red); margin-left: 0; }
+.struct-row.native-art { background: #f3f2ef; border-left: 3px solid var(--ink); }
+.struct-badge { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .08em; text-transform: uppercase; color: var(--mid); min-width: 76px; flex-shrink: 0; line-height: 1.35; }
+.struct-body { flex: 1; min-width: 0; font-size: 12px; line-height: 1.45; color: var(--ink); }
+.struct-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 8px; }
+.struct-btn { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .08em; text-transform: uppercase; padding: 7px 11px; border: 1px solid var(--rule); background: var(--white); cursor: pointer; color: var(--ink); transition: border-color .15s, background .15s; }
+.struct-btn:hover:not(:disabled) { border-color: var(--ink); background: var(--surface); }
+.struct-btn:disabled { opacity: .38; cursor: not-allowed; }
+
+/* Position selector */
+.pos-selector { display: flex; gap: 6px; }
+.pos-btn { flex: 1; padding: 7px; font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; border: 1px solid var(--rule); background: var(--off); cursor: pointer; transition: all .15s; color: var(--mid); }
+.pos-btn.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+/* RIGHT PANEL — preview */
+.panel-right { background: #f0eee9; overflow-y: auto; display: flex; flex-direction: column; align-items: center; padding: 32px 24px; }
+.preview-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--mid); margin-bottom: 16px; align-self: flex-start; }
+.preview-frame { width: 100%; max-width: 680px; background: var(--white); box-shadow: 0 4px 24px rgba(0,0,0,.1); }
+.preview-frame iframe { width: 100%; border: none; display: block; }
+
+/* TOAST */
+.toast { position: fixed; bottom: 24px; right: 24px; background: var(--ink); color: #fff; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: .08em; padding: 12px 20px; z-index: 999; transform: translateY(80px); opacity: 0; transition: all .25s; }
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.green { background: var(--green); }
+.toast.red { background: var(--red); }
+
+/* ── SELECTOR DE NOTICIAS ── */
+.selector-ov { display: none; position: fixed; inset: 0; z-index: 200; background: var(--off); flex-direction: column; }
+.selector-ov.on { display: flex; }
+.selector-top { background: var(--white); border-bottom: 1px solid var(--rule); padding: 0 32px; height: 54px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+.selector-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 900; color: var(--ink); }
+.selector-count { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--mid); }
+.selector-body { flex: 1; overflow-y: auto; padding: 28px 32px; }
+.selector-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
+.selector-field { display: flex; flex-direction: column; gap: 5px; }
+.selector-field label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--mid); }
+.selector-field input, .selector-field textarea { border: 1px solid var(--rule); background: var(--white); font-family: 'DM Sans', sans-serif; font-size: 13px; padding: 9px 12px; color: var(--ink); outline: none; width: 100%; }
+.selector-field input:focus, .selector-field textarea:focus { border-color: var(--ink); }
+.selector-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 10px; }
+.news-card { background: var(--white); border: 2px solid var(--rule); padding: 16px; cursor: pointer; transition: all .15s; user-select: none; position: relative; }
+.news-card:hover { border-color: var(--ink); }
+.news-card.selected { border-color: var(--red); background: #fff8f7; }
+.news-card-check { display: none; position: absolute; top: 10px; right: 12px; background: var(--red); color: #fff; width: 20px; height: 20px; border-radius: 50%; align-items: center; justify-content: center; font-size: 11px; }
+.news-card.selected .news-card-check { display: flex; }
+.news-card-cat { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .12em; text-transform: uppercase; color: var(--red); margin-bottom: 6px; padding-right: 28px; }
+.news-card-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; line-height: 1.25; color: var(--ink); margin-bottom: 8px; }
+.news-card-body { font-size: 11.5px; line-height: 1.6; color: var(--mid); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.news-card-url { font-family: 'DM Mono', monospace; font-size: 8px; color: var(--mid); margin-top: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.news-card-dark { font-family: 'DM Mono', monospace; font-size: 7px; letter-spacing: .1em; text-transform: uppercase; background: var(--ink); color: #fff; padding: 2px 6px; display: inline-block; margin-bottom: 6px; }
+.selector-footer { background: var(--white); border-top: 1px solid var(--rule); padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+.selector-hint { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--mid); }
+@media (max-width: 760px) { .selector-meta { grid-template-columns: 1fr; } .selector-grid { grid-template-columns: 1fr; } .selector-body { padding: 16px; } }
+</style>
+</head>
+<body>
+
+<!-- SELECTOR DE NOTICIAS -->
+<div class="selector-ov" id="selectorOv">
+  <div class="selector-top">
+    <div class="selector-title">INSIDE Life <span style="font-family:'DM Mono',monospace;font-size:10px;font-weight:400;color:var(--mid);">Selecciona las noticias</span></div>
+    <div class="selector-count" id="selectorCount">0 / 6 seleccionadas</div>
+  </div>
+  <div class="selector-body">
+    <div class="selector-meta">
+      <div class="selector-field"><label for="selEdicion">Numero de edicion</label><input type="text" id="selEdicion" placeholder="043"/></div>
+      <div class="selector-field"><label for="selFecha">Fecha</label><input type="text" id="selFecha" placeholder="14 Abril 2026"/></div>
+      <div class="selector-field"><label for="selTitular">Titular principal</label><input type="text" id="selTitular" placeholder="El titular de esta semana"/></div>
+      <div class="selector-field"><label for="selSubtitulo">Subtitulo (cursiva)</label><input type="text" id="selSubtitulo" placeholder="y lo que significa para ti"/></div>
+      <div class="selector-field" style="grid-column: 1 / -1;"><label for="selLead">Introduccion (lead)</label><textarea id="selLead" rows="3" placeholder="Introduccion de 2-3 frases..."></textarea></div>
+    </div>
+    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--mid);margin-bottom:12px;">Noticias disponibles -- selecciona entre 4 y 6</div>
+    <div class="selector-grid" id="selectorGrid"></div>
+  </div>
+  <div class="selector-footer">
+    <div class="selector-hint" id="selectorHint">Selecciona entre 4 y 6 noticias para continuar</div>
+    <button class="btn btn-publish" id="selectorConfirm" onclick="confirmSelection()" disabled>Generar newsletter &rarr;</button>
+  </div>
+</div>
+
+<!-- LOGIN -->
+<div class="login-ov" id="loginOv">
+  <div class="login-box">
+    <div class="login-logo">INSIDE Life</div>
+    <div class="login-sub">Panel de administración</div>
+    <div class="login-err" id="loginErr">Contraseña incorrecta</div>
+    <label class="login-lbl" for="loginPass">Contraseña</label>
+    <input class="login-in" type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password"/>
+    <button class="login-btn" onclick="doLogin()">Entrar →</button>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app" id="app">
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-brand">
+      <div class="topbar-logo">INSIDE Life</div>
+      <div class="topbar-tag">Admin</div>
+    </div>
+    <div class="topbar-actions">
+      <span><span class="status-dot" id="statusDot"></span><span class="status-txt" id="statusTxt">Cargando...</span></span>
+      <button class="btn btn-ghost" onclick="loadDraft()" title="Cargar borrador JSON">📥 Draft</button>
+      <button class="btn btn-ghost" onclick="loadNewsletter()">↻ Live</button>
+      <button class="btn btn-ghost" onclick="togglePreview()">👁 Preview</button>
+      <button class="btn btn-publish" id="publishBtn" onclick="publish()" disabled>▲ Publicar</button>
+    </div>
+  </header>
+
+  <div class="main">
+
+    <!-- LEFT: EDITOR -->
+    <aside class="panel-left">
+
+      <details class="panel-collapsible" open>
+        <summary class="panel-disclosure">Titular</summary>
+        <div class="field-group">
+          <label class="field-lbl" for="heroPageTitle">Título (pestaña del navegador)</label>
+          <input class="field-in" type="text" id="heroPageTitle" onchange="renderPreview()"/>
+        </div>
+        <div class="field-group">
+          <label class="field-lbl" for="heroEditionLine">Línea de edición</label>
+          <input class="field-in" type="text" id="heroEditionLine" onchange="renderPreview()" placeholder="Ej: 🌟 Edición #042 · 7 Abril 2026"/>
+        </div>
+        <div class="field-group">
+          <label class="field-lbl" for="heroH1Html">Titular principal</label>
+          <textarea class="field-in" id="heroH1Html" rows="4" onchange="renderPreview()" placeholder="HTML: &lt;br&gt;, &lt;em&gt;…&lt;/em&gt;"></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-lbl" for="heroMetaDesc">Descripción (meta)</label>
+          <input class="field-in" type="text" id="heroMetaDesc" onchange="renderPreview()"/>
+        </div>
+      </details>
+
+      <!-- Añadir bloque -->
+      <details class="panel-collapsible" open>
+        <summary class="panel-disclosure">Añadir bloque</summary>
+        <div class="block-types">
+          <button class="block-type-btn" onclick="selectBlockType('texto')">
+            <span class="bt-icon">📝</span>
+            <span class="bt-label">Texto</span>
+            <div class="bt-desc">Párrafo libre</div>
+          </button>
+          <button class="block-type-btn" onclick="selectBlockType('callout')">
+            <span class="bt-icon">📌</span>
+            <span class="bt-label">Callout</span>
+            <div class="bt-desc">Bloque destacado</div>
+          </button>
+          <button class="block-type-btn" onclick="selectBlockType('promo')">
+            <span class="bt-icon">🔥</span>
+            <span class="bt-label">Promo</span>
+            <div class="bt-desc">Fondo oscuro</div>
+          </button>
+          <button class="block-type-btn" onclick="selectBlockType('imagen')">
+            <span class="bt-icon">🖼</span>
+            <span class="bt-label">Imagen</span>
+            <div class="bt-desc">URL de imagen</div>
+          </button>
+        </div>
+      </details>
+
+      <!-- Editor de bloque activo -->
+      <div class="panel-section">
+        <div class="block-editor" id="blockEditor">
+          <div class="panel-title" id="editorTitle">Nuevo bloque</div>
+
+          <!-- Texto -->
+          <div id="ef-texto">
+            <div class="field-group">
+              <label class="field-lbl">Título (opcional)</label>
+              <input class="field-in" type="text" id="ef-texto-title" placeholder="Ej: Esta semana..."/>
+            </div>
+            <div class="field-group">
+              <label class="field-lbl">Contenido</label>
+              <textarea class="field-in" id="ef-texto-body" rows="5" placeholder="Escribe aquí el contenido del bloque..."></textarea>
+            </div>
+          </div>
+
+          <!-- Callout -->
+          <div id="ef-callout" style="display:none;">
+            <div class="field-group">
+              <label class="field-lbl">Etiqueta</label>
+              <input class="field-in" type="text" id="ef-callout-lbl" placeholder="Ej: 📌 Por qué importa"/>
+            </div>
+            <div class="field-group">
+              <label class="field-lbl">Texto</label>
+              <textarea class="field-in" id="ef-callout-body" rows="4" placeholder="Contenido del callout..."></textarea>
+            </div>
+          </div>
+
+          <!-- Promo -->
+          <div id="ef-promo" style="display:none;">
+            <div class="field-group">
+              <label class="field-lbl">Título</label>
+              <input class="field-in" type="text" id="ef-promo-title" placeholder="Ej: 🔥 Oferta especial"/>
+            </div>
+            <div class="field-group">
+              <label class="field-lbl">Texto</label>
+              <textarea class="field-in" id="ef-promo-body" rows="3" placeholder="Descripción de la promo..."></textarea>
+            </div>
+            <div class="field-group">
+              <label class="field-lbl">Enlace (opcional)</label>
+              <input class="field-in" type="text" id="ef-promo-link" placeholder="https://..."/>
+            </div>
+            <div class="field-group">
+              <label class="field-lbl">Texto del botón</label>
+              <input class="field-in" type="text" id="ef-promo-btn" placeholder="Ej: Ver más →"/>
+            </div>
+          </div>
+
+          <!-- Imagen -->
+          <div id="ef-imagen" style="display:none;">
+            <div class="field-group">
+              <label class="field-lbl">URL de la imagen</label>
+              <input class="field-in" type="text" id="ef-imagen-url" placeholder="https://..."/>
+            </div>
+            <div class="field-group">
+              <label class="field-lbl">Pie de foto (opcional)</label>
+              <input class="field-in" type="text" id="ef-imagen-caption" placeholder="Descripción de la imagen"/>
+            </div>
+          </div>
+
+          <!-- Posición -->
+          <div class="field-group" style="margin-top:16px;">
+            <label class="field-lbl">Posición en el newsletter</label>
+            <div class="pos-selector">
+              <button class="pos-btn active" id="pos-top" onclick="setPos('top')">↑ Arriba</button>
+              <button class="pos-btn" id="pos-bottom" onclick="setPos('bottom')">↓ Abajo</button>
+            </div>
+          </div>
+
+          <div class="editor-actions">
+            <button class="btn btn-ghost" onclick="cancelBlock()" style="flex:1;">Cancelar</button>
+            <button class="btn btn-primary" id="saveBlockBtn" onclick="addBlock()" style="flex:2;">Añadir bloque →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mapa: piezas del newsletter + tus bloques (mover / editar) -->
+      <details class="panel-collapsible" id="structureSection" style="display:none;" open>
+        <summary class="panel-disclosure">Orden</summary>
+        <div class="structure-map" id="structureMap"></div>
+        <div id="nativeArticleEditor" style="display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--rule);">
+          <div class="panel-title">Editar nota <span id="nativeEditSidLabel"></span></div>
+          <textarea class="field-in" id="nativeArticleEditorHtml" rows="12" style="font-family:'DM Mono',monospace;font-size:11px;line-height:1.45;" placeholder="HTML del bloque de la nota…"></textarea>
+          <div class="editor-actions" style="margin-top:10px;">
+            <button type="button" class="btn btn-ghost" onclick="cancelNativeArticleEdit()" style="flex:1;">Cancelar</button>
+            <button type="button" class="btn btn-primary" onclick="saveNativeArticleEdit()" style="flex:2;">Guardar nota</button>
+          </div>
+        </div>
+      </details>
+
+    </aside>
+
+    <!-- RIGHT: PREVIEW -->
+    <div class="panel-right" id="panelRight">
+      <div class="preview-label">Vista previa del newsletter</div>
+      <div class="preview-frame">
+        <iframe id="previewFrame" style="min-height:600px;"></iframe>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
 // ─── CONFIG ───────────────────────────────────────
 // Paso 2 seguridad: mismo valor en Vercel → Settings → Environment Variables → ADMIN_API_SECRET
 const ADMIN_PASS = 'bpM58914032-*';
@@ -41,27 +439,33 @@ function doLogin() {
   }
 }
 
-// ─── LOAD DRAFT (JSON) ────────────────────────────
-var draftData = null;
-var selectedIds = [];
-
+// ─── LOAD DRAFT (HTML) ───────────────────────────
 async function loadDraft() {
   setStatus('loading', 'Cargando draft...');
   try {
     var [rDraft, rLive] = await Promise.all([
-      fetch(API + '?file=' + encodeURIComponent('newsletter-draft.json'), { headers: apiHeaders(false) }),
+      fetch(API + '?file=' + encodeURIComponent('newsletter-draft.html'), { headers: apiHeaders(false) }),
       fetch(API + '?file=' + encodeURIComponent(FILE), { headers: apiHeaders(false) })
     ]);
     var draft = await rDraft.json();
     var live  = await rLive.json();
     if (draft.error) throw new Error('Draft no encontrado: ' + draft.error);
     if (live.error)  throw new Error(live.error);
-    currentSHA = live.sha;
-    draftData  = JSON.parse(draft.content);
-    setStatus('ok', 'Draft cargado');
-    openSelector();
+    originalHTML = draft.content;
+    currentSHA   = live.sha;
+    nativeArticleOverrides = {};
+    articleOrder = [];
+    blocks = [];
+    document.getElementById('publishBtn').disabled = false;
+    setStatus('ok', 'Draft cargado ✓');
+    populateHeroFieldsFromHtml();
+    syncArticleOrderFromHtml();
+    cancelNativeArticleEdit();
+    renderStructureMap();
+    renderPreview();
+    toast('Draft cargado — revisa y publica cuando esté listo', 'green');
   } catch(e) {
-    setStatus('', 'Error');
+    setStatus('', 'Error al cargar draft');
     toast('Error: ' + e.message, 'red');
   }
 }
@@ -933,3 +1337,6 @@ function toast(msg, type) {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(function() { el.className = 'toast'; }, 3500);
 }
+</script>
+</body>
+</html>
