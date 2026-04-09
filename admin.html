@@ -632,19 +632,27 @@ function applyNativeArticleReorder(html) {
 function setArticleStyle(sid, styleClass) {
   var outerHtml = getNativeArticleOuterHtmlBySid(sid);
   if (!outerHtml) return;
+  // Use DOM parser for reliable class manipulation
+  var wrap = document.createElement('div');
+  wrap.innerHTML = outerHtml.trim();
+  var artEl = wrap.firstElementChild;
+  if (!artEl) return;
   // Remove existing style classes
-  outerHtml = outerHtml.replace(/class="nl-art([^"]*)"/,  function(match, rest) {
-    var cleaned = rest.replace(/\s*(nl-art-dark|nl-art-blue)/g, '').trim();
-    var newClass = 'nl-art' + (cleaned ? ' ' + cleaned : '') + (styleClass ? ' ' + styleClass : '');
-    return 'class="' + newClass.trim() + '"';
-  });
-  // Fix art-n color for dark
-  if (styleClass === 'nl-art-dark') {
-    outerHtml = outerHtml.replace(/<div class="art-n"[^>]*>/, '<div class="art-n" style="background:#f5a58c;color:#0d0d0d;">');
-  } else {
-    outerHtml = outerHtml.replace(/<div class="art-n"[^>]*>/, '<div class="art-n">');
+  artEl.classList.remove('nl-art-dark', 'nl-art-blue');
+  // Add new class if provided
+  if (styleClass) artEl.classList.add(styleClass);
+  // Fix art-n numbering style
+  var artN = artEl.querySelector('.art-n');
+  if (artN) {
+    if (styleClass === 'nl-art-dark') {
+      artN.style.background = '#f5a58c';
+      artN.style.color = '#0d0d0d';
+    } else {
+      artN.style.background = '';
+      artN.style.color = '';
+    }
   }
-  nativeArticleOverrides[sid] = outerHtml;
+  nativeArticleOverrides[sid] = wrap.innerHTML;
   renderStructureMap();
   renderPreview();
   toast('Estilo actualizado', 'green');
