@@ -632,26 +632,37 @@ function applyNativeArticleReorder(html) {
 function setArticleStyle(sid, styleClass) {
   var outerHtml = getNativeArticleOuterHtmlBySid(sid);
   if (!outerHtml) return;
-  // Use DOM parser for reliable class manipulation
   var wrap = document.createElement('div');
   wrap.innerHTML = outerHtml.trim();
   var artEl = wrap.firstElementChild;
   if (!artEl) return;
-  // Remove existing style classes
+  // Remove existing style classes and inline styles from previous blue
   artEl.classList.remove('nl-art-dark', 'nl-art-blue');
-  // Add new class if provided
-  if (styleClass) artEl.classList.add(styleClass);
-  // Fix art-n numbering style
+  artEl.style.background = '';
+  artEl.style.borderLeft = '';
+  // Fix art-n
   var artN = artEl.querySelector('.art-n');
-  if (artN) {
-    if (styleClass === 'nl-art-dark') {
-      artN.style.background = '#f5a58c';
-      artN.style.color = '#0d0d0d';
-    } else {
-      artN.style.background = '';
-      artN.style.color = '';
-    }
+  var artH2 = artEl.querySelector('.art-h2');
+  var artSrc = artEl.querySelector('.art-src');
+  var artBody = artEl.querySelector('.art-body');
+  if (artN) { artN.style.background = ''; artN.style.color = ''; }
+  if (artH2) { artH2.style.color = ''; }
+  if (artSrc) { artSrc.style.color = ''; }
+  if (artBody) { artBody.style.color = ''; }
+
+  if (styleClass === 'nl-art-dark') {
+    artEl.classList.add('nl-art-dark');
+    if (artN) { artN.style.background = '#f5a58c'; artN.style.color = '#0d0d0d'; }
+  } else if (styleClass === 'nl-art-blue') {
+    // Apply blue styles inline so they work inside the iframe
+    artEl.style.background = '#eef4fb';
+    artEl.style.borderLeft = '4px solid #2d7dd2';
+    if (artN) { artN.style.background = '#2d7dd2'; artN.style.color = '#fff'; }
+    if (artH2) { artH2.style.color = '#1a3a5c'; }
+    if (artSrc) { artSrc.style.color = '#2d7dd2'; }
+    if (artBody) { artBody.style.color = '#2d3748'; }
   }
+
   nativeArticleOverrides[sid] = wrap.innerHTML;
   renderStructureMap();
   renderPreview();
