@@ -1,0 +1,348 @@
+{
+  "name": "INSIDE Life: Newsletter Semanal",
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "meta": {
+    "description": "Flujo completo: lee newsletters de Gmail, genera HTML con Claude, guarda draft en GitHub, notifica por Telegram. Webhook separado para publicar y enviar campaña Brevo. Sustituye YOUR_* y en Crear Campana Brevo cambia listIds por tu ID de lista (número en Brevo). Secret del webhook: CAMBIA_ESTE_SECRET en nodo Verificar Secret y en el POST."
+  },
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [{ "field": "weeks", "interval": 1, "weekday": [1], "timeHour": 8, "timeMinute": 0 }]
+        }
+      },
+      "id": "1a000001-0001-4000-8000-000000000001",
+      "name": "Lunes 8h",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [200, 300]
+    },
+    {
+      "parameters": {
+        "filters": { "q": "label:Newsletters newer_than:7d" },
+        "limit": 10
+      },
+      "id": "1a000002-0002-4000-8000-000000000002",
+      "name": "Listar Newsletters",
+      "type": "n8n-nodes-base.googleGmail",
+      "typeVersion": 2.1,
+      "position": [420, 300],
+      "credentials": {
+        "googleGmailOAuth2Api": { "id": "YOUR_GMAIL_CREDENTIAL_ID", "name": "Gmail account" }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "messageId": "={{ $json.id }}",
+        "format": "resolved"
+      },
+      "id": "1a000003-0003-4000-8000-000000000003",
+      "name": "Leer Email",
+      "type": "n8n-nodes-base.googleGmail",
+      "typeVersion": 2.1,
+      "position": [640, 300],
+      "credentials": {
+        "googleGmailOAuth2Api": { "id": "YOUR_GMAIL_CREDENTIAL_ID", "name": "Gmail account" }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const allItems = $input.all();\nlet combinedText = '';\nlet count = 0;\nfor (const item of allItems) {\n  const j = item.json;\n  const subject = j.subject || j.Subject || 'Sin asunto';\n  const from = j.from || j.From || '';\n  const body = j.textPlain || j.text || j.snippet || '';\n  const slice = typeof body === 'string' ? body.substring(0, 10000) : String(body).substring(0, 10000);\n  combinedText += '=== NEWSLETTER ' + (++count) + ' ===\\nDE: ' + from + '\\nASUNTO: ' + subject + '\\n\\n' + slice + '\\n\\n';\n}\nreturn [{ json: { combinedText: combinedText.substring(0, 160000), totalNewsletters: count } }];"
+      },
+      "id": "1a000004-0004-4000-8000-000000000004",
+      "name": "Combinar Emails",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [860, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "x-api-key", "value": "YOUR_ANTHROPIC_API_KEY" },
+            { "name": "anthropic-version", "value": "2023-06-01" },
+            { "name": "content-type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 16384, system: 'Eres el editor de INSIDE Life, newsletter semanal de Jorge Lorenzo sobre IA, automatizacion, deporte y emprendimiento.\\n\\nTU TAREA: Selecciona las 4-6 noticias mas relevantes de los emails y genera UNA edicion semanal completa en HTML.\\n\\nESTRUCTURA HTML OBLIGATORIA - usa exactamente estas clases CSS (el CSS ya esta en el template base del repo):\\n\\n- nav con topnav, nav-brand, nav-title, nav-badge, botnav\\n- modal suscripcion con sub-ov, sub-box, sub-form\\n- reader con id=sec-reader display:block padding-top:54px\\n- reader-back con back-btn\\n- nl-hero (fondo negro) con nl-ey, nl-h1 (con em para cursiva), nl-lead\\n- nl-idx con nl-idx-lbl y nl-idx-list de nl-idx-a\\n- articulos nl-art con art-hdr, art-n (numero rojo), art-src (fuente), art-h2, art-body\\n- callouts con callout + callout-lbl para lecciones practicas\\n- stats con .stats > .stat > .stat-n + .stat-l para datos numericos\\n- bullets con .bullets > li para listas\\n- una seccion nl-art-dark (fondo negro) para el tema mas impactante\\n- nl-foot con nl-foot-row, nl-sig, nl-flinks\\n\\nLINKS DEL FOOTER: LinkedIn https://www.linkedin.com/in/jorge-lorenzo-25ba3518/ | X https://x.com/JLbasket | Instagram https://www.instagram.com/jorgelorenzo.coach | Bio https://bio.jorgelorenzo.coach/ | jorge@insidelife.club\\n\\nDOCUMENTOS LEGALES en footer: documentos-legales/politica-de-privacidad.html | aviso-legal.html | politica-de-cookies.html | terminos-y-condiciones-de-uso.html | condiciones-generales-de-contratacion.html\\n\\nBREVO FORM ACTION: https://1e22ccbe.sibforms.com/serve/MUIFAImNtjNmHq5LpaK-cn-6fXZj5OMRIVi_N2j6sO7lOgYfku227N7flq9_ysaKRpGIzgIY8btJ3-h4kOQhmC5l9ozewXKT_MEvCEYOwN1TiDHU49xmvpWYfkrX92_-kK8SYfS45ADUH_hwHxFeEND8x42g9boudtaQwXph5CfjEf-XeKGJZS0xPc7pZjPPJn9U_0uFCE_NhFOn\\n\\nREGLAS:\\n- Escribe en espanol, tono directo y experto tipo amigo\\n- No inventes datos, solo usa lo que hay en los emails\\n- El nl-h1 debe ser un titular memorable y especifico de esta semana\\n- Numera los articulos con art-n del 1 al N\\n- Devuelve EXCLUSIVAMENTE el HTML completo sin markdown ni explicaciones', messages: [{ role: 'user', content: 'Genera la edicion de INSIDE Life con estos ' + $json.totalNewsletters + ' newsletters:\\n\\n' + $json.combinedText }] }) }}"
+      },
+      "id": "1a000005-0005-4000-8000-000000000005",
+      "name": "Claude genera HTML",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1080, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const root = $input.first().json;\nconst blocks = root.content || [];\nlet text = '';\nfor (const b of blocks) {\n  if (b && b.type === 'text' && b.text) text += b.text;\n}\ntext = text.replace(/^\\s*```html\\s*/i, '').replace(/\\s*```\\s*$/i, '').trim();\nif (!text || text.length < 500) throw new Error('Claude no devolvio HTML valido. Longitud: ' + text.length);\nreturn [{ json: { newsletterHtml: text, htmlLength: text.length } }];"
+      },
+      "id": "1a000006-0006-4000-8000-000000000006",
+      "name": "Extraer HTML",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1300, 300]
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "get",
+        "owner": "basketouch",
+        "repository": "INSIDE-Life",
+        "filePath": "newsletter-draft.html"
+      },
+      "id": "1a000007-0007-4000-8000-000000000007",
+      "name": "Obtener SHA Draft",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [1520, 200],
+      "credentials": {
+        "githubApi": { "id": "YOUR_GITHUB_CREDENTIAL_ID", "name": "GitHub account" }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const extractNode = $('Extraer HTML').first().json;\nconst shaNode = $input.first().json;\nconst sha = shaNode.sha || '';\nreturn [{ json: { newsletterHtml: extractNode.newsletterHtml, sha: sha } }];"
+      },
+      "id": "1a000008-0008-4000-8000-000000000008",
+      "name": "Combinar SHA y HTML",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1520, 300]
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "edit",
+        "owner": "basketouch",
+        "repository": "INSIDE-Life",
+        "filePath": "newsletter-draft.html",
+        "fileContent": "={{ $json.newsletterHtml }}",
+        "commitMessage": "chore: borrador newsletter semanal (n8n)",
+        "additionalParameters": { "sha": "={{ $json.sha }}" }
+      },
+      "id": "1a000009-0009-4000-8000-000000000009",
+      "name": "Guardar Draft GitHub",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [1740, 300],
+      "credentials": {
+        "githubApi": { "id": "YOUR_GITHUB_CREDENTIAL_ID", "name": "GitHub account" }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "YOUR_TELEGRAM_CHAT_ID",
+        "text": "📝 *INSIDE Life — Borrador listo*\n\nEl newsletter de esta semana esta generado y guardado en GitHub.\n\nRevisa y edita en:\nhttps://insidelife.club/admin\n\nCuando este listo, pulsa *PUBLICAR* en el admin.",
+        "additionalFields": { "parse_mode": "Markdown" }
+      },
+      "id": "1a00000a-000a-4000-8000-00000000000a",
+      "name": "Notificar Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1960, 300],
+      "credentials": {
+        "telegramApi": { "id": "YOUR_TELEGRAM_CREDENTIAL_ID", "name": "Telegram account" }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "inside-life-publish",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "1a00000b-000b-4000-8000-00000000000b",
+      "name": "Webhook Publicar",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [200, 600],
+      "webhookId": "inside-life-publish"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
+          "conditions": [{
+            "id": "check-secret",
+            "leftValue": "={{ ($json.body && $json.body.secret) ? $json.body.secret : ($json.secret || '') }}",
+            "rightValue": "CAMBIA_ESTE_SECRET",
+            "operator": { "type": "string", "operation": "equals" }
+          }],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "1a00000c-000c-4000-8000-00000000000c",
+      "name": "Verificar Secret",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [420, 600]
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "get",
+        "owner": "basketouch",
+        "repository": "INSIDE-Life",
+        "filePath": "newsletter-draft.html"
+      },
+      "id": "1a00000d-000d-4000-8000-00000000000d",
+      "name": "Leer Draft",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [640, 520],
+      "credentials": {
+        "githubApi": { "id": "YOUR_GITHUB_CREDENTIAL_ID", "name": "GitHub account" }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\nif (!item.content) throw new Error('newsletter-draft.html vacio o no encontrado');\nconst html = Buffer.from(item.content, 'base64').toString('utf8');\nreturn [{ json: { draftHtml: html, draftSha: item.sha || '' } }];"
+      },
+      "id": "1a00000e-000e-4000-8000-00000000000e",
+      "name": "Decodificar Draft",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [860, 520]
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "get",
+        "owner": "basketouch",
+        "repository": "INSIDE-Life",
+        "filePath": "newsletter.html"
+      },
+      "id": "1a00000f-000f-4000-8000-00000000000f",
+      "name": "Obtener SHA Live",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [1080, 520],
+      "credentials": {
+        "githubApi": { "id": "YOUR_GITHUB_CREDENTIAL_ID", "name": "GitHub account" }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const draft = $('Decodificar Draft').first().json;\nconst live = $input.first().json;\nreturn [{ json: { draftHtml: draft.draftHtml, liveSha: live.sha } }];"
+      },
+      "id": "1a000010-0010-4000-8000-000000000010",
+      "name": "Combinar para Publicar",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1080, 620]
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "edit",
+        "owner": "basketouch",
+        "repository": "INSIDE-Life",
+        "filePath": "newsletter.html",
+        "fileContent": "={{ $json.draftHtml }}",
+        "commitMessage": "chore: publicar newsletter semanal (n8n)",
+        "additionalParameters": { "sha": "={{ $json.liveSha }}" }
+      },
+      "id": "1a000011-0011-4000-8000-000000000011",
+      "name": "Publicar en GitHub",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [1300, 520],
+      "credentials": {
+        "githubApi": { "id": "YOUR_GITHUB_CREDENTIAL_ID", "name": "GitHub account" }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return new Promise((resolve) => {\n  setTimeout(() => resolve($input.all()), 45000);\n});"
+      },
+      "id": "1a000012-0012-4000-8000-000000000012",
+      "name": "Esperar Vercel 45s",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1520, 520]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.brevo.com/v3/emailCampaigns",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "api-key", "value": "YOUR_BREVO_API_KEY" },
+            { "name": "content-type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ name: 'INSIDE Life - ' + new Date().toLocaleDateString('es-ES', {day:'numeric', month:'long', year:'numeric'}), subject: '🌟 Tu INSIDE Life de esta semana ya esta aqui', sender: { name: 'Jorge Lorenzo · INSIDE Life', email: 'jorge@insidelife.club' }, type: 'classic', htmlContent: '<html><body style=\"margin:0;padding:0;background:#f8f6f2;font-family:sans-serif;\"><table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\"><tr><td align=\"center\" style=\"padding:40px 20px;\"><table width=\"560\" style=\"background:#fff;\"><tr><td style=\"background:#111;padding:32px 40px;\"><div style=\"font-family:Georgia,serif;font-size:26px;font-weight:900;color:#fff;\">INSIDE Life</div><div style=\"font-family:monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#e8401c;margin-top:6px;\">by Jorge Lorenzo · cada martes</div></td></tr><tr><td style=\"padding:32px 40px;\"><p style=\"font-size:15px;line-height:1.75;color:#333;margin:0 0 20px;\">Hola,</p><p style=\"font-size:15px;line-height:1.75;color:#333;margin:0 0 28px;\">Esta semana hay cosas interesantes que contarte sobre IA, automatizacion y todo lo que se mueve. Lo tienes ya listo.</p><table width=\"100%\"><tr><td align=\"center\" style=\"padding:4px 0 28px;\"><a href=\"https://insidelife.club/newsletter\" style=\"display:inline-block;background:#111;color:#fff;font-family:monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:16px 32px;text-decoration:none;\">LEER ESTA EDICION &rarr;</a></td></tr></table><p style=\"font-size:13px;line-height:1.65;color:#767676;margin:0;\">Como siempre, sin ruido y sin relleno. Solo lo que vale la pena.</p><p style=\"font-family:Georgia,serif;font-size:15px;color:#111;margin:24px 0 4px;\">Jorge Lorenzo</p><p style=\"font-size:12px;color:#767676;font-style:italic;margin:0;\">INSIDE Life</p></td></tr><tr><td style=\"background:#f8f6f2;padding:18px 40px;border-top:1px solid #e8e4de;\"><p style=\"font-size:10px;color:#767676;margin:0;font-family:monospace;\">Recibes esto porque te suscribiste en insidelife.club &nbsp;|&nbsp; <a href=\"{unsubscribe}\" style=\"color:#767676;\">Darse de baja</a></p></td></tr></table></td></tr></table></body></html>', recipients: { listIds: [1] } }) }}"
+      },
+      "id": "1a000013-0013-4000-8000-000000000013",
+      "name": "Crear Campana Brevo",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1740, 520],
+      "notes": "Sustituye YOUR_BREVO_API_KEY en cabecera. En jsonBody cambia listIds: [1] por el ID numérico de tu lista en Brevo (Contacts > Lists)."
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.brevo.com/v3/emailCampaigns/{{ $json.id }}/sendNow",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [{ "name": "api-key", "value": "YOUR_BREVO_API_KEY" }]
+        },
+        "options": {}
+      },
+      "id": "1a000014-0014-4000-8000-000000000014",
+      "name": "Enviar Campana Brevo",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1960, 520]
+    },
+    {
+      "parameters": {
+        "chatId": "YOUR_TELEGRAM_CHAT_ID",
+        "text": "✅ *INSIDE Life publicado y enviado*\n\nEmail enviado a todos los suscriptores\nWeb actualizada: https://insidelife.club/newsletter",
+        "additionalFields": { "parse_mode": "Markdown" }
+      },
+      "id": "1a000015-0015-4000-8000-000000000015",
+      "name": "Confirmar Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [2180, 520],
+      "credentials": {
+        "telegramApi": { "id": "YOUR_TELEGRAM_CREDENTIAL_ID", "name": "Telegram account" }
+      }
+    }
+  ],
+  "connections": {
+    "Lunes 8h": { "main": [[{ "node": "Listar Newsletters", "type": "main", "index": 0 }]] },
+    "Listar Newsletters": { "main": [[{ "node": "Leer Email", "type": "main", "index": 0 }]] },
+    "Leer Email": { "main": [[{ "node": "Combinar Emails", "type": "main", "index": 0 }]] },
+    "Combinar Emails": { "main": [[{ "node": "Claude genera HTML", "type": "main", "index": 0 }]] },
+    "Claude genera HTML": { "main": [[{ "node": "Extraer HTML", "type": "main", "index": 0 }]] },
+    "Extraer HTML": { "main": [[{ "node": "Obtener SHA Draft", "type": "main", "index": 0 }]] },
+    "Obtener SHA Draft": { "main": [[{ "node": "Combinar SHA y HTML", "type": "main", "index": 0 }]] },
+    "Combinar SHA y HTML": { "main": [[{ "node": "Guardar Draft GitHub", "type": "main", "index": 0 }]] },
+    "Guardar Draft GitHub": { "main": [[{ "node": "Notificar Telegram", "type": "main", "index": 0 }]] },
+    "Webhook Publicar": { "main": [[{ "node": "Verificar Secret", "type": "main", "index": 0 }]] },
+    "Verificar Secret": { "main": [[{ "node": "Leer Draft", "type": "main", "index": 0 }], []] },
+    "Leer Draft": { "main": [[{ "node": "Decodificar Draft", "type": "main", "index": 0 }]] },
+    "Decodificar Draft": { "main": [[{ "node": "Obtener SHA Live", "type": "main", "index": 0 }]] },
+    "Obtener SHA Live": { "main": [[{ "node": "Combinar para Publicar", "type": "main", "index": 0 }]] },
+    "Combinar para Publicar": { "main": [[{ "node": "Publicar en GitHub", "type": "main", "index": 0 }]] },
+    "Publicar en GitHub": { "main": [[{ "node": "Esperar Vercel 45s", "type": "main", "index": 0 }]] },
+    "Esperar Vercel 45s": { "main": [[{ "node": "Crear Campana Brevo", "type": "main", "index": 0 }]] },
+    "Crear Campana Brevo": { "main": [[{ "node": "Enviar Campana Brevo", "type": "main", "index": 0 }]] },
+    "Enviar Campana Brevo": { "main": [[{ "node": "Confirmar Telegram", "type": "main", "index": 0 }]] }
+  }
+}

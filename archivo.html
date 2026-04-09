@@ -111,20 +111,20 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
     <li><a href="/archivo" style="color:var(--ink);">Ediciones</a></li>
     <li><a href="/#sobre">Sobre mí</a></li>
   </ul>
-  <a href="#" class="nav-sub" onclick="openSub();return false;">Suscribirse</a>
+  <a href="#" class="nav-sub" data-open-sub>Suscribirse</a>
 </header>
 
 <!-- BOTTOM NAV mobile -->
 <nav class="botnav">
   <a href="/">Inicio</a>
   <a href="/archivo" class="active">Ediciones</a>
-  <a href="#" onclick="openSub();return false;">Unirme</a>
+  <a href="#" data-open-sub>Unirme</a>
 </nav>
 
 <!-- SUBSCRIPTION MODAL -->
-<div class="sub-ov" id="subOv" onclick="bgClose(event)">
+<div class="sub-ov" id="subOv">
   <div class="sub-box">
-    <button class="sub-close" onclick="closeSub()">×</button>
+    <button type="button" class="sub-close" data-close-sub>×</button>
     <div id="subForm">
       <div class="sub-kicker">✦ Por Jorge Lorenzo · cada semana</div>
       <h2 class="sub-h2">Únete a INSIDE Life</h2>
@@ -137,7 +137,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
         <label class="sub-lbl" for="sEmail">Tu email</label>
         <input class="sub-in" type="email" id="sEmail" placeholder="jorge@email.com" autocomplete="email"/>
       </div>
-      <button class="sub-btn" onclick="submitSub()">UNIRME AL CLUB →</button>
+      <button type="button" class="sub-btn" data-submit-sub>UNIRME AL CLUB →</button>
       <div class="sub-note">Sin spam · Cada martes · Baja cuando quieras</div>
     </div>
     <div class="sub-ok" id="subOk">
@@ -208,53 +208,6 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
   </footer>
 </div>
 
-<script>
-function openSub() {
-  document.getElementById('subOv').classList.add('open');
-  document.body.style.overflow = 'hidden';
-  setTimeout(function() { document.getElementById('sNombre').focus(); }, 120);
-}
-function closeSub() {
-  document.getElementById('subOv').classList.remove('open');
-  document.body.style.overflow = '';
-}
-function bgClose(e) {
-  if (e.target === document.getElementById('subOv')) closeSub();
-}
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') closeSub();
-});
-function submitSub() {
-  var nombre = document.getElementById('sNombre').value.trim();
-  var email  = document.getElementById('sEmail').value.trim();
-  var eIn    = document.getElementById('sEmail');
-  if (!email || !email.includes('@')) { eIn.classList.add('err'); eIn.focus(); return; }
-  eIn.classList.remove('err');
-  var f = document.createElement('form');
-  f.method = 'POST';
-  f.action = 'https://1e22ccbe.sibforms.com/serve/MUIFAImNtjNmHq5LpaK-cn-6fXZj5OMRIVi_N2j6sO7lOgYfku227N7flq9_ysaKRpGIzgIY8btJ3-h4kOQhmC5l9ozewXKT_MEvCEYOwN1TiDHU49xmvpWYfkrX92_-kK8SYfS45ADUH_hwHxFeEND8x42g9boudtaQwXph5CfjEf-XeKGJZS0xPc7pZjPPJn9U_0uFCE_NhFOn';
-  f.target = 'sib-frame';
-  f.style.display = 'none';
-  function addField(n, v) { var i = document.createElement('input'); i.name = n; i.value = v; f.appendChild(i); }
-  addField('EMAIL', email);
-  addField('email_address_check', '');
-  addField('locale', 'es');
-  if (nombre) addField('FIRSTNAME', nombre);
-  document.body.appendChild(f);
-  f.submit();
-  document.body.removeChild(f);
-  document.getElementById('subForm').style.display = 'none';
-  document.getElementById('subOk').style.display = 'block';
-  setTimeout(function() {
-    closeSub();
-    setTimeout(function() {
-      document.getElementById('subForm').style.display = 'block';
-      document.getElementById('subOk').style.display = 'none';
-      document.getElementById('sNombre').value = '';
-      document.getElementById('sEmail').value = '';
-    }, 400);
-  }, 3000);
-}
-</script>
+<script src="/site.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,935 @@
+// ─── CONFIG ───────────────────────────────────────
+// Paso 2 seguridad: mismo valor en Vercel → Settings → Environment Variables → ADMIN_API_SECRET
+const ADMIN_PASS = 'bpM58914032-*';
+const FILE       = 'newsletter.html';
+const API        = '/api/github';
+
+// ─── STATE ────────────────────────────────────────
+var apiBearer    = '';     // Bearer = misma clave que ADMIN_PASS tras login
+var originalHTML = '';
+var currentSHA   = '';
+var blocks         = [];     // bloques añadidos por el admin
+var blockPos       = 'top';  // top | bottom
+var currentType    = null;
+var editingBlockId = null;   // si no null, addBlock() actualiza ese bloque
+var articleOrder   = [];     // orden de ids de .nl-art (ej. a1,a2…) dentro del reader; se renumeran al generar HTML
+var nativeArticleOverrides = {}; // sid -> outerHTML del .nl-art editado (solo sesión hasta publicar / recargar)
+var editingNativeSid = null;
+
+function apiHeaders(jsonBody) {
+  var h = { Authorization: 'Bearer ' + apiBearer };
+  if (jsonBody) h['Content-Type'] = 'application/json';
+  return h;
+}
+
+// ─── LOGIN ────────────────────────────────────────
+document.getElementById('loginPass').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') doLogin();
+});
+
+function doLogin() {
+  var pass = document.getElementById('loginPass').value;
+  if (pass === ADMIN_PASS) {
+    apiBearer = pass;
+    document.getElementById('loginOv').style.display = 'none';
+    document.getElementById('app').classList.add('on');
+    loadNewsletter();
+  } else {
+    document.getElementById('loginErr').style.display = 'block';
+    document.getElementById('loginPass').value = '';
+    document.getElementById('loginPass').focus();
+  }
+}
+
+// ─── LOAD DRAFT (JSON) ────────────────────────────
+var draftData = null;
+var selectedIds = [];
+
+async function loadDraft() {
+  setStatus('loading', 'Cargando draft...');
+  try {
+    var [rDraft, rLive] = await Promise.all([
+      fetch(API + '?file=' + encodeURIComponent('newsletter-draft.json'), { headers: apiHeaders(false) }),
+      fetch(API + '?file=' + encodeURIComponent(FILE), { headers: apiHeaders(false) })
+    ]);
+    var draft = await rDraft.json();
+    var live  = await rLive.json();
+    if (draft.error) throw new Error('Draft no encontrado: ' + draft.error);
+    if (live.error)  throw new Error(live.error);
+    currentSHA = live.sha;
+    draftData  = JSON.parse(draft.content);
+    setStatus('ok', 'Draft cargado');
+    openSelector();
+  } catch(e) {
+    setStatus('', 'Error');
+    toast('Error: ' + e.message, 'red');
+  }
+}
+
+function openSelector() {
+  if (!draftData) return;
+  var grid = document.getElementById('selectorGrid');
+  grid.innerHTML = '';
+  selectedIds = [];
+  document.getElementById('selEdicion').value   = draftData.edicion   || '';
+  document.getElementById('selFecha').value     = draftData.fecha     || '';
+  document.getElementById('selTitular').value   = draftData.titular   || '';
+  document.getElementById('selSubtitulo').value = draftData.subtitulo || '';
+  document.getElementById('selLead').value      = draftData.lead      || '';
+  (draftData.articulos || []).forEach(function(art, i) {
+    var card = document.createElement('div');
+    card.className = 'news-card';
+    card.onclick = function() { toggleCard(i, card); };
+    var bodyText = (art.cuerpo || '').replace(/<[^>]+>/g, '').substring(0, 120) + '...';
+    var urlHtml  = art.url ? '<div class="news-card-url">' + art.url + '</div>' : '';
+    var darkBadge= art.dark ? '<div class="news-card-dark">DESTACADA</div>' : '';
+    card.innerHTML =
+      '<div class="news-card-check">&#10003;</div>' +
+      darkBadge +
+      '<div class="news-card-cat">' + (art.categoria || '') + '</div>' +
+      '<div class="news-card-title">' + (art.titulo || '') + '</div>' +
+      '<div class="news-card-body">' + bodyText + '</div>' +
+      urlHtml;
+    grid.appendChild(card);
+  });
+  updateSelectorCount();
+  document.getElementById('selectorOv').classList.add('on');
+}
+
+function toggleCard(idx, card) {
+  var pos = selectedIds.indexOf(idx);
+  if (pos >= 0) {
+    selectedIds.splice(pos, 1);
+    card.classList.remove('selected');
+  } else {
+    if (selectedIds.length >= 6) { toast('Maximo 6 noticias', 'red'); return; }
+    selectedIds.push(idx);
+    card.classList.add('selected');
+  }
+  updateSelectorCount();
+}
+
+function updateSelectorCount() {
+  var n = selectedIds.length;
+  document.getElementById('selectorCount').textContent = n + ' / 6 seleccionadas';
+  var ok = n >= 4 && n <= 6;
+  document.getElementById('selectorConfirm').disabled = !ok;
+  document.getElementById('selectorHint').textContent = ok
+    ? 'Listo! Pulsa para generar el newsletter.'
+    : 'Selecciona entre 4 y 6 noticias para continuar';
+}
+
+function confirmSelection() {
+  if (selectedIds.length < 4 || selectedIds.length > 6) return;
+  var seleccion = {
+    edicion:   document.getElementById('selEdicion').value.trim()   || draftData.edicion,
+    fecha:     document.getElementById('selFecha').value.trim()     || draftData.fecha,
+    titular:   document.getElementById('selTitular').value.trim()   || draftData.titular,
+    subtitulo: document.getElementById('selSubtitulo').value.trim() || draftData.subtitulo,
+    lead:      document.getElementById('selLead').value.trim()      || draftData.lead,
+    articulos: selectedIds.map(function(i) { return draftData.articulos[i]; })
+  };
+  var html = buildNewsletterHTML(seleccion);
+  originalHTML = html;
+  nativeArticleOverrides = {};
+  articleOrder = [];
+  blocks = [];
+  document.getElementById('selectorOv').classList.remove('on');
+  document.getElementById('publishBtn').disabled = false;
+  setStatus('ok', 'Listo para publicar');
+  populateHeroFieldsFromHtml();
+  syncArticleOrderFromHtml();
+  cancelNativeArticleEdit();
+  renderStructureMap();
+  renderPreview();
+  toast('Newsletter con ' + selectedIds.length + ' noticias generado', 'green');
+}
+
+function esc2(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function buildNewsletterHTML(data) {
+  function buildArt(art, idx) {
+    var n = idx + 1;
+    var isDark = art.dark === true;
+    var dkCls = isDark ? ' nl-art-dark' : '';
+    var nStyle = isDark ? ' style="background:#f5a58c;color:#0d0d0d;"' : '';
+    var stats = '';
+    if (art.stats && art.stats.length) {
+      stats = '<div class="stats">' + art.stats.map(function(s){ return '<div class="stat"><div class="stat-n">'+esc2(s.valor)+'</div><div class="stat-l">'+esc2(s.label)+'</div></div>'; }).join('') + '</div>';
+    }
+    var bullets = '';
+    if (art.bullets && art.bullets.length) {
+      bullets = '<ul class="bullets">' + art.bullets.map(function(b){ return '<li>'+b+'</li>'; }).join('') + '</ul>';
+    }
+    var callout = art.callout ? '<div class="callout"><div class="callout-lbl">'+esc2(art.callout.label)+'</div>'+art.callout.texto+'</div>' : '';
+    var link = art.url ? '<div class="art-link"><a href="'+esc2(art.url)+'" target="_blank" rel="noopener noreferrer">Leer articulo completo &rarr;</a></div>' : '';
+    return '<div class="nl-art'+dkCls+'" id="a'+n+'"><div class="art-hdr"><div class="art-n"'+nStyle+'>'+n+'</div><div><div class="art-src">'+esc2(art.categoria||'')+'</div><h2 class="art-h2">'+esc2(art.titulo)+'</h2></div></div><div class="art-body">'+(art.cuerpo||'')+stats+bullets+callout+link+'</div></div>';
+  }
+  var idxHtml = (data.articulos||[]).map(function(a,i){ return '<a class="nl-idx-a" href="#a'+(i+1)+'">'+esc2(a.titulo)+'</a>'; }).join('');
+  var artsHtml = (data.articulos||[]).map(buildArt).join('');
+  var ed = esc2(data.edicion||'');
+  var fe = esc2(data.fecha||'');
+  var ti = esc2(data.titular||'');
+  var su = esc2(data.subtitulo||'');
+  var le = esc2(data.lead||'');
+
+  var CSS = [
+    ':root{--white:#ffffff;--off:#f8f6f2;--ink:#111111;--mid:#767676;--rule:#e8e4de;--red:#e8401c;}',
+    '*{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}',
+    'body{font-family:DM Sans,sans-serif;background:var(--white);color:var(--ink);-webkit-font-smoothing:antialiased;}',
+    '.topnav{position:fixed;top:0;left:0;right:0;z-index:100;height:54px;background:var(--white);border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;padding:0 40px;}',
+    '.nav-brand{display:flex;align-items:center;gap:9px;cursor:pointer;}',
+    '.nav-badge{background:var(--ink);color:var(--white);font-family:DM Mono,monospace;font-size:8px;letter-spacing:.06em;padding:3px 7px;line-height:1;}',
+    '.nav-title{font-family:Playfair Display,serif;font-size:19px;font-weight:900;color:var(--ink);letter-spacing:-.02em;}',
+    '.nav-links{display:flex;gap:28px;list-style:none;}.nav-links a{font-family:DM Mono,monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);text-decoration:none;}',
+    '.nav-sub{background:var(--ink);color:var(--white);font-family:DM Mono,monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:8px 16px;border:none;cursor:pointer;}',
+    '.botnav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:100;height:56px;background:var(--white);border-top:1px solid var(--rule);}',
+    '.botnav button,.botnav a{flex:1;height:100%;border:none;background:none;cursor:pointer;font-family:DM Mono,monospace;font-size:8.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--mid);border-right:1px solid var(--rule);display:flex;align-items:center;justify-content:center;text-decoration:none;}',
+    '.botnav button:last-child,.botnav a:last-child{border-right:none;color:var(--red);}',
+    '.sub-ov{display:none;position:fixed;inset:0;z-index:500;background:rgba(10,10,10,.65);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:20px;}.sub-ov.open{display:flex;}',
+    '.sub-box{background:var(--white);box-shadow:8px 8px 0 var(--ink);padding:36px 32px;max-width:420px;width:100%;position:relative;}',
+    '.sub-close{position:absolute;top:12px;right:14px;background:none;border:none;cursor:pointer;font-size:20px;color:var(--mid);}',
+    '.sub-kicker{font-family:DM Mono,monospace;font-size:9px;letter-spacing:.1em;color:var(--red);margin-bottom:10px;}',
+    '.sub-h2{font-family:Playfair Display,serif;font-size:24px;font-weight:900;letter-spacing:-.02em;color:var(--ink);margin-bottom:8px;}',
+    '.sub-desc{font-size:13px;line-height:1.65;color:var(--mid);margin-bottom:22px;}',
+    '.sub-field{margin-bottom:12px;}.sub-lbl{display:block;font-family:DM Mono,monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);margin-bottom:6px;}',
+    '.sub-in{width:100%;border:1px solid var(--rule);background:var(--off);font-family:DM Sans,sans-serif;font-size:14px;padding:11px 14px;color:var(--ink);outline:none;}',
+    '.sub-btn{width:100%;margin-top:6px;background:var(--ink);color:var(--white);font-family:DM Mono,monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:14px;border:none;cursor:pointer;}',
+    '.sub-note{font-family:DM Mono,monospace;font-size:9px;color:var(--mid);text-align:center;margin-top:12px;}',
+    '.sub-ok{display:none;text-align:center;padding:16px 0;}.sub-ok-icon{font-size:38px;margin-bottom:12px;}',
+    '.sub-ok-title{font-family:Playfair Display,serif;font-size:22px;font-weight:700;color:var(--ink);margin-bottom:8px;}',
+    '.sub-ok-sub{font-size:13px;color:var(--mid);line-height:1.65;}',
+    '.page{padding-top:54px;}#sec-reader{display:block;padding-top:54px;}',
+    '.reader-back{padding:13px 40px;border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;}',
+    '.back-btn{background:none;border:none;cursor:pointer;font-family:DM Mono,monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);padding:0;}',
+    '.reader-edition{font-family:DM Mono,monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);}',
+    '.nl-hero{background:var(--ink);padding:44px 40px 36px;position:relative;overflow:hidden;}',
+    '.nl-hero::before{content:"";position:absolute;top:-80px;right:-80px;width:260px;height:260px;border-radius:50%;border:50px solid rgba(232,64,28,.1);}',
+    '.nl-ey{font-family:DM Mono,monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:14px;}',
+    '.nl-h1{font-family:Playfair Display,serif;font-size:30px;font-weight:900;line-height:1.1;letter-spacing:-.025em;color:#fff;margin-bottom:14px;max-width:520px;}',
+    '.nl-h1 em{font-style:italic;color:#f5a58c;}.nl-lead{font-size:13.5px;line-height:1.75;color:rgba(255,255,255,.62);max-width:480px;}',
+    '.nl-idx{background:#fdf0ec;padding:16px 40px;border-bottom:1px solid #f0c7bc;}',
+    '.nl-idx-lbl{font-family:DM Mono,monospace;font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid);margin-bottom:8px;}',
+    '.nl-idx-list{display:flex;flex-direction:column;gap:4px;}',
+    '.nl-idx-a{font-size:12px;font-weight:500;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:7px;}',
+    '.nl-idx-a::before{content:"\\2192";font-family:DM Mono,monospace;color:var(--red);font-size:10px;}',
+    '.nl-art{padding:28px 40px;border-bottom:1px solid var(--rule);}',
+    '.art-hdr{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;}',
+    '.art-n{width:25px;height:25px;background:var(--red);color:#fff;font-family:DM Mono,monospace;font-size:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:3px;}',
+    '.art-src{font-family:DM Mono,monospace;font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);margin-bottom:4px;}',
+    '.art-h2{font-family:Playfair Display,serif;font-size:19px;font-weight:700;line-height:1.22;color:var(--ink);}',
+    '.art-body{font-size:13.5px;line-height:1.8;color:#2d2d2d;}.art-body p+p{margin-top:9px;}',
+    '.callout{background:var(--off);border-left:3px solid var(--red);padding:11px 14px;margin:15px 0;font-size:12.5px;line-height:1.65;color:#333;}',
+    '.callout-lbl{font-family:DM Mono,monospace;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:5px;}',
+    '.stats{display:flex;border:1px solid var(--rule);margin:15px 0;}.stat{flex:1;padding:12px 14px;border-right:1px solid var(--rule);}.stat:last-child{border-right:none;}',
+    '.stat-n{font-family:Playfair Display,serif;font-size:22px;font-weight:900;color:var(--red);line-height:1;margin-bottom:3px;}.stat-l{font-size:10px;color:var(--mid);line-height:1.4;}',
+    '.bullets{list-style:none;margin:12px 0;display:flex;flex-direction:column;gap:6px;}',
+    '.bullets li{font-size:13px;line-height:1.62;padding-left:16px;position:relative;color:#2d2d2d;}',
+    '.bullets li::before{content:"\\25C6";position:absolute;left:0;top:3px;font-size:6px;color:var(--red);}',
+    '.art-link{margin-top:14px;padding-top:12px;border-top:1px solid var(--rule);}',
+    '.art-link a{font-family:DM Mono,monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--red);text-decoration:none;}',
+    '.nl-art-dark{background:var(--ink);}.nl-art-dark .art-h2{color:#fff;}.nl-art-dark .art-body{color:rgba(255,255,255,.78);}',
+    '.nl-art-dark .art-src{color:rgba(255,255,255,.38);}.nl-art-dark .callout{background:rgba(255,255,255,.06);border-left-color:#f5a58c;color:rgba(255,255,255,.78);}',
+    '.nl-art-dark .callout-lbl{color:#f5a58c;}.nl-art-dark .art-link{border-top-color:rgba(255,255,255,.1);}.nl-art-dark .art-link a{color:#f5a58c;}',
+    '.nl-foot{padding:24px 40px;border-top:1px solid var(--rule);display:flex;flex-direction:column;gap:14px;}',
+    '.nl-foot-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}',
+    '.nl-legal{display:flex;flex-wrap:wrap;gap:10px 12px;padding-top:12px;border-top:1px solid var(--rule);}',
+    '.nl-legal a{font-family:DM Mono,monospace;font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);text-decoration:none;}',
+    '.nl-sig{font-family:Playfair Display,serif;font-size:14px;font-weight:700;color:var(--ink);}',
+    '.nl-sig-sub{font-size:11px;color:var(--mid);font-style:italic;font-family:Playfair Display,serif;}',
+    '.nl-flinks{display:flex;gap:12px;flex-wrap:wrap;}',
+    '.nl-flinks a{font-family:DM Mono,monospace;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);text-decoration:none;border-bottom:1px solid var(--rule);}',
+    '@media(max-width:760px){.topnav{padding:0 16px;}.nav-links{display:none;}.nav-sub{display:none;}.botnav{display:flex;}',
+    '#sec-reader{padding-bottom:62px;}.reader-back{padding:12px 22px;}.nl-hero{padding:30px 22px 26px;}',
+    '.nl-idx{padding:14px 22px;}.nl-art{padding:24px 22px;}.nl-foot{padding:22px;}.nl-h1{font-size:24px;}.stats{flex-direction:column;}.sub-box{padding:28px 22px;}}'
+  ].join('');
+
+  var parts = [];
+  parts.push('<!DOCTYPE html><html lang="es"><head>');
+  parts.push('<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">');
+  parts.push('<title>INSIDE Life - Edicion #'+ed+' - '+ti+'</title>');
+  parts.push('<meta name="description" content="'+le+'">');
+  parts.push('<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">');
+  parts.push('<style>'+CSS+'</style></head><body>');
+  parts.push('<header class="topnav"><div class="nav-brand" onclick="window.location=\'/\'"><div class="nav-title">INSIDE Life</div><div class="nav-badge">By Jorge Lorenzo</div></div>');
+  parts.push('<ul class="nav-links"><li><a href="/">Inicio</a></li><li><a href="/archivo">Ediciones</a></li><li><a href="/#sobre">Sobre mi</a></li></ul>');
+  parts.push('<button class="nav-sub" onclick="openSub()">Suscribirse</button></header>');
+  parts.push('<nav class="botnav"><button onclick="window.location=\'/\'">Inicio</button><a href="/archivo">Ediciones</a><button onclick="window.location=\'/#sobre\'">Sobre mi</button><button onclick="openSub()">Unirme</button></nav>');
+  parts.push('<div class="sub-ov" id="subOv" onclick="bgClose(event)"><div class="sub-box"><button class="sub-close" onclick="closeSub()">&times;</button><div id="subForm">');
+  parts.push('<div class="sub-kicker">Por Jorge Lorenzo &middot; cada semana</div>');
+  parts.push('<h2 class="sub-h2">Unete a INSIDE Life</h2>');
+  parts.push('<p class="sub-desc">IA, automatizacion, deporte y emprendimiento. Cada martes.</p>');
+  parts.push('<div class="sub-field"><label class="sub-lbl" for="sNombre">Tu nombre</label><input class="sub-in" type="text" id="sNombre" placeholder="Jorge" autocomplete="given-name"/></div>');
+  parts.push('<div class="sub-field"><label class="sub-lbl" for="sEmail">Tu email</label><input class="sub-in" type="email" id="sEmail" placeholder="jorge@email.com" autocomplete="email"/></div>');
+  parts.push('<button class="sub-btn" onclick="submitSub()">UNIRME AL CLUB &rarr;</button>');
+  parts.push('<div class="sub-note">Sin spam &middot; Cada martes &middot; Baja cuando quieras</div></div>');
+  parts.push('<div class="sub-ok" id="subOk"><div class="sub-ok-icon">&#9993;&#65039;</div><div class="sub-ok-title">Ya eres del Club!</div>');
+  parts.push('<div class="sub-ok-sub">Revisa tu email para confirmar.<br>Nos vemos cada semana.</div></div></div></div>');
+  parts.push('<iframe name="sib-frame" style="display:none;"></iframe>');
+  parts.push('<div class="page"><section id="sec-reader">');
+  parts.push('<div class="reader-back"><button class="back-btn" onclick="window.location=\'/\'">&larr; Inicio</button><span class="reader-edition">Edicion #'+ed+' &middot; '+fe+'</span></div>');
+  parts.push('<div class="nl-hero"><div class="nl-ey">&#127775; Edicion #'+ed+' &middot; '+fe+'</div>');
+  parts.push('<h1 class="nl-h1">'+ti+'<br><em>'+su+'</em></h1><p class="nl-lead">'+le+'</p></div>');
+  parts.push('<div class="nl-idx"><div class="nl-idx-lbl">En esta edicion</div><div class="nl-idx-list">'+idxHtml+'</div></div>');
+  parts.push(artsHtml);
+  parts.push('<div class="nl-foot"><div class="nl-foot-row"><div><div class="nl-sig">Jorge Lorenzo</div>');
+  parts.push('<div class="nl-sig-sub">Haciendo que la tecnologia trabaje para ti.</div></div>');
+  parts.push('<div class="nl-flinks">');
+  parts.push('<a href="https://www.linkedin.com/in/jorge-lorenzo-25ba3518/" target="_blank">LinkedIn</a>');
+  parts.push('<a href="https://x.com/JLbasket" target="_blank">X</a>');
+  parts.push('<a href="https://www.instagram.com/jorgelorenzo.coach" target="_blank">Instagram</a>');
+  parts.push('<a href="https://bio.jorgelorenzo.coach/" target="_blank">Bio</a>');
+  parts.push('<a href="https://insidelife.club">insidelife.club</a>');
+  parts.push('<a href="mailto:jorge@insidelife.club">Contacto</a></div></div>');
+  parts.push('<div class="nl-legal">');
+  parts.push('<a href="documentos-legales/politica-de-privacidad.html">Privacidad</a>');
+  parts.push('<a href="documentos-legales/aviso-legal.html">Aviso legal</a>');
+  parts.push('<a href="documentos-legales/politica-de-cookies.html">Cookies</a>');
+  parts.push('<a href="documentos-legales/terminos-y-condiciones-de-uso.html">Terminos</a>');
+  parts.push('<a href="documentos-legales/condiciones-generales-de-contratacion.html">Contratacion</a>');
+  parts.push('</div></div></section></div>');
+  parts.push('<script>');
+  parts.push('function openSub(){document.getElementById("subOv").classList.add("open");document.body.style.overflow="hidden";}');
+  parts.push('function closeSub(){document.getElementById("subOv").classList.remove("open");document.body.style.overflow="";}');
+  parts.push('function bgClose(e){if(e.target===document.getElementById("subOv"))closeSub();}');
+  parts.push('document.addEventListener("keydown",function(e){if(e.key==="Escape")closeSub();});');
+  parts.push('function submitSub(){');
+  parts.push('var nombre=document.getElementById("sNombre").value.trim();');
+  parts.push('var email=document.getElementById("sEmail").value.trim();');
+  parts.push('var eIn=document.getElementById("sEmail");');
+  parts.push('if(!email||!email.includes("@")){eIn.style.borderColor="#e8401c";eIn.focus();return;}');
+  parts.push('eIn.style.borderColor="";');
+  parts.push('var f=document.createElement("form");f.method="POST";');
+  parts.push('f.action="https://1e22ccbe.sibforms.com/serve/MUIFAImNtjNmHq5LpaK-cn-6fXZj5OMRIVi_N2j6sO7lOgYfku227N7flq9_ysaKRpGIzgIY8btJ3-h4kOQhmC5l9ozewXKT_MEvCEYOwN1TiDHU49xmvpWYfkrX92_-kK8SYfS45ADUH_hwHxFeEND8x42g9boudtaQwXph5CfjEf-XeKGJZS0xPc7pZjPPJn9U_0uFCE_NhFOn";');
+  parts.push('f.target="sib-frame";f.style.display="none";');
+  parts.push('function addF(n,v){var i=document.createElement("input");i.name=n;i.value=v;f.appendChild(i);}');
+  parts.push('addF("EMAIL",email);addF("email_address_check","");addF("locale","es");');
+  parts.push('if(nombre)addF("FIRSTNAME",nombre);');
+  parts.push('document.body.appendChild(f);f.submit();document.body.removeChild(f);');
+  parts.push('document.getElementById("subForm").style.display="none";');
+  parts.push('document.getElementById("subOk").style.display="block";');
+  parts.push('setTimeout(function(){closeSub();setTimeout(function(){');
+  parts.push('document.getElementById("subForm").style.display="block";');
+  parts.push('document.getElementById("subOk").style.display="none";');
+  parts.push('document.getElementById("sNombre").value="";');
+  parts.push('document.getElementById("sEmail").value="";');
+  parts.push('},400);},3000);}');
+  parts.push('<\/script></body></html>');
+  return parts.join('');
+}
+
+
+// ─── LOAD NEWSLETTER ──────────────────────────────
+async function loadNewsletter() {
+  setStatus('loading', 'Cargando...');
+  try {
+    var r = await fetch(API + '?file=' + encodeURIComponent(FILE), { headers: apiHeaders(false) });
+    var data = await r.json();
+    if (data.error) throw new Error(data.error);
+    originalHTML = data.content;
+    currentSHA   = data.sha;
+    nativeArticleOverrides = {};
+    cancelNativeArticleEdit();
+    syncArticleOrderFromHtml();
+    populateHeroFieldsFromHtml();
+    setStatus('ok', 'Newsletter cargado');
+    document.getElementById('publishBtn').disabled = false;
+    renderStructureMap();
+    renderPreview();
+    toast('Newsletter cargado ✓', 'green');
+  } catch (e) {
+    setStatus('', 'Error al cargar');
+    toast('Error: ' + e.message, 'red');
+  }
+}
+
+// ─── BLOCK TYPES ──────────────────────────────────
+function selectBlockType(type) {
+  cancelNativeArticleEdit();
+  editingBlockId = null;
+  document.getElementById('saveBlockBtn').textContent = 'Añadir bloque →';
+  currentType = type;
+  var titles = { texto:'Bloque de texto', callout:'Bloque callout', promo:'Bloque promoción', imagen:'Bloque imagen' };
+  document.getElementById('editorTitle').textContent = titles[type];
+  ['texto','callout','promo','imagen'].forEach(function(t) {
+    document.getElementById('ef-'+t).style.display = t === type ? 'block' : 'none';
+  });
+  document.getElementById('blockEditor').classList.add('on');
+}
+
+function cancelBlock() {
+  currentType = null;
+  editingBlockId = null;
+  document.getElementById('saveBlockBtn').textContent = 'Añadir bloque →';
+  document.getElementById('blockEditor').classList.remove('on');
+}
+
+function setPos(p) {
+  blockPos = p;
+  document.getElementById('pos-top').classList.toggle('active', p === 'top');
+  document.getElementById('pos-bottom').classList.toggle('active', p === 'bottom');
+}
+
+// ─── BUILD BLOCK HTML ─────────────────────────────
+function buildBlockHTML(type, data) {
+  if (type === 'texto') {
+    var t = data.title ? '<h2 class="art-h2" style="font-family:\'Playfair Display\',serif;font-size:19px;font-weight:700;line-height:1.22;color:#111;margin-bottom:10px;">' + esc(data.title) + '</h2>' : '';
+    return '<div class="nl-art" style="padding:28px 40px;border-bottom:1px solid #e8e4de;">' + t + '<div class="art-body" style="font-size:13.5px;line-height:1.8;color:#2d2d2d;">' + esc(data.body).replace(/\n/g,'<br>') + '</div></div>';
+  }
+  if (type === 'callout') {
+    return '<div style="padding:0 40px 0;"><div class="callout" style="background:#f8f6f2;border-left:3px solid #e8401c;padding:11px 14px;margin:15px 0;font-size:12.5px;line-height:1.65;color:#333;"><div style="font-family:\'DM Mono\',monospace;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:#e8401c;margin-bottom:5px;">' + esc(data.label) + '</div>' + esc(data.body).replace(/\n/g,'<br>') + '</div></div>';
+  }
+  if (type === 'promo') {
+    var btn = data.link ? '<a href="' + esc(data.link) + '" style="display:inline-block;margin-top:14px;background:#fff;color:#111;font-family:\'DM Mono\',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:10px 20px;text-decoration:none;">' + esc(data.btn || 'Ver más →') + '</a>' : '';
+    return '<div style="background:#111;padding:28px 40px;">' +
+      '<h2 style="font-family:\'Playfair Display\',serif;font-size:19px;font-weight:700;color:#fff;margin-bottom:10px;">' + esc(data.title) + '</h2>' +
+      '<p style="font-size:13.5px;line-height:1.8;color:rgba(255,255,255,.78);">' + esc(data.body).replace(/\n/g,'<br>') + '</p>' + btn + '</div>';
+  }
+  if (type === 'imagen') {
+    var cap = data.caption ? '<div style="font-family:\'DM Mono\',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#767676;margin-top:8px;">' + esc(data.caption) + '</div>' : '';
+    return '<div style="padding:20px 40px;">' +
+      '<img src="' + esc(data.url) + '" style="width:100%;display:block;" alt="' + esc(data.caption||'') + '"/>' + cap + '</div>';
+  }
+  return '';
+}
+
+function esc(s) {
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function stripTags(s) {
+  return (s || '').replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]+>/g, '');
+}
+
+function decodeHtmlEntities(s) {
+  var t = document.createElement('textarea');
+  t.innerHTML = (s || '').trim();
+  return t.value;
+}
+
+function extractArticleSidsInOrder(cleanHtml) {
+  try {
+    var doc = new DOMParser().parseFromString(cleanHtml, 'text/html');
+    var sec = doc.getElementById('sec-reader');
+    if (!sec) return [];
+    var out = [];
+    for (var i = 0; i < sec.children.length; i++) {
+      var c = sec.children[i];
+      if (c.nodeType !== 1) continue;
+      if (c.classList.contains('nl-art') && /^a\d+$/.test(c.id)) out.push(c.id);
+    }
+    return out;
+  } catch (e) {
+    return [];
+  }
+}
+
+function syncArticleOrderFromHtml() {
+  var clean = stripInjectedAdminBlocks(originalHTML || '');
+  articleOrder = extractArticleSidsInOrder(clean);
+}
+
+function serializeHTMLDocument(doc) {
+  var dt = '<!DOCTYPE html>\n';
+  if (doc.doctype) dt = '<!DOCTYPE ' + doc.doctype.name + '>\n';
+  return dt + doc.documentElement.outerHTML;
+}
+
+// Reordena .nl-art según articleOrder; reasigna id a1…aN, .art-n y enlaces del índice.
+// Solo se muestran los ids presentes en articleOrder (puedes dejar la edición con menos notas).
+function applyNativeArticleReorder(html) {
+  if (!html) return html;
+  try {
+    var doc = new DOMParser().parseFromString(html, 'text/html');
+    var sec = doc.getElementById('sec-reader');
+    if (!sec) return html;
+
+    var toRemove = [];
+    var map = {};
+    for (var i = 0; i < sec.children.length; i++) {
+      var c = sec.children[i];
+      if (c.nodeType !== 1) continue;
+      if (c.classList.contains('nl-art') && /^a\d+$/.test(c.id)) {
+        toRemove.push(c);
+        if (nativeArticleOverrides[c.id]) {
+          var wrap = doc.createElement('div');
+          wrap.innerHTML = nativeArticleOverrides[c.id].trim();
+          var fr = wrap.firstElementChild;
+          map[c.id] = fr ? fr.cloneNode(true) : c.cloneNode(true);
+        } else {
+          map[c.id] = c.cloneNode(true);
+        }
+      }
+    }
+    if (Object.keys(map).length === 0) return html;
+
+    var order = articleOrder.filter(function(sid) { return map[sid]; });
+
+    for (var r = toRemove.length - 1; r >= 0; r--) sec.removeChild(toRemove[r]);
+
+    if (order.length === 0) {
+      var idxEmpty = sec.querySelector('.nl-idx .nl-idx-list');
+      if (idxEmpty) while (idxEmpty.firstChild) idxEmpty.removeChild(idxEmpty.firstChild);
+      return serializeHTMLDocument(doc);
+    }
+
+    var archEl = sec.querySelector('.nl-archivo-bar');
+    if (!archEl) return html;
+
+    for (var j = 0; j < order.length; j++) {
+      var sid = order[j];
+      var node = map[sid];
+      var newI = j + 1;
+      node.id = 'a' + newI;
+      var artN = node.querySelector('.art-hdr .art-n');
+      if (artN) artN.textContent = String(newI);
+      sec.insertBefore(node, archEl);
+    }
+
+    var idxEl = sec.querySelector('.nl-idx');
+    if (idxEl) {
+      var list = idxEl.querySelector('.nl-idx-list');
+      if (list) {
+        while (list.firstChild) list.removeChild(list.firstChild);
+        for (var k = 0; k < order.length; k++) {
+          var sid2 = order[k];
+          var srcNode = map[sid2];
+          var ord = k + 1;
+          var h2 = srcNode.querySelector('h2.art-h2');
+          var title = h2 ? h2.textContent.replace(/\s+/g, ' ').trim() : 'Nota ' + ord;
+          var a = doc.createElement('a');
+          a.className = 'nl-idx-a';
+          a.href = '#a' + ord;
+          a.textContent = title;
+          list.appendChild(a);
+        }
+      }
+    }
+
+    return serializeHTMLDocument(doc);
+  } catch (e) {
+    console.warn('applyNativeArticleReorder', e);
+    return html;
+  }
+}
+
+function moveNativeArticle(sid, delta) {
+  var i = articleOrder.indexOf(sid);
+  if (i < 0) return;
+  var j = i + delta;
+  if (j < 0 || j >= articleOrder.length) return;
+  var t = articleOrder[i];
+  articleOrder[i] = articleOrder[j];
+  articleOrder[j] = t;
+  renderStructureMap();
+  renderPreview();
+}
+
+function deleteNativeArticle(sid) {
+  if (!confirm('¿Quitar esta nota? Quedará guardada al publicar. Si no has publicado, «Recargar» restaura el newsletter del repo.')) return;
+  articleOrder = articleOrder.filter(function(s) { return s !== sid; });
+  delete nativeArticleOverrides[sid];
+  if (editingNativeSid === sid) cancelNativeArticleEdit();
+  renderStructureMap();
+  renderPreview();
+  toast('Nota quitada ✓', 'green');
+}
+
+function titleFromArticleHtmlString(htmlStr) {
+  if (!htmlStr) return '';
+  var m = htmlStr.match(/<h2 class="art-h2"[^>]*>([\s\S]*?)<\/h2>/i);
+  if (!m) return '';
+  var t = decodeHtmlEntities(stripTags(m[1]).replace(/\s+/g, ' ').trim());
+  return t.length > 92 ? t.substring(0, 89) + '…' : t;
+}
+
+function getNativeArticleOuterHtmlBySid(sid) {
+  if (nativeArticleOverrides[sid]) return nativeArticleOverrides[sid];
+  var clean = stripInjectedAdminBlocks(originalHTML || '');
+  var doc = new DOMParser().parseFromString(clean, 'text/html');
+  var el = doc.getElementById(sid);
+  if (!el || !el.classList.contains('nl-art')) return '';
+  return el.outerHTML;
+}
+
+function editNativeArticle(sid) {
+  cancelBlock();
+  editingNativeSid = sid;
+  var ord = document.getElementById('structureSection');
+  if (ord && ord.tagName === 'DETAILS') ord.open = true;
+  var panel = document.getElementById('nativeArticleEditor');
+  document.getElementById('nativeEditSidLabel').textContent = '· ' + sid;
+  setFieldVal('nativeArticleEditorHtml', getNativeArticleOuterHtmlBySid(sid));
+  panel.style.display = 'block';
+  try { panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (e) {}
+}
+
+function cancelNativeArticleEdit() {
+  editingNativeSid = null;
+  var panel = document.getElementById('nativeArticleEditor');
+  if (panel) panel.style.display = 'none';
+  setFieldVal('nativeArticleEditorHtml', '');
+}
+
+function saveNativeArticleEdit() {
+  if (!editingNativeSid) return;
+  var html = val('nativeArticleEditorHtml').trim();
+  if (!html) {
+    toast('La nota no puede estar vacía', 'red');
+    return;
+  }
+  nativeArticleOverrides[editingNativeSid] = html;
+  cancelNativeArticleEdit();
+  renderStructureMap();
+  renderPreview();
+  toast('Nota actualizada ✓', 'green');
+}
+
+function structRowNativeArticle(sid, title, posIndex, total) {
+  var canUp = posIndex > 0;
+  var canDown = posIndex < total - 1;
+  return (
+    '<div class="struct-row native-art">' +
+    '<div class="struct-badge">Nota<br>· ' + esc(sid) + '</div>' +
+    '<div class="struct-body" style="width:100%">' +
+    esc(title) +
+    '<div class="struct-actions">' +
+    '<button type="button" class="struct-btn" onclick="moveNativeArticle(\'' + sid + '\',-1)"' + (canUp ? '' : ' disabled') + '>Subir</button>' +
+    '<button type="button" class="struct-btn" onclick="moveNativeArticle(\'' + sid + '\',1)"' + (canDown ? '' : ' disabled') + '>Bajar</button>' +
+    '<button type="button" class="struct-btn" onclick="editNativeArticle(\'' + sid + '\')">Editar</button>' +
+    '<button type="button" class="struct-btn" onclick="deleteNativeArticle(\'' + sid + '\')" style="border-color:#c43;color:#a32">Eliminar</button>' +
+    '</div></div></div>'
+  );
+}
+
+function parseNativeArticles(html) {
+  var clean = stripInjectedAdminBlocks(html || '');
+  var matches = [];
+  var reId = /<div class="nl-art[^"]*" id="(a\d+)">/g;
+  var m;
+  while ((m = reId.exec(clean)) !== null) {
+    matches.push({ id: m[1], index: m.index });
+  }
+  return matches.map(function(item, i) {
+    var nextIdx = i + 1 < matches.length ? matches[i + 1].index : clean.indexOf('class="nl-archivo-bar"', item.index);
+    if (nextIdx < 0) nextIdx = item.index + 16000;
+    var slice = clean.slice(item.index, nextIdx);
+    var h2 = slice.match(/<h2 class="art-h2"[^>]*>([\s\S]*?)<\/h2>/);
+    var raw = h2 ? h2[1] : '';
+    var title = decodeHtmlEntities(stripTags(raw).replace(/\s+/g, ' ').trim());
+    if (!title) title = 'Artículo ' + item.id;
+    return { sid: item.id, title: title.length > 92 ? title.substring(0, 89) + '…' : title };
+  });
+}
+
+function structRowAdmin(b) {
+  var preview = (b.data && (b.data.title || b.data.body || b.data.label || b.data.url)) || '';
+  var info = sameZoneIndex(b.id);
+  var canUp = info.idx > 0;
+  var canDown = info.idx >= 0 && info.idx < info.list.length - 1;
+  var zone = b.pos === 'top' ? '↑ Tu bloque · arriba' : '↓ Tu bloque · abajo';
+  return (
+    '<div class="struct-row admin">' +
+    '<div class="struct-badge">' + esc(zone) + '<br><span style="color:var(--red)">' + esc(b.type) + '</span></div>' +
+    '<div class="struct-body" style="width:100%">' +
+    '<div style="font-size:12px">' + esc(preview.substring(0, 100)) + (preview.length > 100 ? '…' : '') + '</div>' +
+    '<div class="struct-actions">' +
+    '<button type="button" class="struct-btn" onclick="moveBlockInZone(' + b.id + ',-1)"' + (canUp ? '' : ' disabled') + '>Subir</button>' +
+    '<button type="button" class="struct-btn" onclick="moveBlockInZone(' + b.id + ',1)"' + (canDown ? '' : ' disabled') + '>Bajar</button>' +
+    '<button type="button" class="struct-btn" onclick="editBlock(' + b.id + ')">Editar</button>' +
+    '<button type="button" class="struct-btn" onclick="removeBlock(' + b.id + ')" style="border-color:#c43; color:#a32">Eliminar</button>' +
+    '</div></div></div>'
+  );
+}
+
+function renderStructureMap() {
+  var sec = document.getElementById('structureSection');
+  var el = document.getElementById('structureMap');
+  if (!el || !sec) return;
+  if (!originalHTML) {
+    sec.style.display = 'none';
+    return;
+  }
+  sec.style.display = 'block';
+
+  var artMeta = {};
+  parseNativeArticles(originalHTML).forEach(function(a) { artMeta[a.sid] = a.title; });
+  var topList = blocks.filter(function(b) { return b.pos === 'top'; });
+  var botList = blocks.filter(function(b) { return b.pos === 'bottom'; });
+
+  var rows = [];
+  topList.forEach(function(b) { rows.push(structRowAdmin(b)); });
+  articleOrder.forEach(function(sid, i) {
+    var t = artMeta[sid] || sid;
+    if (nativeArticleOverrides[sid]) {
+      var ot = titleFromArticleHtmlString(nativeArticleOverrides[sid]);
+      if (ot) t = ot;
+    }
+    rows.push(structRowNativeArticle(sid, t, i, articleOrder.length));
+  });
+  botList.forEach(function(b) { rows.push(structRowAdmin(b)); });
+
+  el.innerHTML = rows.join('');
+}
+
+function setFieldVal(id, v) {
+  var el = document.getElementById(id);
+  if (el) el.value = v != null && v !== undefined ? v : '';
+}
+
+function resetBlockFormFields() {
+  ['ef-texto-title','ef-texto-body','ef-callout-lbl','ef-callout-body','ef-promo-title','ef-promo-body','ef-promo-link','ef-promo-btn','ef-imagen-url','ef-imagen-caption'].forEach(function(id) {
+    setFieldVal(id, '');
+  });
+}
+
+// ─── ADD / SAVE BLOCK ─────────────────────────────
+function addBlock() {
+  if (!currentType) return;
+  var data = {};
+  if (currentType === 'texto')   { data = { title: val('ef-texto-title'), body: val('ef-texto-body') }; if (!data.body) { toast('Añade contenido al bloque', 'red'); return; } }
+  if (currentType === 'callout') { data = { label: val('ef-callout-lbl'), body: val('ef-callout-body') }; if (!data.body) { toast('Añade contenido al callout', 'red'); return; } }
+  if (currentType === 'promo')   { data = { title: val('ef-promo-title'), body: val('ef-promo-body'), link: val('ef-promo-link'), btn: val('ef-promo-btn') }; if (!data.title) { toast('Añade título a la promo', 'red'); return; } }
+  if (currentType === 'imagen')  { data = { url: val('ef-imagen-url'), caption: val('ef-imagen-caption') }; if (!data.url) { toast('Añade una URL de imagen', 'red'); return; } }
+
+  if (editingBlockId != null) {
+    var bi = blocks.findIndex(function(b) { return b.id === editingBlockId; });
+    if (bi < 0) {
+      editingBlockId = null;
+      document.getElementById('saveBlockBtn').textContent = 'Añadir bloque →';
+      return;
+    }
+    blocks[bi] = { id: blocks[bi].id, type: currentType, data: data, pos: blockPos, html: buildBlockHTML(currentType, data) };
+    editingBlockId = null;
+    document.getElementById('saveBlockBtn').textContent = 'Añadir bloque →';
+    renderStructureMap();
+    renderPreview();
+    toast('Bloque actualizado ✓', 'green');
+    resetBlockFormFields();
+    cancelBlock();
+    return;
+  }
+
+  blocks.push({ id: Date.now(), type: currentType, data: data, pos: blockPos, html: buildBlockHTML(currentType, data) });
+  renderStructureMap();
+  renderPreview();
+  toast('Bloque añadido ✓', 'green');
+  resetBlockFormFields();
+  cancelBlock();
+}
+
+function editBlock(id) {
+  var b = blocks.find(function(x) { return x.id === id; });
+  if (!b) return;
+  cancelNativeArticleEdit();
+  editingBlockId = id;
+  currentType = b.type;
+  var titles = { texto:'Bloque de texto', callout:'Bloque callout', promo:'Bloque promoción', imagen:'Bloque imagen' };
+  document.getElementById('editorTitle').textContent = 'Editar: ' + titles[b.type];
+  document.getElementById('saveBlockBtn').textContent = 'Guardar cambios';
+  ['texto','callout','promo','imagen'].forEach(function(t) {
+    document.getElementById('ef-'+t).style.display = t === b.type ? 'block' : 'none';
+  });
+  var d = b.data || {};
+  setFieldVal('ef-texto-title', d.title);
+  setFieldVal('ef-texto-body', currentType === 'texto' ? d.body : '');
+  setFieldVal('ef-callout-lbl', d.label);
+  setFieldVal('ef-callout-body', currentType === 'callout' ? d.body : '');
+  setFieldVal('ef-promo-title', d.title);
+  setFieldVal('ef-promo-body', currentType === 'promo' ? d.body : '');
+  setFieldVal('ef-promo-link', d.link);
+  setFieldVal('ef-promo-btn', d.btn);
+  setFieldVal('ef-imagen-url', d.url);
+  setFieldVal('ef-imagen-caption', d.caption);
+  setPos(b.pos);
+  document.getElementById('blockEditor').classList.add('on');
+}
+
+function sameZoneIndex(id) {
+  var target = blocks.find(function(b) { return b.id === id; });
+  if (!target) return { idx: -1, list: [] };
+  var list = [];
+  for (var i = 0; i < blocks.length; i++) {
+    if (blocks[i].pos === target.pos) list.push(blocks[i].id);
+  }
+  return { idx: list.indexOf(id), list: list };
+}
+
+function moveBlockInZone(id, delta) {
+  var info = sameZoneIndex(id);
+  if (info.idx < 0) return;
+  var k = info.idx + delta;
+  if (k < 0 || k >= info.list.length) return;
+  var idA = info.list[info.idx];
+  var idB = info.list[k];
+  var iA = blocks.findIndex(function(b) { return b.id === idA; });
+  var iB = blocks.findIndex(function(b) { return b.id === idB; });
+  if (iA < 0 || iB < 0) return;
+  var t = blocks[iA];
+  blocks[iA] = blocks[iB];
+  blocks[iB] = t;
+  renderStructureMap();
+  renderPreview();
+}
+
+function val(id) { return (document.getElementById(id)||{}).value || ''; }
+
+function removeBlock(id) {
+  if (editingBlockId === id) cancelBlock();
+  blocks = blocks.filter(function(b) { return b.id !== id; });
+  renderStructureMap();
+  renderPreview();
+}
+
+// ─── PREVIEW ──────────────────────────────────────
+function stripInjectedAdminBlocks(html) {
+  return (html || '')
+    .replace(/<!-- ADMIN BLOCKS TOP -->[\s\S]*?<!-- \/ADMIN BLOCKS TOP -->/gi, '')
+    .replace(/<!-- ADMIN BLOCKS BOTTOM -->[\s\S]*?<!-- \/ADMIN BLOCKS BOTTOM -->/gi, '');
+}
+
+function populateHeroFieldsFromHtml() {
+  try {
+    var raw = stripInjectedAdminBlocks(originalHTML || '');
+    var doc = new DOMParser().parseFromString(raw, 'text/html');
+    var t = doc.querySelector('title');
+    setFieldVal('heroPageTitle', t ? t.textContent : '');
+    var md = doc.querySelector('meta[name="description"]');
+    setFieldVal('heroMetaDesc', md ? (md.getAttribute('content') || '') : '');
+    var h1 = doc.querySelector('h1.nl-h1');
+    setFieldVal('heroH1Html', h1 ? h1.innerHTML : '');
+    var ey = doc.querySelector('.nl-ey');
+    setFieldVal('heroEditionLine', ey ? ey.textContent.trim() : '');
+  } catch (e) {}
+}
+
+function applyHeroEditsFromForm(html) {
+  try {
+    var doc = new DOMParser().parseFromString(html, 'text/html');
+    var tel = doc.querySelector('title');
+    if (tel) tel.textContent = val('heroPageTitle');
+    var meta = doc.querySelector('meta[name="description"]');
+    if (meta) meta.setAttribute('content', val('heroMetaDesc'));
+    var h1 = doc.querySelector('h1.nl-h1');
+    if (h1) h1.innerHTML = val('heroH1Html');
+    var ed = val('heroEditionLine');
+    var ey = doc.querySelector('.nl-ey');
+    if (ey) ey.textContent = ed;
+    var re = doc.querySelector('.reader-edition');
+    if (re) re.textContent = ed;
+    return serializeHTMLDocument(doc);
+  } catch (e) {
+    console.warn('applyHeroEditsFromForm', e);
+    return html;
+  }
+}
+
+function buildFinalHTML() {
+  if (!originalHTML) return '';
+  var html = stripInjectedAdminBlocks(originalHTML);
+  html = applyNativeArticleReorder(html);
+  html = applyHeroEditsFromForm(html);
+
+  var topBlocks = blocks.filter(function(b) { return b.pos === 'top'; });
+  var bottomBlocks = blocks.filter(function(b) { return b.pos === 'bottom'; });
+
+  if (topBlocks.length > 0) {
+    var topHTML = '<!-- ADMIN BLOCKS TOP -->' + topBlocks.map(function(b) { return b.html; }).join('') + '<!-- /ADMIN BLOCKS TOP -->';
+    var replaced = false;
+    html = html.replace(/(\r?\n)(\s*)<div class="nl-idx">/, function(_, nl, indent) {
+      replaced = true;
+      return nl + topHTML + nl + indent + '<div class="nl-idx">';
+    });
+    if (!replaced && html.indexOf('<div class="nl-idx">') >= 0) {
+      html = html.replace('<div class="nl-idx">', topHTML + '\n    <div class="nl-idx">');
+      replaced = true;
+    }
+    if (!replaced) console.warn('Admin: no se encontró .nl-idx; bloques superiores no insertados.');
+  }
+
+  if (bottomBlocks.length > 0) {
+    var botHTML = '<!-- ADMIN BLOCKS BOTTOM -->' + bottomBlocks.map(function(b) { return b.html; }).join('') + '<!-- /ADMIN BLOCKS BOTTOM -->';
+    var replacedB = false;
+    html = html.replace(/(\r?\n)(\s*)<div class="nl-foot">/, function(_, nl, indent) {
+      replacedB = true;
+      return nl + botHTML + nl + indent + '<div class="nl-foot">';
+    });
+    if (!replacedB && html.indexOf('<div class="nl-foot">') >= 0) {
+      html = html.replace('<div class="nl-foot">', botHTML + '\n    <div class="nl-foot">');
+      replacedB = true;
+    }
+    if (!replacedB) console.warn('Admin: no se encontró .nl-foot; bloques inferiores no insertados.');
+  }
+
+  return html;
+}
+
+function renderPreview() {
+  var frame = document.getElementById('previewFrame');
+  var html = buildFinalHTML();
+  if (!html) return;
+  frame.srcdoc = html;
+  // Auto-resize iframe
+  frame.onload = function() {
+    try { frame.style.height = frame.contentDocument.body.scrollHeight + 'px'; } catch(e) {}
+  };
+}
+
+function togglePreview() {
+  var p = document.getElementById('panelRight');
+  p.style.display = p.style.display === 'none' ? 'flex' : 'none';
+}
+
+// ─── PUBLISH ──────────────────────────────────────
+async function publish() {
+  if (!originalHTML || !currentSHA) { toast('Carga el newsletter primero', 'red'); return; }
+  var btn = document.getElementById('publishBtn');
+  btn.disabled = true;
+  btn.textContent = '▲ Publicando...';
+  setStatus('loading', 'Publicando...');
+
+  try {
+    var finalHTML = buildFinalHTML();
+    var r = await fetch(API, {
+      method: 'PUT',
+      headers: apiHeaders(true),
+      body: JSON.stringify({
+        file: FILE,
+        content: finalHTML,
+        sha: currentSHA,
+        message: 'Admin: update newsletter ' + new Date().toISOString().split('T')[0]
+      })
+    });
+    var data = await r.json();
+    if (data.error) throw new Error(data.error);
+
+    setStatus('ok', 'Publicado ✓');
+    toast('¡Publicado en GitHub! Vercel redeploya en ~30s 🚀', 'green');
+
+    // Reload to get new SHA
+    setTimeout(loadNewsletter, 3000);
+  } catch(e) {
+    setStatus('', 'Error al publicar');
+    toast('Error: ' + e.message, 'red');
+  }
+
+  btn.disabled = false;
+  btn.textContent = '▲ Publicar';
+}
+
+// ─── HELPERS ──────────────────────────────────────
+function setStatus(state, txt) {
+  var dot = document.getElementById('statusDot');
+  var t   = document.getElementById('statusTxt');
+  dot.className = 'status-dot' + (state ? ' ' + state : '');
+  t.textContent = txt;
+}
+
+var toastTimer;
+function toast(msg, type) {
+  var el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show' + (type ? ' ' + type : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function() { el.className = 'toast'; }, 3500);
+}
