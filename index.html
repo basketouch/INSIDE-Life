@@ -425,6 +425,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
   #sec-home .home-mobile-hero {
     display: block;
     grid-area: img;
+    position: relative;
     margin: 0;
     width: 100%;
     max-width: 100%;
@@ -433,15 +434,63 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
     background: var(--off);
     transform: none;
   }
-  #sec-home .home-mobile-hero img {
+  #sec-home .home-mobile-hero:focus-visible {
+    outline: 1px solid var(--rule);
+    outline-offset: 2px;
+  }
+  #sec-home .home-m-carousel-slides {
+    position: absolute;
+    inset: 0;
+  }
+  #sec-home .home-m-carousel-slide {
+    position: absolute;
+    inset: 0;
+    margin: 0;
     width: 100%;
     height: 100%;
-    max-width: none;
+    opacity: 0;
+    transition: opacity 0.65s ease;
+    pointer-events: none;
+  }
+  #sec-home .home-m-carousel-slide.on {
+    opacity: 1;
+    z-index: 1;
+  }
+  #sec-home .home-m-carousel-slide img {
+    width: 100%;
+    height: 100%;
     display: block;
     object-fit: cover;
     object-position: top center;
     border: none;
     filter: none;
+  }
+  #sec-home .home-m-carousel-dots {
+    position: absolute;
+    bottom: 8px;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    pointer-events: none;
+  }
+  #sec-home .home-m-carousel-dot {
+    pointer-events: auto;
+    width: 3px;
+    height: 3px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: rgba(17, 17, 17, 0.25);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+  }
+  #sec-home .home-m-carousel-dot.on {
+    background: var(--ink);
+    transform: scale(1.15);
   }
   #sec-home .home-desc { margin-top: 8px; max-width: none; font-size: 13px; line-height: 1.5; }
   #sec-home .home-copy .tags { margin-top: 12px; margin-bottom: 0; }
@@ -575,9 +624,20 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
             <div class="proof-a">Theodore Roosevelt</div>
           </div>
         </div>
-        <figure class="home-visual home-mobile-hero">
-          <img src="/assets/carousel-bw/1.png" alt="Jorge Lorenzo" width="1600" height="900" loading="lazy" decoding="async"/>
-        </figure>
+        <div class="home-visual home-mobile-hero" id="homeMobileCarousel" role="region" aria-roledescription="carrusel" aria-label="Fotografías INSIDE Life" tabindex="0">
+          <div class="home-m-carousel-slides">
+            <figure class="home-m-carousel-slide on" aria-hidden="false"><img src="/assets/carousel-bw/1.png" alt="Jorge Lorenzo" width="1600" height="900" fetchpriority="high" decoding="async"/></figure>
+            <figure class="home-m-carousel-slide" aria-hidden="true"><img src="/assets/carousel-bw/2.png" alt="" width="1600" height="900" loading="lazy" decoding="async"/></figure>
+            <figure class="home-m-carousel-slide" aria-hidden="true"><img src="/assets/carousel-bw/3.png" alt="" width="1600" height="900" loading="lazy" decoding="async"/></figure>
+            <figure class="home-m-carousel-slide" aria-hidden="true"><img src="/assets/carousel-bw/4.png" alt="" width="1600" height="900" loading="lazy" decoding="async"/></figure>
+          </div>
+          <div class="home-m-carousel-dots" role="tablist" aria-label="Ir a la foto">
+            <button type="button" class="home-m-carousel-dot on" role="tab" aria-selected="true" aria-label="Foto 1 de 4"></button>
+            <button type="button" class="home-m-carousel-dot" role="tab" aria-selected="false" aria-label="Foto 2 de 4"></button>
+            <button type="button" class="home-m-carousel-dot" role="tab" aria-selected="false" aria-label="Foto 3 de 4"></button>
+            <button type="button" class="home-m-carousel-dot" role="tab" aria-selected="false" aria-label="Foto 4 de 4"></button>
+          </div>
+        </div>
       </div>
     </div>
     <footer class="sfoot">

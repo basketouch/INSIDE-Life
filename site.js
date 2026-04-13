@@ -222,6 +222,79 @@
     if (carouselOn()) armTimer();
   }
 
+  function initHomeMobileCarousel() {
+    var root = document.getElementById('homeMobileCarousel');
+    if (!root) return;
+    var mq = window.matchMedia('(max-width: 760px)');
+    var slides = [].slice.call(root.querySelectorAll('.home-m-carousel-slide'));
+    var dots = [].slice.call(root.querySelectorAll('.home-m-carousel-dot'));
+    if (!slides.length) return;
+    var i = 0;
+    var timer;
+    function mobileOn() {
+      return mq.matches;
+    }
+    function showAt(n) {
+      i = (n + slides.length) % slides.length;
+      slides.forEach(function (s, j) {
+        var on = j === i;
+        s.classList.toggle('on', on);
+        s.setAttribute('aria-hidden', on ? 'false' : 'true');
+      });
+      dots.forEach(function (d, j) {
+        var on = j === i;
+        d.classList.toggle('on', on);
+        d.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+    }
+    function next() {
+      showAt(i + 1);
+    }
+    function armTimer() {
+      clearInterval(timer);
+      timer = null;
+      if (!mobileOn()) return;
+      timer = setInterval(function () {
+        var sec = document.getElementById('sec-home');
+        if (!sec || !sec.classList.contains('on')) return;
+        next();
+      }, 5200);
+    }
+    function onMqChange() {
+      clearInterval(timer);
+      timer = null;
+      if (mobileOn()) {
+        showAt(0);
+        armTimer();
+      }
+    }
+    if (typeof mq.addEventListener === 'function') {
+      mq.addEventListener('change', onMqChange);
+    } else if (typeof mq.addListener === 'function') {
+      mq.addListener(onMqChange);
+    }
+    dots.forEach(function (d, j) {
+      d.addEventListener('click', function () {
+        if (!mobileOn()) return;
+        showAt(j);
+        armTimer();
+      });
+    });
+    root.addEventListener('keydown', function (e) {
+      if (!mobileOn()) return;
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        showAt(i - 1);
+        armTimer();
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        showAt(i + 1);
+        armTimer();
+      }
+    });
+    if (mobileOn()) armTimer();
+  }
+
   function syncSectionFromUrl() {
     if (!document.getElementById('sec-home')) return;
     var h = (location.hash || '').replace(/^#/, '');
@@ -277,6 +350,7 @@
       window.addEventListener('hashchange', syncSectionFromUrl);
       window.addEventListener('popstate', syncSectionFromUrl);
       initHomeCarousel();
+      initHomeMobileCarousel();
     }
   });
 })();
