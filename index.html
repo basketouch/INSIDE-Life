@@ -67,11 +67,11 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   padding-top: clamp(16px, 4vh, 48px);
-  padding-right: clamp(24px, 4vw, 48px);
+  padding-right: clamp(20px, 3.5vw, 40px);
   padding-bottom: clamp(12px, 2vh, 28px);
-  padding-left: calc(clamp(24px, 4vw, 48px) + min(8vw, 96px));
+  padding-left: calc(clamp(20px, 3.5vw, 44px) + min(12vw, 132px));
   max-width: min(1180px, 94vw);
-  margin-left: auto;
+  margin-left: 0;
   margin-right: auto;
   width: 100%;
 }
@@ -83,7 +83,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
 }
 #sec-home .home-copy {
   align-self: center;
-  padding-left: clamp(4px, 1.5vw, 20px);
+  padding-left: clamp(2px, 1vw, 12px);
 }
 #sec-home .home-visual {
   align-self: stretch;
@@ -96,7 +96,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
   margin: 0;
 }
 #sec-home .home-visual.home-carousel {
-  transform: translateX(-15%);
+  transform: translateX(-24%);
 }
 #sec-home .home-mobile-hero {
   display: none;
@@ -239,9 +239,9 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
 .home-in { max-width: 920px; margin: 0 auto; padding: 88px 32px 80px; }
 .home-hero {
   display: grid;
-  grid-template-columns: minmax(280px, 56%) 1fr;
+  grid-template-columns: minmax(260px, 49%) minmax(0, 1fr);
   grid-template-areas: "img copy";
-  column-gap: clamp(32px, 5vw, 72px);
+  column-gap: clamp(14px, 2.2vw, 36px);
   row-gap: 0;
   align-items: stretch;
   margin-bottom: 40px;
@@ -388,7 +388,12 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
     max-height: calc(100vh - 54px - 56px);
     max-height: calc(100dvh - 54px - 56px);
   }
-  #sec-home .home-in { padding: 12px 20px 10px; max-width: 100%; }
+  #sec-home .home-in {
+    padding: 12px 20px 10px;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
   #sec-home .home-hero {
     grid-template-columns: 1fr;
     grid-template-areas:
