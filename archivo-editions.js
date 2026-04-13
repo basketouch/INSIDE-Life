@@ -77,6 +77,48 @@
     return out;
   }
 
+  function newsletterFetchUrl(href) {
+    if (!href || typeof href !== 'string') return '';
+    var h = href.trim().split('#')[0].replace(/\/+$/, '') || '/';
+    if (h === '/newsletter' || h.endsWith('/newsletter')) return '/newsletter';
+    if (h === '/newsletter.html' || h.endsWith('/newsletter.html')) return '/newsletter';
+    return '';
+  }
+
+  function tituloDesdeHeroNewsletter(html) {
+    try {
+      var doc = new DOMParser().parseFromString(html, 'text/html');
+      var h1 = doc.querySelector('h1.nl-h1');
+      if (!h1) return '';
+      var t = (h1.innerText || h1.textContent || '').replace(/\s+/g, ' ').trim();
+      return t;
+    } catch (e) {
+      return '';
+    }
+  }
+
+  function enrichTituloDesdeNewsletterEnVivo(list) {
+    var targets = [];
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].proxima || !list[i].href) continue;
+      if (newsletterFetchUrl(list[i].href)) targets.push(list[i]);
+    }
+    if (!targets.length) return Promise.resolve();
+    return fetch('/newsletter', { cache: 'no-store', credentials: 'same-origin' })
+      .then(function (r) {
+        if (!r.ok) throw new Error('newsletter');
+        return r.text();
+      })
+      .then(function (html) {
+        var titulo = tituloDesdeHeroNewsletter(html);
+        if (!titulo) return;
+        targets.forEach(function (item) {
+          item.titulo = titulo;
+        });
+      })
+      .catch(function () {});
+  }
+
   function sortEdiciones(list) {
     var pasadas = [];
     var proximas = [];
@@ -182,6 +224,9 @@
         var raw = (data && data.ediciones) ? data.ediciones.slice() : [];
         var gen = generarProximas(data.meta);
         sorted = sortEdiciones(raw.concat(gen));
+        return enrichTituloDesdeNewsletterEnVivo(sorted);
+      })
+      .then(function () {
         offset = 0;
         container.textContent = '';
         if (!sorted.length) {

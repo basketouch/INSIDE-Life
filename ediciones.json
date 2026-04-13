@@ -1,6 +1,6 @@
 {
   "meta": {
-    "descripcion": "Numeración desde #001. La #001 es el primer martes de publicación (2026-04-14). Cada entrada usa fecha ISO del martes. Al publicar: nueva edición arriba (num, fecha, titulo, tags, href) y quita href de la anterior. proximasGeneradas rellena los martes siguientes hasta fin de año (ajusta desdeNum/desdeFecha cuando publiques la siguiente).",
+    "descripcion": "Numeración desde #001. La #001 es el primer martes de publicación (2026-04-14). Cada entrada usa fecha ISO del martes. Si href es /newsletter, el archivo sustituye el titular de la tarjeta por el H1 del hero en vivo. El campo titulo en JSON sirve de respaldo si falla la carga. Tags siguen viniendo del JSON.",
     "proximasGeneradas": {
       "desdeNum": 2,
       "desdeFecha": "2026-04-21",
