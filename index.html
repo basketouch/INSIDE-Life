@@ -66,7 +66,10 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
   overflow-x: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  padding: clamp(16px, 4vh, 48px) clamp(24px, 4vw, 48px) clamp(12px, 2vh, 28px);
+  padding-top: clamp(16px, 4vh, 48px);
+  padding-right: clamp(24px, 4vw, 48px);
+  padding-bottom: clamp(12px, 2vh, 28px);
+  padding-left: calc(clamp(24px, 4vw, 48px) + min(8vw, 96px));
   max-width: min(1180px, 94vw);
   margin-left: auto;
   margin-right: auto;
@@ -91,6 +94,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
   height: auto;
   max-height: none;
   margin: 0;
+  transform: translateX(-15%);
 }
 #sec-home .home-carousel {
   position: relative;
@@ -400,6 +404,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
     max-height: none;
     align-self: stretch;
     justify-self: stretch;
+    transform: none;
   }
   #sec-home .home-carousel-slides {
     width: 100%;
