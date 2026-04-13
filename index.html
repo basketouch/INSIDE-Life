@@ -91,10 +91,15 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
   height: auto;
   max-height: none;
   margin: 0;
+  box-sizing: border-box;
+  padding-left: clamp(12px, 3.5vw, 40px);
+  padding-right: clamp(12px, 3.5vw, 40px);
 }
 #sec-home .home-carousel {
   position: relative;
   width: 100%;
+  max-width: 100%;
+  margin-inline: auto;
 }
 #sec-home .home-carousel:focus-visible {
   outline: 1px solid var(--rule);
@@ -224,9 +229,10 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
   display: grid;
   grid-template-columns: minmax(280px, 46%) 1fr;
   grid-template-areas: "img copy";
-  column-gap: clamp(32px, 5vw, 72px);
+  column-gap: clamp(40px, 6vw, 88px);
   row-gap: 0;
   align-items: stretch;
+  justify-items: stretch;
   margin-bottom: 40px;
 }
 .home-copy {
@@ -400,6 +406,8 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
     max-height: none;
     align-self: stretch;
     justify-self: stretch;
+    padding-left: clamp(8px, 4vw, 20px);
+    padding-right: clamp(8px, 4vw, 20px);
   }
   #sec-home .home-carousel-slides {
     width: 100%;
