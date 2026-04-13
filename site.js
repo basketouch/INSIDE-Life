@@ -122,6 +122,81 @@
     }, 3000);
   }
 
+  function initHomeCarousel() {
+    var root = document.getElementById('homeCarousel');
+    if (!root) return;
+    var slides = [].slice.call(root.querySelectorAll('.home-carousel-slide'));
+    var dots = [].slice.call(root.querySelectorAll('.home-carousel-dot'));
+    if (!slides.length) return;
+    var i = 0;
+    var timer;
+    function showAt(n) {
+      i = (n + slides.length) % slides.length;
+      slides.forEach(function (s, j) {
+        var on = j === i;
+        s.classList.toggle('on', on);
+        s.setAttribute('aria-hidden', on ? 'false' : 'true');
+      });
+      dots.forEach(function (d, j) {
+        var on = j === i;
+        d.classList.toggle('on', on);
+        d.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+    }
+    function next() {
+      showAt(i + 1);
+    }
+    function prev() {
+      showAt(i - 1);
+    }
+    function armTimer() {
+      clearInterval(timer);
+      timer = setInterval(function () {
+        var sec = document.getElementById('sec-home');
+        if (!sec || !sec.classList.contains('on')) return;
+        next();
+      }, 5200);
+    }
+    var prevBtn = root.querySelector('[data-carousel-prev]');
+    var nextBtn = root.querySelector('[data-carousel-next]');
+    if (prevBtn) {
+      prevBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        prev();
+        armTimer();
+      });
+    }
+    if (nextBtn) {
+      nextBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        next();
+        armTimer();
+      });
+    }
+    dots.forEach(function (d, j) {
+      d.addEventListener('click', function () {
+        showAt(j);
+        armTimer();
+      });
+    });
+    root.addEventListener('mouseenter', function () {
+      clearInterval(timer);
+    });
+    root.addEventListener('mouseleave', armTimer);
+    root.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        prev();
+        armTimer();
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        next();
+        armTimer();
+      }
+    });
+    armTimer();
+  }
+
   function syncSectionFromUrl() {
     if (!document.getElementById('sec-home')) return;
     var h = (location.hash || '').replace(/^#/, '');
@@ -176,6 +251,7 @@
       syncSectionFromUrl();
       window.addEventListener('hashchange', syncSectionFromUrl);
       window.addEventListener('popstate', syncSectionFromUrl);
+      initHomeCarousel();
     }
   });
 })();
