@@ -67,12 +67,10 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   padding-top: clamp(16px, 4vh, 48px);
-  padding-right: clamp(20px, 3.5vw, 40px);
   padding-bottom: clamp(12px, 2vh, 28px);
-  padding-left: calc(clamp(20px, 3.5vw, 44px) + min(12vw, 132px));
+  padding-inline: clamp(20px, 3.5vw, 44px);
   max-width: min(1180px, 94vw);
-  margin-left: 0;
-  margin-right: auto;
+  margin-inline: auto;
   width: 100%;
 }
 #sec-home .home-hero {
@@ -83,7 +81,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
 }
 #sec-home .home-copy {
   align-self: center;
-  padding-left: clamp(2px, 1vw, 12px);
+  padding-left: 0;
 }
 #sec-home .home-visual {
   align-self: stretch;
@@ -96,7 +94,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
   margin: 0;
 }
 #sec-home .home-visual.home-carousel {
-  transform: translateX(-24%);
+  transform: none;
 }
 #sec-home .home-mobile-hero {
   display: none;
@@ -239,9 +237,10 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
 .home-in { max-width: 920px; margin: 0 auto; padding: 88px 32px 80px; }
 .home-hero {
   display: grid;
-  grid-template-columns: minmax(260px, 44%) minmax(0, 1fr);
+  /* Columna imagen: ancho nativo 3:4 respecto a la altura del carrusel (fotos 600×800), tope 48% para no ahogar el copy en viewports estrechos */
+  grid-template-columns: minmax(260px, min(calc(min(80vh, 880px) * 3 / 4), 48%)) minmax(0, 1fr);
   grid-template-areas: "img copy";
-  column-gap: clamp(14px, 2.2vw, 36px);
+  column-gap: clamp(20px, 2.8vw, 40px);
   row-gap: 0;
   align-items: stretch;
   margin-bottom: 40px;
