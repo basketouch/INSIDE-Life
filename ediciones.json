@@ -1,0 +1,19 @@
+{
+  "meta": {
+    "descripcion": "Numeración desde #001. La #001 es el primer martes de publicación (2026-04-14). Cada entrada usa fecha ISO del martes. Al publicar: nueva edición arriba (num, fecha, titulo, tags, href) y quita href de la anterior. proximasGeneradas rellena los martes siguientes hasta fin de año (ajusta desdeNum/desdeFecha cuando publiques la siguiente).",
+    "proximasGeneradas": {
+      "desdeNum": 2,
+      "desdeFecha": "2026-04-21",
+      "hastaFecha": "2026-12-29"
+    }
+  },
+  "ediciones": [
+    {
+      "num": 1,
+      "titulo": "La IA que hackea sola",
+      "fecha": "2026-04-14",
+      "tags": ["IA", "Salud", "Ciberseguridad", "Deporte", "OpenAI"],
+      "href": "/newsletter"
+    }
+  ]
+}

@@ -10,6 +10,13 @@
   function show(id) {
     if (SECS.indexOf(id) < 0) return;
 
+    var target = document.getElementById('sec-' + id);
+    if (!target) {
+      if (id === 'home') window.location.href = '/';
+      else if (id === 'sobre') window.location.href = '/#sobre';
+      return;
+    }
+
     if (hasReader) {
       var r = document.getElementById('sec-reader');
       if (r) r.style.display = 'none';
@@ -19,8 +26,7 @@
       var el = document.getElementById('sec-' + s);
       if (el) el.classList.remove('on');
     });
-    var target = document.getElementById('sec-' + id);
-    if (target) target.classList.add('on');
+    target.classList.add('on');
 
     SECS.forEach(function (s) {
       var t = document.getElementById(TOPS[s]);
