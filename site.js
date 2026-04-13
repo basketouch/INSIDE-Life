@@ -125,11 +125,15 @@
   function initHomeCarousel() {
     var root = document.getElementById('homeCarousel');
     if (!root) return;
+    var mq = window.matchMedia('(max-width: 760px)');
     var slides = [].slice.call(root.querySelectorAll('.home-carousel-slide'));
     var dots = [].slice.call(root.querySelectorAll('.home-carousel-dot'));
     if (!slides.length) return;
     var i = 0;
     var timer;
+    function carouselOn() {
+      return !mq.matches;
+    }
     function showAt(n) {
       i = (n + slides.length) % slides.length;
       slides.forEach(function (s, j) {
@@ -151,17 +155,33 @@
     }
     function armTimer() {
       clearInterval(timer);
+      timer = null;
+      if (!carouselOn()) return;
       timer = setInterval(function () {
         var sec = document.getElementById('sec-home');
         if (!sec || !sec.classList.contains('on')) return;
         next();
       }, 5200);
     }
+    function onMqChange() {
+      clearInterval(timer);
+      timer = null;
+      if (carouselOn()) {
+        showAt(0);
+        armTimer();
+      }
+    }
+    if (typeof mq.addEventListener === 'function') {
+      mq.addEventListener('change', onMqChange);
+    } else if (typeof mq.addListener === 'function') {
+      mq.addListener(onMqChange);
+    }
     var prevBtn = root.querySelector('[data-carousel-prev]');
     var nextBtn = root.querySelector('[data-carousel-next]');
     if (prevBtn) {
       prevBtn.addEventListener('click', function (e) {
         e.preventDefault();
+        if (!carouselOn()) return;
         prev();
         armTimer();
       });
@@ -169,21 +189,26 @@
     if (nextBtn) {
       nextBtn.addEventListener('click', function (e) {
         e.preventDefault();
+        if (!carouselOn()) return;
         next();
         armTimer();
       });
     }
     dots.forEach(function (d, j) {
       d.addEventListener('click', function () {
+        if (!carouselOn()) return;
         showAt(j);
         armTimer();
       });
     });
     root.addEventListener('mouseenter', function () {
+      if (!carouselOn()) return;
       clearInterval(timer);
+      timer = null;
     });
     root.addEventListener('mouseleave', armTimer);
     root.addEventListener('keydown', function (e) {
+      if (!carouselOn()) return;
       if (e.key === 'ArrowLeft') {
         e.preventDefault();
         prev();
@@ -194,7 +219,7 @@
         armTimer();
       }
     });
-    armTimer();
+    if (carouselOn()) armTimer();
   }
 
   function syncSectionFromUrl() {

@@ -94,11 +94,18 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
   height: auto;
   max-height: none;
   margin: 0;
+}
+#sec-home .home-visual.home-carousel {
   transform: translateX(-15%);
+}
+#sec-home .home-mobile-hero {
+  display: none;
 }
 #sec-home .home-carousel {
   position: relative;
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 #sec-home .home-carousel:focus-visible {
   outline: 1px solid var(--rule);
@@ -107,6 +114,8 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
 #sec-home .home-carousel-slides {
   position: relative;
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   height: min(80vh, 880px);
   min-height: min(52vh, 520px);
   margin: 0;
@@ -116,6 +125,9 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
   position: absolute;
   inset: 0;
   margin: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
   opacity: 0;
   transition: opacity 0.85s ease;
   pointer-events: none;
@@ -127,8 +139,9 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
 #sec-home .home-carousel-slide img {
   width: 100%;
   height: 100%;
+  max-width: 100%;
   object-fit: cover;
-  object-position: center center;
+  object-position: 50% 50%;
   display: block;
   border: none;
   aspect-ratio: unset;
@@ -379,8 +392,8 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
   #sec-home .home-hero {
     grid-template-columns: 1fr;
     grid-template-areas:
-      "img"
-      "copy";
+      "copy"
+      "img";
     row-gap: 16px;
     column-gap: 0;
     align-items: stretch;
@@ -404,26 +417,31 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
     max-height: none;
     align-self: stretch;
     justify-self: stretch;
+  }
+  #sec-home .home-visual.home-carousel {
+    display: none !important;
     transform: none;
   }
-  #sec-home .home-carousel-slides {
-    width: 100%;
-    height: min(52vh, 440px);
-    min-height: min(36vh, 300px);
+  #sec-home .home-mobile-hero {
+    display: block;
+    grid-area: img;
     margin: 0;
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--off);
+    transform: none;
   }
-  #sec-home .home-carousel-btn {
-    font-size: 18px;
-    width: 28px;
-    opacity: 0.4;
-  }
-  #sec-home .home-carousel-dots {
-    bottom: 8px;
-    gap: 6px;
-  }
-  #sec-home .home-carousel-dot {
-    width: 3px;
-    height: 3px;
+  #sec-home .home-mobile-hero img {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    display: block;
+    object-fit: cover;
+    object-position: top center;
+    border: none;
+    filter: none;
   }
   #sec-home .home-desc { margin-top: 8px; max-width: none; font-size: 13px; line-height: 1.5; }
   #sec-home .home-copy .tags { margin-top: 12px; margin-bottom: 0; }
@@ -557,6 +575,9 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
             <div class="proof-a">Theodore Roosevelt</div>
           </div>
         </div>
+        <figure class="home-visual home-mobile-hero">
+          <img src="/assets/carousel-bw/1.png" alt="Jorge Lorenzo" width="1600" height="900" loading="lazy" decoding="async"/>
+        </figure>
       </div>
     </div>
     <footer class="sfoot">
