@@ -392,6 +392,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
+    background: var(--white);
   }
   #sec-home .home-hero {
     grid-template-columns: 1fr;
@@ -433,7 +434,8 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
     margin: 0;
     width: 100%;
     max-width: 100%;
-    aspect-ratio: 16 / 9;
+    /* Ratio real de los PNG (1182×1274); 16/9 no coincidía con el retrato */
+    aspect-ratio: 1182 / 1274;
     overflow: hidden;
     background: var(--off);
     transform: none;
@@ -445,11 +447,14 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
   #sec-home .home-m-carousel-slides {
     position: absolute;
     inset: 0;
+    background: var(--off);
   }
   #sec-home .home-m-carousel-slide {
     position: absolute;
     inset: 0;
     margin: 0;
+    padding: 0;
+    border: 0;
     width: 100%;
     height: 100%;
     opacity: 0;
@@ -468,6 +473,8 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
     object-position: top center;
     border: none;
     filter: none;
+    min-height: 100%;
+    min-width: 100%;
   }
   #sec-home .home-m-carousel-dots {
     position: absolute;
@@ -632,10 +639,10 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
         </div>
         <div class="home-visual home-mobile-hero" id="homeMobileCarousel" role="region" aria-roledescription="carrusel" aria-label="Fotografías INSIDE Life" tabindex="0">
           <div class="home-m-carousel-slides">
-            <figure class="home-m-carousel-slide on" aria-hidden="false"><img src="/assets/carousel-bw/1.png" alt="Jorge Lorenzo" width="1600" height="900" fetchpriority="high" decoding="async"/></figure>
-            <figure class="home-m-carousel-slide" aria-hidden="true"><img src="/assets/carousel-bw/2.png" alt="" width="1600" height="900" loading="lazy" decoding="async"/></figure>
-            <figure class="home-m-carousel-slide" aria-hidden="true"><img src="/assets/carousel-bw/3.png" alt="" width="1600" height="900" loading="lazy" decoding="async"/></figure>
-            <figure class="home-m-carousel-slide" aria-hidden="true"><img src="/assets/carousel-bw/4.png" alt="" width="1600" height="900" loading="lazy" decoding="async"/></figure>
+            <figure class="home-m-carousel-slide on" aria-hidden="false"><img src="/assets/carousel-bw/1.png" alt="Jorge Lorenzo" width="1182" height="1274" fetchpriority="high" decoding="async"/></figure>
+            <figure class="home-m-carousel-slide" aria-hidden="true"><img src="/assets/carousel-bw/2.png" alt="" width="1182" height="1274" loading="lazy" decoding="async"/></figure>
+            <figure class="home-m-carousel-slide" aria-hidden="true"><img src="/assets/carousel-bw/3.png" alt="" width="1182" height="1274" loading="lazy" decoding="async"/></figure>
+            <figure class="home-m-carousel-slide" aria-hidden="true"><img src="/assets/carousel-bw/4.png" alt="" width="1182" height="1274" loading="lazy" decoding="async"/></figure>
           </div>
           <div class="home-m-carousel-dots" role="tablist" aria-label="Ir a la foto">
             <button type="button" class="home-m-carousel-dot on" role="tab" aria-selected="true" aria-label="Foto 1 de 4"></button>
