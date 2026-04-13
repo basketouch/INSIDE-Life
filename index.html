@@ -50,7 +50,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
 .page { padding-top: 54px; }
 .sec { display: none; min-height: calc(100vh - 54px); }
 .sec.on { display: block; }
-/* Portada: una sola pantalla, sin scroll (estructura móvil: titular → foto → texto) */
+/* Portada: foto izquierda · copy derecha (móvil y escritorio, mismo orden interno en la columna texto) */
 #sec-home.sec.on {
   display: flex;
   flex-direction: column;
@@ -93,7 +93,11 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
   line-height: 1.5;
   margin-top: clamp(8px, 1.5vh, 16px);
 }
-#sec-home .tags { margin-bottom: clamp(8px, 1.5vh, 20px); flex-shrink: 0; }
+#sec-home .home-copy .tags {
+  margin-top: clamp(10px, 1.6vh, 20px);
+  margin-bottom: 0;
+  flex-shrink: 0;
+}
 #sec-home .home-cta { flex-shrink: 0; padding: clamp(11px, 1.8vh, 15px) 16px; margin-bottom: 6px; }
 #sec-home .home-cta-sub { flex-shrink: 0; margin-bottom: 0; }
 #sec-home .proof {
@@ -121,16 +125,20 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
 .home-in { max-width: 920px; margin: 0 auto; padding: 88px 32px 80px; }
 .home-hero {
   display: grid;
-  grid-template-columns: 1fr minmax(200px, 272px);
-  grid-template-areas:
-    "top img"
-    "desc img";
+  grid-template-columns: minmax(200px, 272px) 1fr;
+  grid-template-areas: "img copy";
   column-gap: clamp(28px, 5vw, 56px);
-  row-gap: 4px;
+  row-gap: 0;
   align-items: start;
   margin-bottom: 40px;
 }
-.home-top { grid-area: top; }
+.home-copy {
+  grid-area: copy;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.home-top { min-width: 0; }
 .home-visual {
   grid-area: img;
   margin: 0;
@@ -148,7 +156,10 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
 .kicker { font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: .1em; color: var(--red); margin-bottom: 22px; }
 .home-h1 { font-family: 'Playfair Display', serif; font-size: clamp(40px,7vw,68px); font-weight: 900; line-height: 1.04; letter-spacing: -.03em; color: var(--ink); margin-bottom: 0; }
 .home-h1 em { font-style: italic; color: var(--mid); }
-.home-desc { grid-area: desc; font-size: 15.5px; line-height: 1.78; color: var(--mid); margin: 20px 0 0; max-width: 520px; }
+.home-desc { font-size: 15.5px; line-height: 1.78; color: var(--mid); margin: 20px 0 0; max-width: 520px; }
+.home-copy .tags { margin-top: 18px; margin-bottom: 0; }
+.home-copy .home-cta { margin-top: 22px; }
+.home-copy .home-cta-sub { margin-top: 10px; }
 .tags { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 44px; }
 .tag { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--mid); border: 1px solid var(--rule); padding: 5px 10px; }
 .home-cta { width: 100%; max-width: 420px; background: var(--ink); color: var(--white); font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; padding: 16px; border: none; cursor: pointer; transition: background .15s; margin-bottom: 14px; }
@@ -265,33 +276,46 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
   }
   #sec-home .home-in { padding: 10px 22px 8px; }
   #sec-home .home-hero {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      "top"
-      "img"
-      "desc";
-    row-gap: 0;
+    grid-template-columns: minmax(76px, 30vw) minmax(0, 1fr);
+    grid-template-areas: "img copy";
+    column-gap: 10px;
+    align-items: stretch;
     margin-bottom: 8px;
+    min-height: 0;
+  }
+  #sec-home .home-copy {
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    gap: 0;
   }
   #sec-home .home-visual {
-    max-width: 150px;
-    max-height: min(20vh, 168px);
-    height: min(20vh, 168px);
-    margin: 4px auto 0;
+    margin: 0;
     width: 100%;
+    max-width: none;
+    max-height: none;
+    height: 100%;
+    min-height: min(36vh, 220px);
+    align-self: stretch;
   }
   #sec-home .home-visual img {
     width: 100%;
     height: 100%;
+    min-height: 140px;
     object-fit: cover;
     object-position: top center;
   }
-  #sec-home .home-desc { margin-top: 8px; max-width: none; font-size: 12.5px; line-height: 1.42; }
-  #sec-home .kicker { margin-bottom: 6px; font-size: 8.5px; }
-  #sec-home .home-h1 { font-size: clamp(24px, 7.5vw, 32px); }
-  #sec-home .tags { margin-bottom: 8px; gap: 5px; }
-  #sec-home .tag { padding: 4px 8px; font-size: 7.5px; }
-  #sec-home .home-cta { padding: 11px 14px; font-size: 10px; margin-bottom: 4px; }
+  #sec-home .home-desc { margin-top: 6px; max-width: none; font-size: 12px; line-height: 1.38; }
+  #sec-home .home-copy .tags { margin-top: 8px; margin-bottom: 0; }
+  #sec-home .home-copy .home-cta { margin-top: 10px; margin-bottom: 0; }
+  #sec-home .home-copy .home-cta-sub { margin-top: 4px; }
+  #sec-home .kicker { margin-bottom: 4px; font-size: 8.5px; }
+  #sec-home .home-h1 { font-size: clamp(20px, 5.2vw, 28px); line-height: 1.06; }
+  #sec-home .home-h1 br { display: none; }
+  #sec-home .tags { gap: 4px; }
+  #sec-home .tag { padding: 3px 7px; font-size: 7px; letter-spacing: .06em; }
+  #sec-home .home-cta { padding: 10px 12px; font-size: 9px; max-width: none; width: 100%; }
+  #sec-home .home-cta-sub { font-size: 8px; line-height: 1.35; }
   #sec-home .proof { margin-top: 6px; padding-top: 8px; }
   #sec-home .proof-q { font-size: 12px; -webkit-line-clamp: 2; }
   #sec-home .proof-a { font-size: 8px; }
@@ -374,23 +398,25 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
   <section class="sec on" id="sec-home">
     <div class="home-in">
       <div class="home-hero">
-        <div class="home-top">
-          <div class="kicker">✦ Por Jorge Lorenzo · cada semana</div>
-          <h1 class="home-h1">El Club para<br><em>mentes inquietas</em></h1>
+        <div class="home-copy">
+          <div class="home-top">
+            <div class="kicker">✦ Por Jorge Lorenzo · cada semana</div>
+            <h1 class="home-h1">El Club para<br><em>mentes inquietas</em></h1>
+          </div>
+          <p class="home-desc">IA, automatización, deporte y emprendimiento. Cada martes, lo que sigo, lo que pruebo y lo que haría en tu lugar.</p>
+          <div class="tags">
+            <span class="tag">Inteligencia Artificial</span>
+            <span class="tag">Liderazgo</span>
+            <span class="tag">Deporte</span>
+            <span class="tag">Emprendimiento</span>
+          </div>
+          <button type="button" class="home-cta" data-open-sub>UNIRME AL CLUB →</button>
+          <div class="home-cta-sub">Sin spam · Cada martes · Baja cuando quieras</div>
         </div>
         <figure class="home-visual">
           <img src="https://newsletter.jorgelorenzo.coach/Copa_vertical.png" alt="Jorge Lorenzo con la Copa del Mundo 2019" width="544" height="680" fetchpriority="high" decoding="async"/>
         </figure>
-        <p class="home-desc">IA, automatización, deporte y emprendimiento. Cada martes, lo que sigo, lo que pruebo y lo que haría en tu lugar.</p>
       </div>
-      <div class="tags">
-        <span class="tag">Inteligencia Artificial</span>
-        <span class="tag">Liderazgo</span>
-        <span class="tag">Deporte</span>
-        <span class="tag">Emprendimiento</span>
-      </div>
-      <button type="button" class="home-cta" data-open-sub>UNIRME AL CLUB →</button>
-      <div class="home-cta-sub">Sin spam · Cada martes · Baja cuando quieras</div>
       <div class="proof">
         <div class="proof-q">"No es el crítico quien cuenta. El mérito pertenece al hombre que está realmente en la arena."</div>
         <div class="proof-a">Theodore Roosevelt</div>

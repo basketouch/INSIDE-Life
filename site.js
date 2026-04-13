@@ -7,7 +7,8 @@
 
   var hasReader = typeof document !== 'undefined' && !!document.getElementById('sec-reader');
 
-  function show(id) {
+  function show(id, opts) {
+    opts = opts || {};
     if (SECS.indexOf(id) < 0) return;
 
     var target = document.getElementById('sec-' + id);
@@ -34,6 +35,19 @@
       if (t) t.classList.toggle('active', s === id);
       if (b) b.classList.toggle('active', s === id);
     });
+
+    if (!opts.skipHistory && typeof history !== 'undefined' && history.pushState) {
+      var cur = location.hash || '';
+      if (id === 'sobre') {
+        if (cur !== '#sobre') {
+          history.pushState({ ins: 'sobre' }, '', location.pathname + location.search + '#sobre');
+        }
+      } else if (id === 'home') {
+        if (location.hash) {
+          history.pushState({ ins: 'home' }, '', location.pathname + location.search);
+        }
+      }
+    }
 
     window.scrollTo(0, 0);
   }
@@ -108,9 +122,14 @@
     }, 3000);
   }
 
-  function applyHash() {
+  function syncSectionFromUrl() {
+    if (!document.getElementById('sec-home')) return;
     var h = (location.hash || '').replace(/^#/, '');
-    if (h === 'sobre' && document.getElementById('sec-sobre')) show('sobre');
+    if (h === 'sobre' && document.getElementById('sec-sobre')) {
+      show('sobre', { skipHistory: true });
+    } else {
+      show('home', { skipHistory: true });
+    }
   }
 
   function onDocClick(e) {
@@ -154,8 +173,9 @@
     if (subOv) subOv.addEventListener('click', bgClose);
 
     if (!document.getElementById('loginPass')) {
-      applyHash();
-      window.addEventListener('hashchange', applyHash);
+      syncSectionFromUrl();
+      window.addEventListener('hashchange', syncSectionFromUrl);
+      window.addEventListener('popstate', syncSectionFromUrl);
     }
   });
 })();
