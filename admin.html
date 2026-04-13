@@ -215,6 +215,10 @@ details.panel-collapsible[open] > summary.panel-disclosure {
           <textarea class="field-in" id="heroH1Html" rows="4" onchange="renderPreview()" placeholder="HTML: &lt;br&gt;, &lt;em&gt;…&lt;/em&gt;"></textarea>
         </div>
         <div class="field-group">
+          <label class="field-lbl" for="heroNlLead">Texto principal (entradilla)</label>
+          <textarea class="field-in" id="heroNlLead" rows="5" onchange="renderPreview()" placeholder="Párrafo bajo el titular en el bloque negro del hero (texto plano)."></textarea>
+        </div>
+        <div class="field-group">
           <label class="field-lbl" for="heroMetaDesc">Descripción (meta)</label>
           <input class="field-in" type="text" id="heroMetaDesc" onchange="renderPreview()"/>
         </div>
@@ -957,6 +961,8 @@ function populateHeroFieldsFromHtml() {
     setFieldVal('heroMetaDesc', md ? (md.getAttribute('content') || '') : '');
     var h1 = doc.querySelector('h1.nl-h1');
     setFieldVal('heroH1Html', h1 ? h1.innerHTML : '');
+    var lead = doc.querySelector('p.nl-lead');
+    setFieldVal('heroNlLead', lead ? lead.textContent.trim() : '');
     var ey = doc.querySelector('.nl-ey');
     setFieldVal('heroEditionLine', ey ? ey.textContent.trim() : '');
   } catch (e) {}
@@ -971,6 +977,8 @@ function applyHeroEditsFromForm(html) {
     if (meta) meta.setAttribute('content', val('heroMetaDesc'));
     var h1 = doc.querySelector('h1.nl-h1');
     if (h1) h1.innerHTML = val('heroH1Html');
+    var lead = doc.querySelector('p.nl-lead');
+    if (lead) lead.textContent = val('heroNlLead');
     var ed = val('heroEditionLine');
     var ey = doc.querySelector('.nl-ey');
     if (ey) ey.textContent = ed;
