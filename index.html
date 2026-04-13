@@ -76,7 +76,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
   flex: 1 1 auto;
   margin-bottom: 0;
   align-items: stretch;
-  min-height: min(72vh, 780px);
+  min-height: min(80vh, 900px);
 }
 #sec-home .home-copy {
   align-self: center;
@@ -84,13 +84,17 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
 }
 #sec-home .home-visual {
   align-self: stretch;
-  min-height: min(68vh, 720px);
-  height: 100%;
+  justify-self: stretch;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  height: auto;
   max-height: none;
   margin: 0;
 }
 #sec-home .home-carousel {
   position: relative;
+  width: 100%;
 }
 #sec-home .home-carousel:focus-visible {
   outline: 1px solid var(--rule);
@@ -99,9 +103,9 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
 #sec-home .home-carousel-slides {
   position: relative;
   width: 100%;
-  aspect-ratio: 3 / 4;
-  max-height: min(72vh, 780px);
-  margin: 0 auto;
+  height: min(80vh, 880px);
+  min-height: min(52vh, 520px);
+  margin: 0;
   background: var(--off);
 }
 #sec-home .home-carousel-slide {
@@ -120,7 +124,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: top center;
+  object-position: center center;
   display: block;
   border: none;
   aspect-ratio: unset;
@@ -218,7 +222,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
 .home-in { max-width: 920px; margin: 0 auto; padding: 88px 32px 80px; }
 .home-hero {
   display: grid;
-  grid-template-columns: minmax(240px, 42%) 1fr;
+  grid-template-columns: minmax(280px, 46%) 1fr;
   grid-template-areas: "img copy";
   column-gap: clamp(32px, 5vw, 72px);
   row-gap: 0;
@@ -387,18 +391,21 @@ body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(
     padding-left: 0;
   }
   #sec-home .home-visual {
-    margin: 0 auto;
+    margin: 0;
     width: 100%;
-    max-width: min(300px, 78vw);
+    max-width: none;
+    min-width: 0;
     min-height: 0;
     height: auto;
     max-height: none;
-    align-self: center;
+    align-self: stretch;
+    justify-self: stretch;
   }
   #sec-home .home-carousel-slides {
-    aspect-ratio: 3 / 4;
-    max-height: min(48vh, 380px);
-    min-height: 0;
+    width: 100%;
+    height: min(52vh, 440px);
+    min-height: min(36vh, 300px);
+    margin: 0;
   }
   #sec-home .home-carousel-btn {
     font-size: 18px;
