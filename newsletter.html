@@ -85,11 +85,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);-
 .sub-in{width:100%;border:1px solid var(--rule);background:var(--off);font-family:'DM Sans',sans-serif;font-size:14px;padding:11px 14px;color:var(--ink);outline:none;}
 .sub-btn{width:100%;margin-top:6px;background:var(--ink);color:var(--white);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:14px;border:none;cursor:pointer;}
 .sub-btn:hover{background:var(--red);}
-@media(max-width:760px){
+.botnav-a{flex:1;height:100%;display:flex;align-items:center;justify-content:center;border:none;background:none;cursor:pointer;font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--mid);border-right:1px solid var(--rule);text-decoration:none;transition:color .15s;}
+        .botnav-a:last-child{border-right:none;}
+        @media(max-width:760px){
   .topnav{padding:0 16px;}
   .nav-links{display:none;}
   .nav-sub{display:none;}
-  .botnav{display:flex;}
+  .botnav{display:flex !important;}
   .nl-hero{padding:30px 22px 26px;}
   .nl-idx{padding:14px 22px;}
   .nl-art{padding:24px 22px;}
@@ -112,6 +114,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);-
     <li><a href="https://insidelife.club/#sobre" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color .15s;">Sobre mí</a></li>
   </ul>
   <button class="nav-sub" onclick="document.getElementById('sub-modal').classList.add('open')">Suscribirse</button>
+</nav>
+<nav class="botnav" style="display:none;">
+  <a href="https://insidelife.club" class="botnav-a">Inicio</a>
+  <a href="https://insidelife.club/archivo" class="botnav-a">Ediciones</a>
+  <a href="https://insidelife.club/#sobre" class="botnav-a" style="color:var(--red);">Sobre mí</a>
 </nav>
 
 <div class="page">
