@@ -31,8 +31,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);-
 .reader-back{padding:13px 40px;border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;gap:12px;}
 .back-btn{background:none;border:none;cursor:pointer;font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);padding:0;transition:color .15s;}
 .back-btn:hover{color:var(--ink);}
-.reader-edition{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);white-space:nowrap;}
-.reader-temas{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--red);text-align:right;}
+.reader-temas{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--red);}
 .nl-hero{background:var(--ink);padding:44px 40px 36px;position:relative;overflow:hidden;}
 .nl-hero::before{content:'';position:absolute;top:-80px;right:-80px;width:260px;height:260px;border-radius:50%;border:50px solid rgba(232,64,28,.1);pointer-events:none;}
 .nl-ey{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:14px;}
@@ -46,6 +45,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);-
 .nl-idx-a::before{content:'→';font-family:'DM Mono',monospace;color:var(--red);font-size:10px;}
 .nl-idx-a:hover{color:var(--red);}
 .nl-art{padding:28px 40px;border-bottom:1px solid var(--rule);}
+.art-destacada{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:10px;}
 .art-hdr{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;}
 .art-n{width:25px;height:25px;background:var(--red);color:#fff;font-family:'DM Mono',monospace;font-size:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:3px;}
 .art-src{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);margin-bottom:4px;}
@@ -126,8 +126,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);-
 <div class="page">
   <div id="sec-reader" class="sec on">
     <div class="reader-back">
-      <div class="reader-edition">Edicion #043 — 11 Abril 2026</div>
-      <div class="reader-temas">Basketball</div>
+      <div class="reader-temas">IA</div>
     </div>
 
     <div class="nl-hero">
@@ -139,69 +138,83 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);-
     <div class="nl-idx">
       <div class="nl-idx-lbl">En esta edicion</div>
       <div class="nl-idx-list">
-        <a class="nl-idx-a" href="#a1">Viaja a Salónica con el equipo a un precio inigualable gracias a Vueling</a>
-            <a class="nl-idx-a" href="#a2">Las palabras de Dani Miret tras la eliminación del Asisa Joventut de la BCL</a>
-            <a class="nl-idx-a" href="#a3">El Joventut se queda sin Final Four con un polémico arbitraje</a>
-            <a class="nl-idx-a" href="#a4">Chuso González, el cantero mayor de un renacido Alimerka Oviedo</a>
+        <a class="nl-idx-a" href="#a1">Google lanza AI Skills en Chrome para automatizar tareas</a>
+            <a class="nl-idx-a" href="#a2">Claude se integra directamente en Microsoft Word</a>
+            <a class="nl-idx-a" href="#a3">Anthropic renueva Claude Code con panel Cowork</a>
+            <a class="nl-idx-a" href="#a4">Google desarrolla Gemini Agent para tareas autonomas</a>
+            <a class="nl-idx-a" href="#a5">Speakly convierte voz en texto 4 veces mas rapido</a>
       </div>
     </div>
 
     
 
     <div class="nl-art" id="a1">
+  
   <div class="art-hdr">
     <div class="art-n">1</div>
     <div>
-      <div class="art-src">Basketball</div>
-      <h2 class="art-h2">Viaja a Salónica con el equipo a un precio inigualable gracias a Vueling</h2>
+      <div class="art-src">IA · Productividad</div>
+      <h2 class="art-h2">Google lanza AI Skills en Chrome para automatizar tareas</h2>
     </div>
   </div>
   <div class="art-body">
-    <p>Surne Bilbao fletará un charter con equipo y afición a Salónica gracias a Vueling, Aerolínea oficial del club. Y lo hará al mejor precio posible. Gracias al acuerdo de patrocinio, podrás vivir la final desde tan solo 295€ (Opción vuelo + traslados + entrada). También ofrecemos la opción pack completo con Alojamiento en hotel de […]</p>
+    <p>Las nuevas herramientas permiten guardar instrucciones de Gemini y ejecutarlas en cualquier pestaña. Elimina la repeticion de tareas comunes en el navegador.</p>
   </div>
 </div>
-            <div class="nl-art nl-art-blue" id="a2">
+            <div class="nl-art" id="a2">
+  <div class="art-destacada">★ DESTACADA</div>
   <div class="art-hdr">
     <div class="art-n">2</div>
     <div>
-      <div class="art-src">Basketball</div>
-      <h2 class="art-h2">Las palabras de Dani Miret tras la eliminación del Asisa Joventut de la BCL</h2>
+      <div class="art-src">IA · Productividad</div>
+      <h2 class="art-h2">Claude se integra directamente en Microsoft Word</h2>
     </div>
   </div>
   <div class="art-body">
-    <p>Estas fueron las palabras del técnico verdinegro</p>
+    <p>La integracion nativa elimina el copy-paste entre chat y documentos. Los usuarios pueden editar textos con IA sin salir de Word.</p>
   </div>
 </div>
             <div class="nl-art" id="a3">
+  
   <div class="art-hdr">
     <div class="art-n">3</div>
     <div>
-      <div class="art-src">Basketball</div>
-      <h2 class="art-h2">El Joventut se queda sin Final Four con un polémico arbitraje</h2>
+      <div class="art-src">IA · Productividad</div>
+      <h2 class="art-h2">Anthropic renueva Claude Code con panel Cowork</h2>
     </div>
   </div>
   <div class="art-body">
-    <p>La Penya cae ante el AEK en Atenas (72-67 y 2-1) tras dominar gran parte del partido. Varias decisiones discutidas en el tramo final frustran el sueño.</p>
+    <p>Los subagentes ejecutan tareas mecanicas mientras el usuario se enfoca en arquitectura. El nuevo panel centraliza la gestion de proyectos complejos.</p>
   </div>
 </div>
-            <div class="nl-art nl-art-blue" id="a4">
+            <div class="nl-art" id="a4">
+  
   <div class="art-hdr">
     <div class="art-n">4</div>
     <div>
-      <div class="art-src">Basketball</div>
-      <h2 class="art-h2">Chuso González, el cantero mayor de un renacido Alimerka Oviedo</h2>
+      <div class="art-src">IA · Desarrollo</div>
+      <h2 class="art-h2">Google desarrolla Gemini Agent para tareas autonomas</h2>
     </div>
   </div>
   <div class="art-body">
-    <p>De vuelta a casa tras conquistar el segundo triunfo del curso en Melilla, el Alimerka Oviedo es hoy un equipo totalmente nuevo. Un grupo que ha dejado atrás esa pesada mochila repleta de piedras (0-7) y que sonríe de nuevo gracias al trabajo de unos canteros liderados por la veteranía y el conocimiento de Oliver Arteaga y Chuso González.</p>
+    <p>El nuevo agente abandona el formato Q&amp;A tradicional para ejecutar multiples tareas sin intervencion. Representa un salto hacia la automatizacion completa.</p>
+  </div>
+</div>
+            <div class="nl-art" id="a5">
+  
+  <div class="art-hdr">
+    <div class="art-n">5</div>
+    <div>
+      <div class="art-src">IA · Herramientas</div>
+      <h2 class="art-h2">Speakly convierte voz en texto 4 veces mas rapido</h2>
+    </div>
+  </div>
+  <div class="art-body">
+    <p>La app de Genspark procesa audio y genera texto pulido automaticamente. Promete revolucionar la creacion de contenido por voz.</p>
   </div>
 </div>
 
-    <div style="background:#111;padding:28px 40px;">
-  <h2 style="font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:#fff;margin-bottom:10px;">DrawSports </h2>
-  <p style="font-size:13.5px;line-height:1.8;color:rgba(255,255,255,.78);">Tu app de confianza </p>
-  <a href="https://drawsports.app/" style="display:inline-block;margin-top:14px;background:#fff;color:#111;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:10px 20px;text-decoration:none;">Ver más →</a>
-</div>
+    
 
     <div class="nl-foot">
       <div class="nl-foot-row">
@@ -215,7 +228,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);-
           <a href="https://x.com/JLbasket" target="_blank" rel="noopener">X</a>
           <a href="https://www.instagram.com/jorgelorenzo.coach" target="_blank" rel="noopener">Instagram</a>
           <a href="https://bio.jorgelorenzo.coach/" target="_blank" rel="noopener">Bio</a>
-          <a href="https://insidelife.club/#sobre" target="_blank" rel="noopener">Contacto</a>
+          <a href="mailto:info@jorgelorenzo.coach">Contacto</a>
         </div>
       </div>
       <div class="nl-legal">
