@@ -3,10 +3,6 @@
  *
  * URL: /api/github
  *
- * Vercel → Environment Variables:
- *   GITHUB_TOKEN      — PAT (fine-grained: repo INSIDE-Life, Contents R/W)
- *   ADMIN_API_SECRET  — mismo valor que ADMIN_PASS en admin.html (Bearer)
- *
  * GET  ?file=newsletter.html
  * PUT  JSON { file, content, sha?, message? }
  *       sha es opcional: omitir para crear archivo nuevo, incluir para actualizar.
@@ -32,6 +28,11 @@ function setCors(res, req) {
   }
   res.setHeader('Access-Control-Allow-Methods', 'GET, PUT, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+}
+
+// Codifica cada segmento de la ruta por separado para preservar las barras /
+function encodeFilePath(file) {
+  return file.split('/').map(encodeURIComponent).join('/');
 }
 
 module.exports = async function handler(req, res) {
@@ -72,7 +73,7 @@ module.exports = async function handler(req, res) {
     if (file.includes('..') || file.startsWith('/')) {
       return res.status(400).json({ error: 'Nombre de archivo no válido' });
     }
-    const r = await fetch(`${base}/${encodeURIComponent(file)}`, { headers });
+    const r = await fetch(`${base}/${encodeFilePath(file)}`, { headers });
     if (!r.ok) {
       const errText = await r.text();
       return res.status(r.status).json({ error: 'No se pudo leer el archivo', detail: errText });
@@ -110,7 +111,7 @@ module.exports = async function handler(req, res) {
       content: encoded,
     };
     if (sha) githubBody.sha = sha;
-    const r = await fetch(`${base}/${encodeURIComponent(file)}`, {
+    const r = await fetch(`${base}/${encodeFilePath(file)}`, {
       method: 'PUT',
       headers,
       body: JSON.stringify(githubBody),
