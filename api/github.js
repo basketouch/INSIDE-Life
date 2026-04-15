@@ -8,7 +8,8 @@
  *   ADMIN_API_SECRET  — mismo valor que ADMIN_PASS en admin.html (Bearer)
  *
  * GET  ?file=newsletter.html
- * PUT  JSON { file, content, sha, message? }
+ * PUT  JSON { file, content, sha?, message? }
+ *       sha es opcional: omitir para crear archivo nuevo, incluir para actualizar.
  */
 
 function isAllowedOrigin(origin) {
@@ -97,21 +98,22 @@ module.exports = async function handler(req, res) {
       return res.status(400).json({ error: 'Cuerpo requerido' });
     }
     const { file, content, sha, message } = body;
-    if (!file || typeof content !== 'string' || !sha) {
-      return res.status(400).json({ error: 'Faltan file, content o sha' });
+    if (!file || typeof content !== 'string') {
+      return res.status(400).json({ error: 'Faltan file o content' });
     }
     if (file.includes('..') || String(file).startsWith('/')) {
       return res.status(400).json({ error: 'Nombre de archivo no válido' });
     }
     const encoded = Buffer.from(content, 'utf8').toString('base64');
+    const githubBody = {
+      message: message || `Update ${file}`,
+      content: encoded,
+    };
+    if (sha) githubBody.sha = sha;
     const r = await fetch(`${base}/${encodeURIComponent(file)}`, {
       method: 'PUT',
       headers,
-      body: JSON.stringify({
-        message: message || `Update ${file}`,
-        content: encoded,
-        sha,
-      }),
+      body: JSON.stringify(githubBody),
     });
     if (!r.ok) {
       let err;
