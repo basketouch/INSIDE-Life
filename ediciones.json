@@ -1,45 +1,55 @@
 {
   "meta" : {
+    "descripcion" : "Numeración desde #001. La #001 es el primer martes de publicación (2026-04-14). Cada entrada usa fecha ISO del martes. Si href es \/newsletter, el archivo sustituye el titular de la tarjeta por el H1 del hero en vivo. El campo titulo en JSON sirve de respaldo si falla la carga. Tags siguen viniendo del JSON.",
     "proximasGeneradas" : {
-      "desdeFecha" : "2026-04-21",
+      "desdeNum" : 2,
       "hastaFecha" : "2026-12-29",
-      "desdeNum" : 2
-    },
-    "descripcion" : "Numeración desde #001. La #001 es el primer martes de publicación (2026-04-14). Cada entrada usa fecha ISO del martes. Si href es \/newsletter, el archivo sustituye el titular de la tarjeta por el H1 del hero en vivo. El campo titulo en JSON sirve de respaldo si falla la carga. Tags siguen viniendo del JSON."
+      "desdeFecha" : "2026-04-21"
+    }
   },
   "ediciones" : [
     {
-      "href" : "\/newsletters\/013",
-      "titulo" : "Newsletter inicial!!  Comenzamos",
-      "num" : 13,
+      "tags" : [
+        "Medios de USA",
+        "IA"
+      ],
+      "fecha" : "2026-04-11",
+      "href" : "\/newsletters\/043",
+      "titulo" : "INSIDE Life #043 — 11 Abril 2026",
+      "num" : 43
+    },
+    {
       "tags" : [
         "IA",
         "Deportes"
       ],
+      "num" : 13,
+      "href" : "\/newsletters\/013",
+      "titulo" : "Newsletter inicial!!  Comenzamos",
       "fecha" : "2026-04-23"
     },
     {
+      "fecha" : "2026-04-11",
       "href" : "\/newsletters\/002",
-      "titulo" : "martes 28 jueves 30: 21.15",
       "num" : 2,
       "tags" : [
         "Media",
         "Deportes",
         "IA"
       ],
-      "fecha" : "2026-04-11"
+      "titulo" : "martes 28 jueves 30: 21.15"
     },
     {
       "num" : 1,
+      "fecha" : "2026-04-16",
+      "href" : "\/newsletters\/001",
+      "titulo" : "INSIDE Life #044 — 11 Abril 2026",
       "tags" : [
         "Entretenimiento",
         "Deportes",
         "IA",
         "Media"
-      ],
-      "titulo" : "INSIDE Life #044 — 11 Abril 2026",
-      "href" : "\/newsletters\/001",
-      "fecha" : "2026-04-16"
+      ]
     }
   ]
 }
