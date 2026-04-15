@@ -1,35 +1,45 @@
 {
   "meta" : {
-    "descripcion" : "Numeración desde #001. La #001 es el primer martes de publicación (2026-04-14). Cada entrada usa fecha ISO del martes. Si href es \/newsletter, el archivo sustituye el titular de la tarjeta por el H1 del hero en vivo. El campo titulo en JSON sirve de respaldo si falla la carga. Tags siguen viniendo del JSON.",
     "proximasGeneradas" : {
-      "desdeNum" : 2,
+      "desdeFecha" : "2026-04-21",
       "hastaFecha" : "2026-12-29",
-      "desdeFecha" : "2026-04-21"
-    }
+      "desdeNum" : 2
+    },
+    "descripcion" : "Numeración desde #001. La #001 es el primer martes de publicación (2026-04-14). Cada entrada usa fecha ISO del martes. Si href es \/newsletter, el archivo sustituye el titular de la tarjeta por el H1 del hero en vivo. El campo titulo en JSON sirve de respaldo si falla la carga. Tags siguen viniendo del JSON."
   },
   "ediciones" : [
     {
+      "href" : "\/newsletters\/013",
+      "titulo" : "Newsletter inicial!!  Comenzamos",
+      "num" : 13,
+      "tags" : [
+        "IA",
+        "Deportes"
+      ],
+      "fecha" : "2026-04-23"
+    },
+    {
+      "href" : "\/newsletters\/002",
+      "titulo" : "martes 28 jueves 30: 21.15",
       "num" : 2,
       "tags" : [
         "Media",
         "Deportes",
         "IA"
       ],
-      "titulo" : "martes 28 jueves 30: 21.15",
-      "href" : "\/newsletters\/002",
       "fecha" : "2026-04-11"
     },
     {
-      "href" : "\/newsletters\/001",
+      "num" : 1,
       "tags" : [
         "Entretenimiento",
         "Deportes",
         "IA",
         "Media"
       ],
-      "fecha" : "2026-04-16",
       "titulo" : "INSIDE Life #044 — 11 Abril 2026",
-      "num" : 1
+      "href" : "\/newsletters\/001",
+      "fecha" : "2026-04-16"
     }
   ]
 }
