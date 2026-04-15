@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>INSIDE Life - Edicion #043 - INSIDE Life #043 — 11 Abril 2026</title>
-<meta name="description" content="INSIDE Life #043 — 11 Abril 2026">
+<title>INSIDE Life - Edicion #001 - INSIDE Life es tu nuevo espacio </title>
+<meta name="description" content="INSIDE Life es tu nuevo espacio ">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root { --white:#ffffff;--off:#f8f6f2;--ink:#111111;--mid:#767676;--rule:#e8e4de;--red:#e8401c; }
@@ -28,10 +28,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);-
 .sec{display:none;min-height:calc(100vh - 54px);}
 .sec.on{display:block;}
 #sec-reader{display:block;padding-top:54px;}
-.reader-back{padding:13px 40px;border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;}
+.reader-back{padding:13px 40px;border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;gap:12px;}
 .back-btn{background:none;border:none;cursor:pointer;font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);padding:0;transition:color .15s;}
 .back-btn:hover{color:var(--ink);}
-.reader-edition{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);}
+.reader-edition{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);white-space:nowrap;}
+.reader-temas{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--red);text-align:right;}
 .nl-hero{background:var(--ink);padding:44px 40px 36px;position:relative;overflow:hidden;}
 .nl-hero::before{content:'';position:absolute;top:-80px;right:-80px;width:260px;height:260px;border-radius:50%;border:50px solid rgba(232,64,28,.1);pointer-events:none;}
 .nl-ey{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:14px;}
@@ -70,7 +71,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);-
 .nl-legal a:hover{color:var(--red);}
 .nl-sig{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--ink);}
 .nl-sig-sub{font-size:11px;color:var(--mid);font-style:italic;font-family:'Playfair Display',serif;}
-.nl-flinks{display:flex;gap:12px;flex-wrap:wrap;}
+.nl-copy{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.06em;color:var(--mid);margin-top:4px;}
+.nl-flinks{display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
 .nl-flinks a{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);text-decoration:none;border-bottom:1px solid var(--rule);transition:color .12s;}
 .nl-flinks a:hover{color:var(--red);}
 .sub-ov{display:none;position:fixed;inset:0;z-index:500;background:rgba(10,10,10,.65);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:20px;}
@@ -113,7 +115,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);-
     <li><a href="https://insidelife.club/archivo" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color .15s;">Ediciones</a></li>
     <li><a href="https://insidelife.club/#sobre" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color .15s;">Sobre mí</a></li>
   </ul>
-  <button class="nav-sub" onclick="document.getElementById('sub-modal').classList.add('open')">Suscribirse</button>
+  <button class="nav-sub" onclick="document.getElementById('sub-modal').classList.add('open')">¿Te la compartieron?</button>
 </nav>
 <nav class="botnav">
   <a href="https://insidelife.club" class="botnav-a">Inicio</a>
@@ -124,23 +126,23 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);-
 <div class="page">
   <div id="sec-reader" class="sec on">
     <div class="reader-back">
-      <div class="reader-edition">Edicion #043 — 11 Abril 2026</div>
+      <div class="reader-edition">Edicion #001 — 14 de abril de 2026</div>
+      <div class="reader-temas">IA · Negocios · Deportes · Medios de USA</div>
     </div>
 
     <div class="nl-hero">
-      <div class="nl-ey">Edicion #043 — 11 Abril 2026</div>
-      <h1 class="nl-h1">INSIDE Life #043 — 11 Abril 2026</h1>
+      <div class="nl-ey">Edicion #001 — 14 de abril de 2026</div>
+      <h1 class="nl-h1">INSIDE Life es tu nuevo espacio </h1>
       <p class="nl-lead">Lo más relevante de la semana en IA, liderazgo, deporte y emprendimiento.</p>
     </div>
 
     <div class="nl-idx">
       <div class="nl-idx-lbl">En esta edicion</div>
       <div class="nl-idx-list">
-        <a class="nl-idx-a" href="#a1">Google unleashes a native Gemini app for the Mac</a>
-            <a class="nl-idx-a" href="#a2">Google lanza AI Skills en Chrome para automatizar tareas</a>
-            <a class="nl-idx-a" href="#a3">Google desarrolla Gemini Agent para tareas autonomas</a>
-            <a class="nl-idx-a" href="#a4">Anthropic renueva Claude Code con panel Cowork</a>
-            <a class="nl-idx-a" href="#a5">Speakly convierte voz en texto 4x mas rapido</a>
+        <a class="nl-idx-a" href="#a1">Google lanza AI Skills en Chrome para automatizar tareas</a>
+            <a class="nl-idx-a" href="#a2">Amazon revela estrategia de IA en carta a accionistas</a>
+            <a class="nl-idx-a" href="#a3">Mike Breen advierte sobre crisis de narradores locales</a>
+            <a class="nl-idx-a" href="#a4">Google unleashes a native Gemini app for the Mac</a>
       </div>
     </div>
 
@@ -150,60 +152,48 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);-
   <div class="art-hdr">
     <div class="art-n">1</div>
     <div>
-      <div class="art-src">Medios de USA</div>
-      <h2 class="art-h2">Google unleashes a native Gemini app for the Mac</h2>
+      <div class="art-src">IA · Productividad</div>
+      <h2 class="art-h2">Google lanza AI Skills en Chrome para automatizar tareas</h2>
     </div>
   </div>
   <div class="art-body">
-    <p>The company says it's &quot;building the foundation for a truly personal, proactive and powerful desktop assistant.&quot;</p>
+    <p>Las nuevas habilidades de IA permiten guardar instrucciones de Gemini y ejecutarlas en cualquier pestaña. Elimina la repeticion de tareas y mejora la productividad web.</p>
   </div>
 </div>
             <div class="nl-art" id="a2">
   <div class="art-hdr">
     <div class="art-n">2</div>
     <div>
-      <div class="art-src">IA · Productividad</div>
-      <h2 class="art-h2">Google lanza AI Skills en Chrome para automatizar tareas</h2>
+      <div class="art-src">Negocios · Amazon</div>
+      <h2 class="art-h2">Amazon revela estrategia de IA en carta a accionistas</h2>
     </div>
   </div>
   <div class="art-body">
-    <p>Las nuevas herramientas permiten guardar instrucciones de Gemini y ejecutarlas en cualquier pestaña. Eliminan la perdida de tiempo en tareas repetitivas del navegador.</p>
+    <p>La compania justifica el aumento radical de Capex por inversion en IA. Aborda preocupaciones sobre el futuro del modelo SaaS tradicional.</p>
   </div>
 </div>
-            <div class="nl-art" id="a3">
+            <div class="nl-art nl-art-blue" id="a3">
   <div class="art-hdr">
     <div class="art-n">3</div>
     <div>
-      <div class="art-src">IA · Desarrollo</div>
-      <h2 class="art-h2">Google desarrolla Gemini Agent para tareas autonomas</h2>
+      <div class="art-src">Deportes · NBA</div>
+      <h2 class="art-h2">Mike Breen advierte sobre crisis de narradores locales</h2>
     </div>
   </div>
   <div class="art-body">
-    <p>Abandona el formato pregunta-respuesta tradicional para ejecutar procesos multietapa. Funciona de forma completamente autonoma sin supervision.</p>
+    <p>El comentarista destaca como la NBA aleja a fans de voces tradicionales. La centralizacion amenaza la conexion emocional con equipos locales.</p>
   </div>
 </div>
             <div class="nl-art" id="a4">
   <div class="art-hdr">
     <div class="art-n">4</div>
     <div>
-      <div class="art-src">IA · Desarrollo</div>
-      <h2 class="art-h2">Anthropic renueva Claude Code con panel Cowork</h2>
+      <div class="art-src">Medios de USA</div>
+      <h2 class="art-h2">Google unleashes a native Gemini app for the Mac</h2>
     </div>
   </div>
   <div class="art-body">
-    <p>Los subagentes ejecutan tareas mecanicas mientras los desarrolladores escalan arquitectura. El nuevo panel centraliza la gestion de proyectos complejos.</p>
-  </div>
-</div>
-            <div class="nl-art" id="a5">
-  <div class="art-hdr">
-    <div class="art-n">5</div>
-    <div>
-      <div class="art-src">IA · Productividad</div>
-      <h2 class="art-h2">Speakly convierte voz en texto 4x mas rapido</h2>
-    </div>
-  </div>
-  <div class="art-body">
-    <p>La app de Genspark transforma audio en contenido pulido automaticamente. Promete ser mas eficiente que escribir manualmente.</p>
+    <p>The company says it's &quot;building the foundation for a truly personal, proactive and powerful desktop assistant.&quot;</p>
   </div>
 </div>
 
@@ -214,15 +204,21 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);-
         <div>
           <div class="nl-sig">Jorge Lorenzo</div>
           <div class="nl-sig-sub">Cada semana, lo que importa.</div>
+          <div class="nl-copy">© 2026 Jorge Lorenzo</div>
         </div>
         <div class="nl-flinks">
-          <a href="https://www.linkedin.com/in/jlorenzo-coach/" target="_blank">LinkedIn</a>
-          <a href="https://insidelife.club" target="_blank">Web</a>
+          <a href="https://www.linkedin.com/in/jorge-lorenzo-25ba3518/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://x.com/JLbasket" target="_blank" rel="noopener">X</a>
+          <a href="https://www.instagram.com/jorgelorenzo.coach" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://bio.jorgelorenzo.coach/" target="_blank" rel="noopener">Bio</a>
+          <a href="https://insidelife.club/#sobre" target="_blank" rel="noopener">Contacto</a>
         </div>
       </div>
       <div class="nl-legal">
-        <a href="#">Política de privacidad</a>
-        <a href="#">Darse de baja</a>
+        <a href="https://insidelife.club/documentos-legales/politica-de-privacidad.html" target="_blank">Privacidad</a>
+        <a href="https://insidelife.club/documentos-legales/aviso-legal.html" target="_blank">Aviso legal</a>
+        <a href="https://insidelife.club/documentos-legales/politica-de-cookies.html" target="_blank">Cookies</a>
+        <a href="https://insidelife.club/documentos-legales/terminos-y-condiciones-de-uso.html" target="_blank">Términos</a>
       </div>
     </div>
   </div>
@@ -231,14 +227,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);-
 <div class="sub-ov" id="sub-modal">
   <div class="sub-box">
     <button class="sub-close" onclick="document.getElementById('sub-modal').classList.remove('open')">×</button>
-    <div class="sub-kicker">Newsletter semanal</div>
-    <h2 class="sub-h2">Únete a INSIDE Life</h2>
-    <p class="sub-desc">Cada semana lo más relevante de IA, liderazgo, deporte y emprendimiento.</p>
+    <div class="sub-kicker">¿Alguien te pasó este link?</div>
+    <h2 class="sub-h2">Recíbela cada martes</h2>
+    <p class="sub-desc">INSIDE Life llega cada semana con lo que importa: IA, liderazgo, deporte y emprendimiento. Sin ruido, sin relleno.</p>
     <div class="sub-field">
-      <label class="sub-lbl">Email</label>
+      <label class="sub-lbl">Tu email</label>
       <input class="sub-in" type="email" placeholder="tu@email.com">
     </div>
-    <button class="sub-btn">Suscribirme gratis</button>
+    <button class="sub-btn">Quiero recibirla →</button>
   </div>
 </div>
 <script>
