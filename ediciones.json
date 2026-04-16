@@ -1,64 +1,63 @@
 {
   "ediciones" : [
     {
+      "href" : "\/newsletters\/043",
+      "fecha" : "2026-04-14",
       "titulo" : "INSIDE Life #043 — 14 Abril 2026",
       "tags" : [
         "Basketball"
       ],
-      "fecha" : "2026-04-14",
-      "href" : "\/newsletters\/043",
       "num" : 43
     },
     {
-      "num" : 23,
       "titulo" : "Esto empieza",
-      "href" : "\/newsletters\/023",
       "tags" : [
         "IA",
         "Negocio"
       ],
-      "fecha" : "2026-04-11"
+      "href" : "\/newsletters\/023",
+      "fecha" : "2026-04-11",
+      "num" : 23
     },
     {
+      "href" : "\/newsletters\/0013",
+      "fecha" : "2026-04-14",
+      "titulo" : "INSIDE",
       "tags" : [
-        "Basketball",
         "IA"
       ],
-      "titulo" : "Empezamos ",
-      "fecha" : "2026-04-23",
-      "num" : 13,
-      "href" : "\/newsletters\/013"
+      "num" : 13
     },
     {
-      "fecha" : "2026-04-11",
-      "href" : "\/newsletters\/002",
       "num" : 2,
+      "titulo" : "martes 28 jueves 30: 21.15",
+      "fecha" : "2026-04-11",
       "tags" : [
         "Media",
         "Deportes",
         "IA"
       ],
-      "titulo" : "martes 28 jueves 30: 21.15"
+      "href" : "\/newsletters\/002"
     },
     {
-      "num" : 1,
-      "titulo" : "INSIDE Life es tu nuevo espacio ",
+      "fecha" : "14 de abril de 2026",
       "href" : "\/newsletters\/001",
+      "titulo" : "INSIDE Life es tu nuevo espacio ",
       "tags" : [
         "Negocios",
         "IA",
         "Deportes",
         "Medios de USA"
       ],
-      "fecha" : "14 de abril de 2026"
+      "num" : 1
     }
   ],
   "meta" : {
-    "descripcion" : "Numeración desde #001. La #001 es el primer martes de publicación (2026-04-14). Cada entrada usa fecha ISO del martes. Si href es \/newsletter, el archivo sustituye el titular de la tarjeta por el H1 del hero en vivo. El campo titulo en JSON sirve de respaldo si falla la carga. Tags siguen viniendo del JSON.",
     "proximasGeneradas" : {
-      "desdeNum" : 2,
+      "desdeFecha" : "2026-04-21",
       "hastaFecha" : "2026-12-29",
-      "desdeFecha" : "2026-04-21"
-    }
+      "desdeNum" : 2
+    },
+    "descripcion" : "Numeración desde #001. La #001 es el primer martes de publicación (2026-04-14). Cada entrada usa fecha ISO del martes. Si href es \/newsletter, el archivo sustituye el titular de la tarjeta por el H1 del hero en vivo. El campo titulo en JSON sirve de respaldo si falla la carga. Tags siguen viniendo del JSON."
   }
 }
