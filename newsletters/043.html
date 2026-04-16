@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>INSIDE Life - Edicion #043 - INSIDE Life #043 — 11 Abril 2026</title>
-<meta name="description" content="INSIDE Life #043 — 11 Abril 2026">
+<title>INSIDE Life - Edicion #043 - INSIDE Life #043 — 14 Abril 2026</title>
+<meta name="description" content="INSIDE Life #043 — 14 Abril 2026">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root { --white:#ffffff;--off:#f8f6f2;--ink:#111111;--mid:#767676;--rule:#e8e4de;--red:#e8401c; }
@@ -14,7 +14,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);-
 .topnav{position:fixed;top:0;left:0;right:0;z-index:100;height:54px;background:var(--white);border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;padding:0 40px;}
 .nav-brand{display:flex;align-items:center;gap:9px;cursor:pointer;text-decoration:none;}
 .nav-badge{background:var(--ink);color:var(--white);font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.06em;padding:3px 7px;line-height:1;}
-.nav-title{font-family:'Playfair Display',serif;font-size:19px;font-weight:900;color:var(--ink);letter-spacing:-.02em;}
+.nav-brand-text{display:flex;flex-direction:column;gap:1px;}
+.nav-title{font-family:'Playfair Display',serif;font-size:19px;font-weight:900;color:var(--ink);letter-spacing:-.02em;line-height:1.1;}
+.nav-byline{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);line-height:1;}
 .nav-links{display:flex;gap:28px;list-style:none;}
 .nav-links button{background:none;border:none;cursor:pointer;padding:0;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);transition:color .15s;}
 .nav-links button:hover,.nav-links button.active{color:var(--ink);}
@@ -45,7 +47,15 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);-
 .nl-idx-a::before{content:'→';font-family:'DM Mono',monospace;color:var(--red);font-size:10px;}
 .nl-idx-a:hover{color:var(--red);}
 .nl-art{padding:28px 40px;border-bottom:1px solid var(--rule);}
-.art-destacada{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:10px;}
+.nl-art-featured{background:#fff8e1;border-left:3px solid #d97706;}
+.nl-art-featured .art-h2{color:#92400e;}
+.nl-art-featured .art-src{color:#b45309;}
+.art-n-featured{background:#d97706 !important;}
+.nl-columna{padding:32px 40px;border-bottom:1px solid var(--rule);background:var(--off);}
+.nl-columna-kicker{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid);margin-bottom:10px;}
+.nl-columna-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;font-style:italic;color:var(--ink);margin-bottom:14px;}
+.nl-columna-body{font-size:14px;line-height:1.85;color:#2d2d2d;}
+.nl-columna-sig{margin-top:16px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);}
 .art-hdr{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;}
 .art-n{width:25px;height:25px;background:var(--red);color:#fff;font-family:'DM Mono',monospace;font-size:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:3px;}
 .art-src{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);margin-bottom:4px;}
@@ -107,8 +117,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);-
 
 <nav class="topnav">
   <a class="nav-brand" href="https://insidelife.club">
-    <div class="nav-badge">NEWSLETTER</div>
-    <div class="nav-title">INSIDE Life</div>
+    <div class="nav-badge">✦</div>
+    <div class="nav-brand-text">
+      <div class="nav-title">INSIDE Life</div>
+      <div class="nav-byline">by Jorge Lorenzo</div>
+    </div>
   </a>
   <ul class="nav-links">
     <li><a href="https://insidelife.club" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color .15s;">Inicio</a></li>
@@ -126,91 +139,34 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);-
 <div class="page">
   <div id="sec-reader" class="sec on">
     <div class="reader-back">
-      <div class="reader-temas">IA</div>
+      <div class="reader-temas">Basketball</div>
     </div>
 
     <div class="nl-hero">
-      <div class="nl-ey">Edicion #043 — 11 Abril 2026</div>
-      <h1 class="nl-h1">INSIDE Life #043 — 11 Abril 2026</h1>
+      <div class="nl-ey">Edicion #043 — 14 Abril 2026</div>
+      <h1 class="nl-h1">INSIDE Life #043 — 14 Abril 2026</h1>
       <p class="nl-lead">Lo más relevante de la semana en IA, liderazgo, deporte y emprendimiento.</p>
     </div>
 
     <div class="nl-idx">
       <div class="nl-idx-lbl">En esta edicion</div>
       <div class="nl-idx-list">
-        <a class="nl-idx-a" href="#a1">Google lanza AI Skills en Chrome para automatizar tareas</a>
-            <a class="nl-idx-a" href="#a2">Claude se integra directamente en Microsoft Word</a>
-            <a class="nl-idx-a" href="#a3">Anthropic renueva Claude Code con panel Cowork</a>
-            <a class="nl-idx-a" href="#a4">Google desarrolla Gemini Agent para tareas autonomas</a>
-            <a class="nl-idx-a" href="#a5">Speakly convierte voz en texto 4 veces mas rapido</a>
+        <a class="nl-idx-a" href="#a1">Tercera FEB – J25: los mejores U22 de la semana</a>
       </div>
     </div>
 
     
 
     <div class="nl-art" id="a1">
-  
   <div class="art-hdr">
     <div class="art-n">1</div>
     <div>
-      <div class="art-src">IA · Productividad</div>
-      <h2 class="art-h2">Google lanza AI Skills en Chrome para automatizar tareas</h2>
+      <div class="art-src">Basketball</div>
+      <h2 class="art-h2">Tercera FEB – J25: los mejores U22 de la semana</h2>
     </div>
   </div>
   <div class="art-body">
-    <p>Las nuevas herramientas permiten guardar instrucciones de Gemini y ejecutarlas en cualquier pestaña. Elimina la repeticion de tareas comunes en el navegador.</p>
-  </div>
-</div>
-            <div class="nl-art" id="a2">
-  <div class="art-destacada">★ DESTACADA</div>
-  <div class="art-hdr">
-    <div class="art-n">2</div>
-    <div>
-      <div class="art-src">IA · Productividad</div>
-      <h2 class="art-h2">Claude se integra directamente en Microsoft Word</h2>
-    </div>
-  </div>
-  <div class="art-body">
-    <p>La integracion nativa elimina el copy-paste entre chat y documentos. Los usuarios pueden editar textos con IA sin salir de Word.</p>
-  </div>
-</div>
-            <div class="nl-art" id="a3">
-  
-  <div class="art-hdr">
-    <div class="art-n">3</div>
-    <div>
-      <div class="art-src">IA · Productividad</div>
-      <h2 class="art-h2">Anthropic renueva Claude Code con panel Cowork</h2>
-    </div>
-  </div>
-  <div class="art-body">
-    <p>Los subagentes ejecutan tareas mecanicas mientras el usuario se enfoca en arquitectura. El nuevo panel centraliza la gestion de proyectos complejos.</p>
-  </div>
-</div>
-            <div class="nl-art" id="a4">
-  
-  <div class="art-hdr">
-    <div class="art-n">4</div>
-    <div>
-      <div class="art-src">IA · Desarrollo</div>
-      <h2 class="art-h2">Google desarrolla Gemini Agent para tareas autonomas</h2>
-    </div>
-  </div>
-  <div class="art-body">
-    <p>El nuevo agente abandona el formato Q&amp;A tradicional para ejecutar multiples tareas sin intervencion. Representa un salto hacia la automatizacion completa.</p>
-  </div>
-</div>
-            <div class="nl-art" id="a5">
-  
-  <div class="art-hdr">
-    <div class="art-n">5</div>
-    <div>
-      <div class="art-src">IA · Herramientas</div>
-      <h2 class="art-h2">Speakly convierte voz en texto 4 veces mas rapido</h2>
-    </div>
-  </div>
-  <div class="art-body">
-    <p>La app de Genspark procesa audio y genera texto pulido automaticamente. Promete revolucionar la creacion de contenido por voz.</p>
+    <p>Ya solo queda una jornada, tras el retorno de la Semana Santa en un fin de semana en el que muchos campeonatos juniors autonómicos jugaban su fase final. Fue una jornada dentro de la rutina, con ge…</p>
   </div>
 </div>
 
