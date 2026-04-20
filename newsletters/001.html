@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>INSIDE Life - Edicion #001 - INSIDE Life es tu nuevo espacio </title>
-<meta name="description" content="INSIDE Life es tu nuevo espacio ">
+<title>INSIDE Life - Edicion #001 - Prueba día 1</title>
+<meta name="description" content="Prueba día 1">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root { --white:#ffffff;--off:#f8f6f2;--ink:#111111;--mid:#767676;--rule:#e8e4de;--red:#e8401c; }
@@ -13,8 +13,8 @@ html{scroll-behavior:smooth;}
 body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);-webkit-font-smoothing:antialiased;}
 .topnav{position:fixed;top:0;left:0;right:0;z-index:100;height:54px;background:var(--white);border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;padding:0 40px;}
 .nav-brand{display:flex;align-items:center;gap:9px;cursor:pointer;text-decoration:none;}
-.nav-badge{background:var(--ink);color:var(--white);font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.06em;padding:3px 7px;line-height:1;}
 .nav-title{font-family:'Playfair Display',serif;font-size:19px;font-weight:900;color:var(--ink);letter-spacing:-.02em;}
+.nav-badge{background:var(--ink);color:var(--white);font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.06em;padding:3px 7px;line-height:1;}
 .nav-links{display:flex;gap:28px;list-style:none;}
 .nav-links button{background:none;border:none;cursor:pointer;padding:0;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);transition:color .15s;}
 .nav-links button:hover,.nav-links button.active{color:var(--ink);}
@@ -31,8 +31,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);-
 .reader-back{padding:13px 40px;border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;gap:12px;}
 .back-btn{background:none;border:none;cursor:pointer;font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);padding:0;transition:color .15s;}
 .back-btn:hover{color:var(--ink);}
-.reader-edition{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);white-space:nowrap;}
-.reader-temas{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--red);text-align:right;}
+.reader-temas{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--red);}
 .nl-hero{background:var(--ink);padding:44px 40px 36px;position:relative;overflow:hidden;}
 .nl-hero::before{content:'';position:absolute;top:-80px;right:-80px;width:260px;height:260px;border-radius:50%;border:50px solid rgba(232,64,28,.1);pointer-events:none;}
 .nl-ey{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:14px;}
@@ -46,6 +45,15 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);-
 .nl-idx-a::before{content:'→';font-family:'DM Mono',monospace;color:var(--red);font-size:10px;}
 .nl-idx-a:hover{color:var(--red);}
 .nl-art{padding:28px 40px;border-bottom:1px solid var(--rule);}
+.nl-art-featured{background:#fff8e1;border-left:3px solid #d97706;}
+.nl-art-featured .art-h2{color:#92400e;}
+.nl-art-featured .art-src{color:#b45309;}
+.art-n-featured{background:#d97706 !important;}
+.nl-columna{padding:32px 40px;border-bottom:1px solid var(--rule);background:var(--off);}
+.nl-columna-kicker{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid);margin-bottom:10px;}
+.nl-columna-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;font-style:italic;color:var(--ink);margin-bottom:14px;}
+.nl-columna-body{font-size:14px;line-height:1.85;color:#2d2d2d;}
+.nl-columna-sig{margin-top:16px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);}
 .art-hdr{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;}
 .art-n{width:25px;height:25px;background:var(--red);color:#fff;font-family:'DM Mono',monospace;font-size:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:3px;}
 .art-src{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);margin-bottom:4px;}
@@ -107,8 +115,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);-
 
 <nav class="topnav">
   <a class="nav-brand" href="https://insidelife.club">
-    <div class="nav-badge">NEWSLETTER</div>
     <div class="nav-title">INSIDE Life</div>
+    <div class="nav-badge">By Jorge Lorenzo</div>
   </a>
   <ul class="nav-links">
     <li><a href="https://insidelife.club" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color .15s;">Inicio</a></li>
@@ -126,74 +134,99 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);-
 <div class="page">
   <div id="sec-reader" class="sec on">
     <div class="reader-back">
-      <div class="reader-edition">Edicion #001 — 14 de abril de 2026</div>
-      <div class="reader-temas">IA · Negocios · Deportes · Medios de USA</div>
+      <div class="reader-temas">IA</div>
     </div>
 
     <div class="nl-hero">
-      <div class="nl-ey">Edicion #001 — 14 de abril de 2026</div>
-      <h1 class="nl-h1">INSIDE Life es tu nuevo espacio </h1>
+      <div class="nl-ey">Edicion #001 — 14 Abril 2026</div>
+      <h1 class="nl-h1">Prueba día 1</h1>
       <p class="nl-lead">Lo más relevante de la semana en IA, liderazgo, deporte y emprendimiento.</p>
     </div>
 
     <div class="nl-idx">
       <div class="nl-idx-lbl">En esta edicion</div>
       <div class="nl-idx-list">
-        <a class="nl-idx-a" href="#a1">Google lanza AI Skills en Chrome para automatizar tareas</a>
-            <a class="nl-idx-a" href="#a2">Amazon revela estrategia de IA en carta a accionistas</a>
-            <a class="nl-idx-a" href="#a3">Mike Breen advierte sobre crisis de narradores locales</a>
-            <a class="nl-idx-a" href="#a4">Google unleashes a native Gemini app for the Mac</a>
+        <a class="nl-idx-a" href="#a1">Genera presentaciones profesionales en 5 minutos con IA</a>
+            <a class="nl-idx-a" href="#a2">Anthropic renueva Claude Code con subagentes y panel Cowork</a>
+            <a class="nl-idx-a" href="#a3">Optimiza tu perfil de LinkedIn con Gemini IA</a>
+            <a class="nl-idx-a" href="#a4">IA para automatizar calificación de leads</a>
+            <a class="nl-idx-a" href="#a5">ChatGPT crea diagramas de aprendizaje al instante</a>
+            <a class="nl-idx-a" href="#a6">Retratos profesionales con IA de NanoBanana</a>
       </div>
     </div>
 
     
 
-    <div class="nl-art" id="a1">
+    <div class="nl-art nl-art-featured" id="a1">
   <div class="art-hdr">
-    <div class="art-n">1</div>
+    <div class="art-n art-n-featured">1</div>
     <div>
-      <div class="art-src">IA · Productividad</div>
-      <h2 class="art-h2">Google lanza AI Skills en Chrome para automatizar tareas</h2>
+      <div class="art-src">IA</div>
+      <h2 class="art-h2">Genera presentaciones profesionales en 5 minutos con IA</h2>
     </div>
   </div>
   <div class="art-body">
-    <p>Las nuevas habilidades de IA permiten guardar instrucciones de Gemini y ejecutarlas en cualquier pestaña. Elimina la repeticion de tareas y mejora la productividad web.</p>
+    <p>La inteligencia artificial permite generar presentaciones profesionales impactantes en tan solo cinco minutos. Esta herramienta automatiza el proceso de diseño, contenido y estructura, creando diapositivas visualmente atractivas y coherentes con tu mensaje. Simplemente introduce el tema y los puntos clave, y la IA se encarga de organizar la información, seleccionar plantillas y añadir elementos gráficos. Es una solución perfecta para profesionales que necesitan crear materiales de alta calidad bajo plazos ajustados, garantizando un resultado pulido y eficaz en poco tiempo.</p>
   </div>
 </div>
             <div class="nl-art" id="a2">
   <div class="art-hdr">
     <div class="art-n">2</div>
     <div>
-      <div class="art-src">Negocios · Amazon</div>
-      <h2 class="art-h2">Amazon revela estrategia de IA en carta a accionistas</h2>
+      <div class="art-src">IA</div>
+      <h2 class="art-h2">Anthropic renueva Claude Code con subagentes y panel Cowork</h2>
     </div>
   </div>
   <div class="art-body">
-    <p>La compania justifica el aumento radical de Capex por inversion en IA. Aborda preocupaciones sobre el futuro del modelo SaaS tradicional.</p>
+    <p>Anthropic ha renovado Claude Code, introduciendo subagentes y un nuevo panel Cowork para optimizar la arquitectura de la IA. Esta actualización permite a los desarrolladores delegar tareas mecánicas a los subagentes, liberándolos para enfocarse en escalar la infraestructura desde un entorno de colaboración mejorado. La plataforma Cowork facilita la gestión y orquestación de procesos complejos, promoviendo una mayor eficiencia y modularidad en el desarrollo de aplicaciones basadas en Claude. Es un paso adelante en la construcción de sistemas de IA más robustos y flexibles.</p>
   </div>
 </div>
-            <div class="nl-art nl-art-blue" id="a3">
+            <div class="nl-art" id="a3">
   <div class="art-hdr">
     <div class="art-n">3</div>
     <div>
-      <div class="art-src">Deportes · NBA</div>
-      <h2 class="art-h2">Mike Breen advierte sobre crisis de narradores locales</h2>
+      <div class="art-src">IA</div>
+      <h2 class="art-h2">Optimiza tu perfil de LinkedIn con Gemini IA</h2>
     </div>
   </div>
   <div class="art-body">
-    <p>El comentarista destaca como la NBA aleja a fans de voces tradicionales. La centralizacion amenaza la conexion emocional con equipos locales.</p>
+    <p>Descubre cómo la inteligencia artificial Gemini puede ayudarte a optimizar tu perfil de LinkedIn para destacar en el ámbito profesional. Esta herramienta analiza tu información y sugiere mejoras en la redacción, palabras clave y estructura, aumentando tu visibilidad ante reclutadores y colegas. Gemini te guía para crear un perfil impactante que resalte tus habilidades y experiencia de manera efectiva, incrementando tus oportunidades laborales y de networking. Es una solución eficaz para potenciar tu marca personal en la plataforma líder para profesionales.</p>
   </div>
 </div>
             <div class="nl-art" id="a4">
   <div class="art-hdr">
     <div class="art-n">4</div>
     <div>
-      <div class="art-src">Medios de USA</div>
-      <h2 class="art-h2">Google unleashes a native Gemini app for the Mac</h2>
+      <div class="art-src">IA</div>
+      <h2 class="art-h2">IA para automatizar calificación de leads</h2>
     </div>
   </div>
   <div class="art-body">
-    <p>The company says it's &quot;building the foundation for a truly personal, proactive and powerful desktop assistant.&quot;</p>
+    <p>La inteligencia artificial ahora ofrece soluciones para automatizar la calificación de leads, optimizando los procesos de ventas y marketing. Esta tecnología analiza grandes volúmenes de datos para identificar los prospectos con mayor potencial, basándose en criterios predefinidos y patrones de comportamiento. La automatización libera a los equipos humanos de tareas repetitivas, permitiéndoles concentrarse en leads cualificados y estrategias de conversión. Esto se traduce en una mayor eficiencia, reducción de tiempos y un incremento significativo en las tasas de éxito de las campañas comerciales.</p>
+  </div>
+</div>
+            <div class="nl-art" id="a5">
+  <div class="art-hdr">
+    <div class="art-n">5</div>
+    <div>
+      <div class="art-src">IA</div>
+      <h2 class="art-h2">ChatGPT crea diagramas de aprendizaje al instante</h2>
+    </div>
+  </div>
+  <div class="art-body">
+    <p>ChatGPT ahora permite crear diagramas de aprendizaje de manera instantánea, simplificando la visualización de conceptos complejos. Esta funcionalidad es invaluable para estudiantes, educadores y profesionales que necesitan organizar información de forma clara y concisa. Con solo describir el tema, la IA genera esquemas, mapas conceptuales o flujogramas que facilitan la comprensión y retención del conocimiento. Es una herramienta poderosa para optimizar procesos educativos y de capacitación, haciendo que el aprendizaje sea más interactivo y eficiente para todos los usuarios.</p>
+  </div>
+</div>
+            <div class="nl-art" id="a6">
+  <div class="art-hdr">
+    <div class="art-n">6</div>
+    <div>
+      <div class="art-src">IA</div>
+      <h2 class="art-h2">Retratos profesionales con IA de NanoBanana</h2>
+    </div>
+  </div>
+  <div class="art-body">
+    <p>Descubre cómo la inteligencia artificial de NanoBanana simplifica la creación de retratos profesionales. Esta herramienta permite generar imágenes de alta calidad con solo unos pocos clics, ideal para perfiles corporativos o redes sociales. Olvídate de costosas sesiones de fotos; la IA ofrece personalización y eficiencia, adaptándose a diversos estilos y necesidades. Es una solución innovadora para profesionales que buscan mejorar su presencia visual rápidamente y con resultados impactantes, democratizando el acceso a imágenes de nivel estudio sin esfuerzo ni grandes inversiones.</p>
   </div>
 </div>
 
@@ -211,7 +244,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);-
           <a href="https://x.com/JLbasket" target="_blank" rel="noopener">X</a>
           <a href="https://www.instagram.com/jorgelorenzo.coach" target="_blank" rel="noopener">Instagram</a>
           <a href="https://bio.jorgelorenzo.coach/" target="_blank" rel="noopener">Bio</a>
-          <a href="https://insidelife.club/#sobre" target="_blank" rel="noopener">Contacto</a>
+          <a href="mailto:info@jorgelorenzo.coach">Contacto</a>
         </div>
       </div>
       <div class="nl-legal">
