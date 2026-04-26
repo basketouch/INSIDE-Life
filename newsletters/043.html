@@ -13,10 +13,8 @@ html{scroll-behavior:smooth;}
 body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);-webkit-font-smoothing:antialiased;}
 .topnav{position:fixed;top:0;left:0;right:0;z-index:100;height:54px;background:var(--white);border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;padding:0 40px;}
 .nav-brand{display:flex;align-items:center;gap:9px;cursor:pointer;text-decoration:none;}
+.nav-title{font-family:'Playfair Display',serif;font-size:19px;font-weight:900;color:var(--ink);letter-spacing:-.02em;}
 .nav-badge{background:var(--ink);color:var(--white);font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.06em;padding:3px 7px;line-height:1;}
-.nav-brand-text{display:flex;flex-direction:column;gap:1px;}
-.nav-title{font-family:'Playfair Display',serif;font-size:19px;font-weight:900;color:var(--ink);letter-spacing:-.02em;line-height:1.1;}
-.nav-byline{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);line-height:1;}
 .nav-links{display:flex;gap:28px;list-style:none;}
 .nav-links button{background:none;border:none;cursor:pointer;padding:0;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);transition:color .15s;}
 .nav-links button:hover,.nav-links button.active{color:var(--ink);}
@@ -117,11 +115,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);-
 
 <nav class="topnav">
   <a class="nav-brand" href="https://insidelife.club">
-    <div class="nav-badge">✦</div>
-    <div class="nav-brand-text">
-      <div class="nav-title">INSIDE Life</div>
-      <div class="nav-byline">by Jorge Lorenzo</div>
-    </div>
+    <div class="nav-title">INSIDE Life</div>
+    <div class="nav-badge">By Jorge Lorenzo</div>
   </a>
   <ul class="nav-links">
     <li><a href="https://insidelife.club" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color .15s;">Inicio</a></li>
@@ -139,7 +134,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);-
 <div class="page">
   <div id="sec-reader" class="sec on">
     <div class="reader-back">
-      <div class="reader-temas">Basketball</div>
+      <div class="reader-temas">Empresa · IA</div>
     </div>
 
     <div class="nl-hero">
@@ -151,7 +146,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);-
     <div class="nl-idx">
       <div class="nl-idx-lbl">En esta edicion</div>
       <div class="nl-idx-list">
-        <a class="nl-idx-a" href="#a1">Tercera FEB – J25: los mejores U22 de la semana</a>
+        <a class="nl-idx-a" href="#a1">Google desarrolla su propio espacio de Cowork.</a>
+            <a class="nl-idx-a" href="#a2">Meta bajo escrutinio por supuesta vigilancia a sus empleados.</a>
+            <a class="nl-idx-a" href="#a3">DeepSeek regresa con ambición, busca liderazgo en IA.</a>
+            <a class="nl-idx-a" href="#a4">GPT 5.5 llega con avances brutales en inteligencia artificial.</a>
       </div>
     </div>
 
@@ -161,12 +159,48 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);-
   <div class="art-hdr">
     <div class="art-n">1</div>
     <div>
-      <div class="art-src">Basketball</div>
-      <h2 class="art-h2">Tercera FEB – J25: los mejores U22 de la semana</h2>
+      <div class="art-src">Empresa</div>
+      <h2 class="art-h2">Google desarrolla su propio espacio de Cowork.</h2>
     </div>
   </div>
   <div class="art-body">
-    <p>Ya solo queda una jornada, tras el retorno de la Semana Santa en un fin de semana en el que muchos campeonatos juniors autonómicos jugaban su fase final. Fue una jornada dentro de la rutina, con ge…</p>
+    <p>Google está explorando la creación de sus propios espacios de coworking, una iniciativa que podría redefinir el futuro del trabajo colaborativo y la interacción en entornos profesionales. Esta estrategia busca fomentar la innovación y la sinergia entre sus equipos, adaptándose a las nuevas dinámicas laborales post-pandemia.</p>
+  </div>
+</div>
+            <div class="nl-art" id="a2">
+  <div class="art-hdr">
+    <div class="art-n">2</div>
+    <div>
+      <div class="art-src">Empresa</div>
+      <h2 class="art-h2">Meta bajo escrutinio por supuesta vigilancia a sus empleados.</h2>
+    </div>
+  </div>
+  <div class="art-body">
+    <p>Meta, la gigante tecnológica, enfrenta acusaciones de supuestamente espiar a sus propios empleados, lo que ha generado preocupación sobre la privacidad y la ética empresarial dentro de la compañía. Esta situación plantea interrogantes importantes sobre las políticas internas de monitoreo y la confianza en el entorno laboral. El incidente podría tener implicaciones significativas en la cultura corporativa de Meta y en la percepción pública de la empresa, afectando su reputación y la relación con su fuerza laboral global.</p>
+  </div>
+</div>
+            <div class="nl-art" id="a3">
+  <div class="art-hdr">
+    <div class="art-n">3</div>
+    <div>
+      <div class="art-src">IA</div>
+      <h2 class="art-h2">DeepSeek regresa con ambición, busca liderazgo en IA.</h2>
+    </div>
+  </div>
+  <div class="art-body">
+    <p>DeepSeek, un jugador significativo en el panorama de la inteligencia artificial, ha vuelto al escenario con nuevas actualizaciones y capacidades mejoradas, posicionándose como un fuerte contendiente para el liderazgo del sector. Este retorno sugiere una intensificación en la competencia entre los modelos de IA, impulsando la innovación y desafiando a los actuales líderes del mercado. Su objetivo es establecerse como la referencia en desarrollo y aplicación de IA, prometiendo avances clave para empresas y desarrolladores.</p>
+  </div>
+</div>
+            <div class="nl-art" id="a4">
+  <div class="art-hdr">
+    <div class="art-n">4</div>
+    <div>
+      <div class="art-src">IA</div>
+      <h2 class="art-h2">GPT 5.5 llega con avances brutales en inteligencia artificial.</h2>
+    </div>
+  </div>
+  <div class="art-body">
+    <p>La nueva versión GPT 5.5 ha sido lanzada, presentando capacidades significativamente mejoradas que la posicionan como una herramienta transformadora en el ámbito de la inteligencia artificial. Esta actualización promete optimizar la productividad y abrir nuevas vías para la innovación en diversos sectores empresariales. Su potencia y eficiencia son consideradas brutales, augurando un impacto profundo en el desarrollo de aplicaciones y soluciones basadas en IA para el futuro inmediato.</p>
   </div>
 </div>
 
