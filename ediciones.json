@@ -1,60 +1,61 @@
 {
   "meta" : {
+    "descripcion" : "Numeración desde #001. La #001 es el primer martes de publicación (2026-04-14). Cada entrada usa fecha ISO del martes. Si href es \/newsletter, el archivo sustituye el titular de la tarjeta por el H1 del hero en vivo. El campo titulo en JSON sirve de respaldo si falla la carga. Tags siguen viniendo del JSON.",
     "proximasGeneradas" : {
-      "desdeFecha" : "2026-04-21",
+      "desdeNum" : 2,
       "hastaFecha" : "2026-12-29",
-      "desdeNum" : 2
-    },
-    "descripcion" : "Numeración desde #001. La #001 es el primer martes de publicación (2026-04-14). Cada entrada usa fecha ISO del martes. Si href es \/newsletter, el archivo sustituye el titular de la tarjeta por el H1 del hero en vivo. El campo titulo en JSON sirve de respaldo si falla la carga. Tags siguen viniendo del JSON."
+      "desdeFecha" : "2026-04-21"
+    }
   },
   "ediciones" : [
     {
-      "tags" : [
-        "Basketball"
-      ],
-      "fecha" : "2026-04-14",
-      "titulo" : "INSIDE Life #043 — 14 Abril 2026",
       "href" : "\/newsletters\/043",
-      "num" : 43
+      "tags" : [
+        "Empresa",
+        "IA"
+      ],
+      "num" : 43,
+      "titulo" : "INSIDE Life #043 — 14 Abril 2026",
+      "fecha" : "2026-04-14"
     },
     {
-      "titulo" : "Esto empieza",
-      "fecha" : "2026-04-11",
-      "num" : 23,
       "href" : "\/newsletters\/023",
+      "num" : 23,
       "tags" : [
         "IA",
         "Negocio"
-      ]
+      ],
+      "titulo" : "Esto empieza",
+      "fecha" : "2026-04-11"
     },
     {
-      "fecha" : "2026-04-14",
+      "titulo" : "INSIDE",
       "num" : 13,
-      "href" : "\/newsletters\/0013",
       "tags" : [
         "IA"
       ],
-      "titulo" : "INSIDE"
+      "fecha" : "2026-04-14",
+      "href" : "\/newsletters\/0013"
     },
     {
+      "fecha" : "2026-04-11",
       "num" : 2,
-      "titulo" : "martes 28 jueves 30: 21.15",
       "tags" : [
         "Media",
         "Deportes",
         "IA"
       ],
-      "fecha" : "2026-04-11",
-      "href" : "\/newsletters\/002"
+      "href" : "\/newsletters\/002",
+      "titulo" : "martes 28 jueves 30: 21.15"
     },
     {
-      "href" : "\/newsletters\/001",
-      "fecha" : "2026-04-14",
       "titulo" : "Prueba día 1",
       "num" : 1,
       "tags" : [
         "IA"
-      ]
+      ],
+      "href" : "\/newsletters\/001",
+      "fecha" : "2026-04-14"
     }
   ]
 }
