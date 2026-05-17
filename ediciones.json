@@ -1,62 +1,61 @@
 {
-  "meta" : {
-    "proximasGeneradas" : {
-      "desdeFecha" : "2026-04-21",
-      "hastaFecha" : "2026-12-29",
-      "desdeNum" : 2
-    },
-    "descripcion" : "Numeración desde #001. La #001 es el primer martes de publicación (2026-04-14). Cada entrada usa fecha ISO del martes. Si href es \/newsletter, el archivo sustituye el titular de la tarjeta por el H1 del hero en vivo. El campo titulo en JSON sirve de respaldo si falla la carga. Tags siguen viniendo del JSON."
-  },
   "ediciones" : [
     {
+      "num" : 43,
+      "href" : "\/newsletters\/043",
       "fecha" : "2026-04-14",
       "titulo" : "INSIDE Life #043 — 14 Abril 2026",
-      "num" : 43,
       "tags" : [
         "Empresa",
         "IA"
-      ],
-      "href" : "\/newsletters\/043"
+      ]
     },
     {
-      "href" : "\/newsletters\/023",
       "num" : 23,
+      "href" : "\/newsletters\/023",
+      "titulo" : "Esto empieza",
+      "fecha" : "2026-04-11",
       "tags" : [
         "IA",
         "Negocio"
-      ],
-      "fecha" : "2026-04-11",
-      "titulo" : "Esto empieza"
+      ]
     },
     {
-      "titulo" : "INSIDE",
-      "fecha" : "2026-04-14",
       "num" : 13,
       "tags" : [
         "IA"
       ],
-      "href" : "\/newsletters\/0013"
+      "href" : "\/newsletters\/0013",
+      "fecha" : "2026-04-14",
+      "titulo" : "INSIDE"
     },
     {
+      "titulo" : "Despidieron empleados, pero ¿realmente ganaron más?",
       "num" : 2,
-      "fecha" : "2026-04-11",
+      "fecha" : "17 de mayo de 2026",
       "tags" : [
-        "Media",
-        "Deportes",
+        "INSIDE Life",
         "IA"
       ],
-      "href" : "\/newsletters\/002",
-      "titulo" : "martes 28 jueves 30: 21.15"
+      "href" : "\/newsletters\/2"
     },
     {
-      "href" : "\/newsletters\/1",
-      "titulo" : "La IA transforma pérdidas en ganancias inesperadas.",
-      "num" : 1,
+      "fecha" : "17 de mayo de 2026",
       "tags" : [
         "IA",
         "News "
       ],
-      "fecha" : "17 de mayo de 2026"
+      "titulo" : "La IA transforma pérdidas en ganancias inesperadas.",
+      "href" : "\/newsletters\/1",
+      "num" : 1
     }
-  ]
+  ],
+  "meta" : {
+    "descripcion" : "Numeración desde #001. La #001 es el primer martes de publicación (2026-04-14). Cada entrada usa fecha ISO del martes. Si href es \/newsletter, el archivo sustituye el titular de la tarjeta por el H1 del hero en vivo. El campo titulo en JSON sirve de respaldo si falla la carga. Tags siguen viniendo del JSON.",
+    "proximasGeneradas" : {
+      "desdeNum" : 2,
+      "hastaFecha" : "2026-12-29",
+      "desdeFecha" : "2026-04-21"
+    }
+  }
 }
