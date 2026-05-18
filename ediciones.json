@@ -1,1 +1,16 @@
-{"ediciones":[]}
+{
+  "ediciones" : [
+    {
+      "href" : "\/newsletters\/1",
+      "fecha" : "2026-05-19",
+      "titulo" : "¿La IA realmente ahorra o solo despide?",
+      "num" : 1,
+      "tags" : [
+        "pronetic.geeknetic.es",
+        "INSIDE Life",
+        "IA",
+        "Medios de Asia"
+      ]
+    }
+  ]
+}
