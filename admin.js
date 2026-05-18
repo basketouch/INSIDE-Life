@@ -982,6 +982,117 @@ function togglePreview() {
   p.style.display = p.style.display === 'none' ? 'flex' : 'none';
 }
 
+// ─── ARCHIVO (ediciones.json) ────────────────────
+var ARCHIVO_FILE = 'ediciones.json';
+
+function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+
+function todayISO() {
+  var d = new Date();
+  return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+}
+
+function parseSpanishDateToISO(blob) {
+  if (!blob || typeof blob !== 'string') return null;
+  var meses = {
+    enero: 1, febrero: 2, marzo: 3, abril: 4, mayo: 5, junio: 6, julio: 7, agosto: 8,
+    septiembre: 9, octubre: 10, noviembre: 11, diciembre: 12
+  };
+  var m1 = blob.match(/(\d{1,2})\s+de\s+([a-záéíóúñü]+)\s+de\s+(\d{4})/i);
+  if (m1) {
+    var mo = meses[m1[2].toLowerCase().replace(/\./g, '')];
+    if (mo) return m1[3] + '-' + pad2(mo) + '-' + pad2(parseInt(m1[1], 10));
+  }
+  var m2 = blob.match(/(\d{1,2})\s+([A-Za-zÁÉÍÓÚáéíóúñÑü]+)\s+(\d{4})/);
+  if (m2) {
+    var key = m2[2].toLowerCase();
+    if (meses[key]) return m2[3] + '-' + pad2(meses[key]) + '-' + pad2(parseInt(m2[1], 10));
+  }
+  return null;
+}
+
+function parseEditionNumFromBlob(blob) {
+  if (!blob || typeof blob !== 'string') return null;
+  var m = blob.match(/#\s*0*(\d+)/i);
+  if (m) return parseInt(m[1], 10);
+  m = blob.match(/\bEdici(?:o|ó)n\s*#?\s*0*(\d+)/i);
+  if (m) return parseInt(m[1], 10);
+  return null;
+}
+
+function tituloPlainFromNewsletterHtml(html) {
+  try {
+    var doc = new DOMParser().parseFromString(html, 'text/html');
+    var h1 = doc.querySelector('h1.nl-h1');
+    if (!h1) return '';
+    var t = (h1.innerText || h1.textContent || '').replace(/\s+/g, ' ').trim();
+    return t;
+  } catch (e) {
+    return '';
+  }
+}
+
+function isNewsletterLiveHref(href) {
+  if (!href || typeof href !== 'string') return false;
+  var x = href.trim().split('#')[0].replace(/\/+$/, '') || '/';
+  return x === '/newsletter' || x.endsWith('/newsletter');
+}
+
+function buildArchivoEdicionFromFinalHtml(html) {
+  var doc = new DOMParser().parseFromString(html, 'text/html');
+  var ey = doc.querySelector('.nl-ey');
+  var eyText = (ey && ey.textContent || '').trim();
+  var titleTag = doc.querySelector('title');
+  var titleText = titleTag ? titleTag.textContent : '';
+  var blob = eyText + ' ' + titleText;
+  var num = parseEditionNumFromBlob(eyText) || parseEditionNumFromBlob(titleText);
+  var fecha = parseSpanishDateToISO(blob) || todayISO();
+  var titulo = tituloPlainFromNewsletterHtml(html) || 'INSIDE Life';
+  return { num: num, fecha: fecha, titulo: titulo, tags: [] };
+}
+
+async function syncEdicionesJsonAfterPublish(finalHTML) {
+  var entry = buildArchivoEdicionFromFinalHtml(finalHTML);
+  if (!entry.num || !isFinite(entry.num)) {
+    throw new Error('Incluye el número de edición en la línea tipo «Edición #12 — …» (.nl-ey) para actualizar el archivo.');
+  }
+  var r = await fetch(API + '?file=' + encodeURIComponent(ARCHIVO_FILE), { headers: apiHeaders(false) });
+  var data = await r.json();
+  if (data.error) throw new Error(data.error);
+  var root;
+  try {
+    root = JSON.parse(data.content);
+  } catch (e) {
+    throw new Error('JSON inválido en ediciones.json');
+  }
+  if (!root || typeof root !== 'object') root = {};
+  var list = Array.isArray(root.ediciones) ? root.ediciones.slice() : [];
+  list = list.filter(function(item) {
+    return !isNewsletterLiveHref(item && item.href);
+  });
+  list.push({
+    num: entry.num,
+    titulo: entry.titulo,
+    fecha: entry.fecha,
+    tags: entry.tags,
+    href: '/newsletter'
+  });
+  root.ediciones = list;
+  var out = JSON.stringify(root, null, 2) + '\n';
+  var r2 = await fetch(API, {
+    method: 'PUT',
+    headers: apiHeaders(true),
+    body: JSON.stringify({
+      file: ARCHIVO_FILE,
+      content: out,
+      sha: data.sha,
+      message: 'Admin: archivo edición #' + entry.num + ' (' + entry.fecha + ')'
+    })
+  });
+  var data2 = await r2.json();
+  if (data2.error) throw new Error(data2.error);
+}
+
 // ─── PUBLISH ──────────────────────────────────────
 async function publish() {
   if (!originalHTML || !currentSHA) { toast('Carga el newsletter primero', 'red'); return; }
@@ -1005,8 +1116,18 @@ async function publish() {
     var data = await r.json();
     if (data.error) throw new Error(data.error);
 
+    var archOk = false;
+    try {
+      await syncEdicionesJsonAfterPublish(finalHTML);
+      archOk = true;
+    } catch (archErr) {
+      toast('Newsletter publicado; aviso archivo: ' + archErr.message, 'red');
+    }
+
     setStatus('ok', 'Publicado ✓');
-    toast('¡Publicado en GitHub! Vercel redeploya en ~30s 🚀', 'green');
+    if (archOk) {
+      toast('¡Publicado! Archivo actualizado. Vercel redeploya en ~30s 🚀', 'green');
+    }
 
     // Reload to get new SHA
     setTimeout(loadNewsletter, 3000);
