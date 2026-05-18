@@ -1,18 +1,28 @@
 {
-  "meta" : {
-    "descripcion" : "Listado de ediciones publicadas. Añade entradas con num, titulo, fecha (ISO del martes), tags y href. Sin proximasGeneradas no hay tarjetas de calendario automáticas. Si href es \/newsletter, el titular en archivo puede tomarse del H1 del hero en vivo."
-  },
   "ediciones" : [
     {
+      "href" : "\/newsletters\/2",
+      "titulo" : "La IA que cambia las reglas del juego empresarial",
+      "tags" : [
+        "INSIDE Life",
+        "Medios de Asia"
+      ],
+      "num" : 2,
+      "fecha" : "2026-05-18"
+    },
+    {
       "fecha" : "2026-05-18",
+      "num" : 1,
+      "titulo" : "La verdad oculta sobre la IA en empresas",
+      "href" : "\/newsletters\/1",
       "tags" : [
         "Medios de Asia",
         "INSIDE Life",
         "IA"
-      ],
-      "num" : 1,
-      "href" : "\/newsletters\/1",
-      "titulo" : "La verdad oculta sobre la IA en empresas"
+      ]
     }
-  ]
+  ],
+  "meta" : {
+    "descripcion" : "Listado de ediciones publicadas. Añade entradas con num, titulo, fecha (ISO del martes), tags y href. Sin proximasGeneradas no hay tarjetas de calendario automáticas. Si href es \/newsletter, el titular en archivo puede tomarse del H1 del hero en vivo."
+  }
 }
