@@ -4,14 +4,15 @@
   },
   "ediciones" : [
     {
+      "fecha" : "2026-05-18",
       "tags" : [
+        "Medios de Asia",
         "INSIDE Life",
-        "News "
+        "IA"
       ],
       "num" : 1,
       "href" : "\/newsletters\/1",
-      "fecha" : "2026-05-18",
-      "titulo" : "La IA no siempre mejora los beneficios empresariales"
+      "titulo" : "La verdad oculta sobre la IA en empresas"
     }
   ]
 }
