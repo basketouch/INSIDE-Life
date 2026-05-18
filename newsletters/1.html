@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INSIDE Life - Edicion #1 - La IA no mejora beneficios: ¿quién se beneficia?</title>
+<meta name="description" content="La IA no mejora beneficios: ¿quién se beneficia?">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root { --white:#ffffff;--off:#f8f6f2;--ink:#111111;--mid:#767676;--rule:#e8e4de;--red:#e8401c; }
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);-webkit-font-smoothing:antialiased;}
+.topnav{position:fixed;top:0;left:0;right:0;z-index:100;height:54px;background:var(--white);border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;padding:0 40px;}
+.nav-brand{display:flex;align-items:center;gap:9px;cursor:pointer;text-decoration:none;}
+.nav-title{font-family:'Playfair Display',serif;font-size:19px;font-weight:900;color:var(--ink);letter-spacing:-.02em;}
+.nav-badge{background:var(--ink);color:var(--white);font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.06em;padding:3px 7px;line-height:1;}
+.nav-links{display:flex;gap:28px;list-style:none;}
+.nav-links button{background:none;border:none;cursor:pointer;padding:0;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);transition:color .15s;}
+.nav-links button:hover,.nav-links button.active{color:var(--ink);}
+.nav-sub{background:var(--ink);color:var(--white);font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:8px 16px;border:none;cursor:pointer;transition:background .15s;}
+.nav-sub:hover{background:var(--red);}
+.botnav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:100;height:56px;background:var(--white);border-top:1px solid var(--rule);}
+.botnav button{flex:1;height:100%;border:none;background:none;cursor:pointer;font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--mid);border-right:1px solid var(--rule);transition:color .15s;}
+.botnav button:last-child{border-right:none;color:var(--red);}
+.botnav button.active{color:var(--ink);font-weight:500;}
+.page{padding-top:54px;}
+.sec{display:none;min-height:calc(100vh - 54px);}
+.sec.on{display:block;}
+#sec-reader{display:block;padding-top:54px;}
+.reader-back{padding:13px 40px;border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.back-btn{background:none;border:none;cursor:pointer;font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);padding:0;transition:color .15s;}
+.back-btn:hover{color:var(--ink);}
+.reader-temas{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--red);}
+.nl-hero{background:var(--ink);padding:44px 40px 36px;position:relative;overflow:hidden;}
+.nl-hero::before{content:'';position:absolute;top:-80px;right:-80px;width:260px;height:260px;border-radius:50%;border:50px solid rgba(232,64,28,.1);pointer-events:none;}
+.nl-ey{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:14px;}
+.nl-h1{font-family:'Playfair Display',serif;font-size:30px;font-weight:900;line-height:1.1;letter-spacing:-.025em;color:#fff;margin-bottom:14px;max-width:520px;}
+.nl-h1 em{font-style:italic;color:#f5a58c;}
+.nl-lead{font-size:13.5px;line-height:1.75;color:rgba(255,255,255,.62);max-width:480px;}
+.nl-idx{background:#fdf0ec;padding:16px 40px;border-bottom:1px solid #f0c7bc;}
+.nl-idx-lbl{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid);margin-bottom:8px;}
+.nl-idx-list{display:flex;flex-direction:column;gap:4px;}
+.nl-idx-a{font-size:12px;font-weight:500;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:7px;transition:color .12s;}
+.nl-idx-a::before{content:'→';font-family:'DM Mono',monospace;color:var(--red);font-size:10px;}
+.nl-idx-a:hover{color:var(--red);}
+.nl-art{padding:28px 40px;border-bottom:1px solid var(--rule);}
+.nl-art-featured{background:#fff8e1;border-left:3px solid #d97706;}
+.nl-art-featured .art-h2{color:#92400e;}
+.nl-art-featured .art-src{color:#b45309;}
+.art-n-featured{background:#d97706 !important;}
+.nl-columna{padding:32px 40px;border-bottom:1px solid var(--rule);background:var(--off);}
+.nl-columna-kicker{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid);margin-bottom:10px;}
+.nl-columna-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;font-style:italic;color:var(--ink);margin-bottom:14px;}
+.nl-columna-body{font-size:14px;line-height:1.85;color:#2d2d2d;}
+.nl-columna-sig{margin-top:16px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);}
+.art-hdr{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;}
+.art-n{width:25px;height:25px;background:var(--red);color:#fff;font-family:'DM Mono',monospace;font-size:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:3px;}
+.art-src{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);margin-bottom:4px;}
+.art-h2{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;line-height:1.22;color:var(--ink);}
+.art-body{font-size:13.5px;line-height:1.8;color:#2d2d2d;}
+.art-body p+p{margin-top:9px;}
+.art-source-link{margin-top:14px;}
+.art-read-more{font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--red);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .15s;}
+.art-read-more:hover{border-bottom-color:var(--red);}
+.nl-art-dark .art-read-more{color:#f5a58c;}
+.nl-art-blue .art-read-more{color:#f5a58c;}
+.callout{background:var(--off);border-left:3px solid var(--red);padding:11px 14px;margin:15px 0;font-size:12.5px;line-height:1.65;color:#333;}
+.callout-lbl{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:5px;}
+.nl-art-dark{background:var(--ink);}
+.nl-art-dark .art-h2{color:#fff;}
+.nl-art-dark .art-body{color:rgba(255,255,255,.78);}
+.nl-art-dark .art-src{color:rgba(255,255,255,.38);}
+.nl-art-dark .callout{background:rgba(255,255,255,.06);border-left-color:#f5a58c;color:rgba(255,255,255,.78);}
+.nl-art-dark .callout-lbl{color:#f5a58c;}
+.nl-art-blue{background:#0a1628;}
+.nl-art-blue .art-h2{color:#fff;}
+.nl-art-blue .art-body{color:rgba(255,255,255,.78);}
+.nl-art-blue .art-src{color:rgba(255,255,255,.38);}
+.nl-foot{padding:24px 40px;border-top:1px solid var(--rule);display:flex;flex-direction:column;align-items:stretch;gap:14px;}
+.nl-foot-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.nl-legal{display:flex;flex-wrap:wrap;gap:10px 12px;padding-top:12px;border-top:1px solid var(--rule);}
+.nl-legal a{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);text-decoration:none;}
+.nl-legal a:hover{color:var(--red);}
+.nl-sig{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--ink);}
+.nl-sig-sub{font-size:11px;color:var(--mid);font-style:italic;font-family:'Playfair Display',serif;}
+.nl-copy{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.06em;color:var(--mid);margin-top:4px;}
+.nl-flinks{display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
+.nl-flinks a{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);text-decoration:none;border-bottom:1px solid var(--rule);transition:color .12s;}
+.nl-flinks a:hover{color:var(--red);}
+.sub-ov{display:none;position:fixed;inset:0;z-index:500;background:rgba(10,10,10,.65);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:20px;}
+.sub-ov.open{display:flex;}
+.sub-box{background:var(--white);box-shadow:8px 8px 0 var(--ink);padding:36px 32px;max-width:420px;width:100%;position:relative;}
+.sub-close{position:absolute;top:12px;right:14px;background:none;border:none;cursor:pointer;font-size:20px;color:var(--mid);line-height:1;}
+.sub-kicker{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.1em;color:var(--red);margin-bottom:10px;}
+.sub-h2{font-family:'Playfair Display',serif;font-size:24px;font-weight:900;letter-spacing:-.02em;color:var(--ink);margin-bottom:8px;}
+.sub-desc{font-size:13px;line-height:1.65;color:var(--mid);margin-bottom:22px;}
+.sub-field{margin-bottom:12px;}
+.sub-lbl{display:block;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);margin-bottom:6px;}
+.sub-in{width:100%;border:1px solid var(--rule);background:var(--off);font-family:'DM Sans',sans-serif;font-size:14px;padding:11px 14px;color:var(--ink);outline:none;}
+.sub-btn{width:100%;margin-top:6px;background:var(--ink);color:var(--white);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:14px;border:none;cursor:pointer;}
+.sub-btn:hover{background:var(--red);}
+.botnav-a{flex:1;height:100%;display:flex;align-items:center;justify-content:center;border:none;background:none;cursor:pointer;font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--mid);border-right:1px solid var(--rule);text-decoration:none;transition:color .15s;}
+.botnav-a:last-child{border-right:none;}
+@media(max-width:760px){
+  .topnav{padding:0 16px;}
+  .nav-links{display:none;}
+  .nav-sub{display:none;}
+  .botnav{display:flex !important;}
+  .nl-hero{padding:30px 22px 26px;}
+  .nl-idx{padding:14px 22px;}
+  .nl-art{padding:24px 22px;}
+  .nl-foot{padding:22px;}
+  .nl-h1{font-size:24px;}
+  .reader-back{padding:12px 22px;}
+}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a class="nav-brand" href="https://insidelife.club">
+    <div class="nav-title">INSIDE Life</div>
+    <div class="nav-badge">By Jorge Lorenzo</div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="https://insidelife.club" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color .15s;">Inicio</a></li>
+    <li><a href="https://insidelife.club/archivo" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color .15s;">Ediciones</a></li>
+    <li><a href="https://insidelife.club/#sobre" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color .15s;">Sobre mí</a></li>
+  </ul>
+  <button class="nav-sub" onclick="document.getElementById('sub-modal').classList.add('open')">¿Te la compartieron?</button>
+</nav>
+<nav class="botnav">
+  <a href="https://insidelife.club" class="botnav-a">Inicio</a>
+  <a href="https://insidelife.club/archivo" class="botnav-a">Ediciones</a>
+  <a href="https://insidelife.club/#sobre" class="botnav-a" style="color:var(--red);">Sobre mí</a>
+</nav>
+
+<div class="page">
+  <div id="sec-reader" class="sec on">
+    <div class="reader-back">
+      <div class="reader-temas">INSIDE Life · IA</div>
+    </div>
+
+    <div class="nl-hero">
+      <div class="nl-ey">Edicion #1 — 19 de mayo de 2026</div>
+      <h1 class="nl-h1">La IA no mejora beneficios: ¿quién se beneficia?</h1>
+      <p class="nl-lead">En esta primera edición de INSIDE Life, quiero compartir el propósito de este espacio y las lecciones que he aprendido a lo largo de mis años en el baloncesto. Aquí encontrarás reflexiones y herramientas que pueden ser clave en tu propio camino. ¿Te atreves a dar el primer paso juntos?</p>
+    </div>
+
+    <div class="nl-idx">
+      <div class="nl-idx-lbl">En esta edicion</div>
+      <div class="nl-idx-list">
+        <a class="nl-idx-a" href="#a1">Un estudio lo confirma: la inmensa mayoría de empresas que han despedido empleados y los han reemplazado por la IA no han mejorado sus beneficios</a>
+            <a class="nl-idx-a" href="#a2">El abuso de la IA por alumnos obliga a cambiar métodos de evaluación en la universidad</a>
+            <a class="nl-idx-a" href="#a3">La increíble pantalla de este Mercedes se llama MBUX Hyperscreen, tiene 39,1 pulgadas y cuesta lo mismo que un Xiaomi 17 Ultra</a>
+            <a class="nl-idx-a" href="#a4">Ex-Google CEO Eric Schmidt abucheado</a>
+            <a class="nl-idx-a" href="#a5">Si te preguntas dónde quedaron todos aquellos patinetes compartidos, este estudio te da la respuesta</a>
+      </div>
+    </div>
+
+    
+
+    <div class="nl-art nl-art-featured" id="a1">
+  <div class="art-hdr">
+    <div class="art-n art-n-featured">1</div>
+    <div>
+      <div class="art-src">INSIDE Life · INSIDE Life</div>
+      <h2 class="art-h2">Un estudio lo confirma: la inmensa mayoría de empresas que han despedido empleados y los han reemplazado por la IA no han mejorado sus beneficios</h2>
+    </div>
+  </div>
+  <div class="art-body">
+    <p>Un estudio de Gartner, basado en entrevistas con 350 ejecutivos de grandes empresas, revela que la mayoría de las organizaciones que han despedido empleados para reemplazarlos con inteligencia artificial no han logrado mejorar sus beneficios. Este hallazgo es crucial en un momento en que la adopción de la IA está en auge y muchos líderes consideran la automatización como la solución a sus problemas de eficiencia y costos.
+
+La importancia de este estudio radica en que, a pesar de la inversión masiva en tecnología, los resultados no siempre son los esperados. Esto sugiere que la implementación de la IA no es un sustituto directo de la fuerza laboral humana. La falta de mejora en los beneficios puede deberse a varios factores, como la falta de capacitación adecuada para usar la tecnología, la resistencia al cambio dentro de la cultura corporativa o la simple realidad de que la IA no puede replicar ciertas habilidades humanas.
+
+Para los lectores, esto implica que la solución a los problemas empresariales no radica únicamente en la sustitución de personal por tecnología. Es vital que los líderes empresariales consideren un enfoque equilibrado que combine la inteligencia artificial con el capital humano. La verdadera innovación y crecimiento provienen de la colaboración entre ambos.</p>
+  </div>
+    <div class="art-source-link">
+    <a href="https://www.marca.com/tiramillas/economia/2026/05/17/estudio-confirma-inmensa-mayoria-empresas-han-despedido-empleados-han-reemplazado-ia-han-mejorado-beneficios.html" target="_blank" rel="noopener" class="art-read-more">Leer más →</a>
+  </div>
+</div>
+            <div class="nl-art" id="a2">
+  <div class="art-hdr">
+    <div class="art-n">2</div>
+    <div>
+      <div class="art-src">IA · IA</div>
+      <h2 class="art-h2">El abuso de la IA por alumnos obliga a cambiar métodos de evaluación en la universidad</h2>
+    </div>
+  </div>
+  <div class="art-body">
+    <p>El abuso de la inteligencia artificial por parte de los alumnos está forzando a las universidades a reconsiderar sus métodos de evaluación. La preocupación radica en que herramientas de IA han facilitado la elaboración de trabajos y proyectos, lo que pone en duda la autenticidad del esfuerzo académico de los estudiantes. Ante esta realidad, los docentes están implementando cambios significativos, especialmente en los proyectos de fin de grado.
+
+Una de las estrategias más destacadas es el aumento de tutorías, donde se busca una supervisión más cercana del proceso de aprendizaje. Esto permite a los profesores guiar a los alumnos y asegurarse de que están asimilando los conocimientos necesarios. Además, la defensa oral de los proyectos se ha vuelto fundamental; este formato obliga a los estudiantes a demostrar su comprensión del tema de manera más profunda, lo que dificulta el uso de la IA como atajo.
+
+Este cambio es relevante para todos los estudiantes, ya que promueve una cultura de aprendizaje más auténtica y fomenta habilidades críticas como la comunicación y el pensamiento crítico. Para los futuros profesionales, estas competencias son esenciales en un mercado laboral cada vez más exigente. Adaptarse a este nuevo enfoque no solo es una cuestión de supervivencia académica, sino una inversión en su futuro profesional.</p>
+  </div>
+    <div class="art-source-link">
+    <a href="https://www.laverdad.es/murcia/defensa-oral-tutorias-afronta-universidad-abuso-chatgpt-20260517182634-nt.html" target="_blank" rel="noopener" class="art-read-more">Leer más →</a>
+  </div>
+</div>
+            <div class="nl-art" id="a3">
+  <div class="art-hdr">
+    <div class="art-n">3</div>
+    <div>
+      <div class="art-src">INSIDE Life · INSIDE Life</div>
+      <h2 class="art-h2">La increíble pantalla de este Mercedes se llama MBUX Hyperscreen, tiene 39,1 pulgadas y cuesta lo mismo que un Xiaomi 17 Ultra</h2>
+    </div>
+  </div>
+  <div class="art-body">
+    <p>La nueva pantalla MBUX Hyperscreen del Mercedes-Benz GLC 400 eléctrico es una de las innovaciones más impactantes en el sector automotriz. Con unas impresionantes 39,1 pulgadas, esta pantalla se convierte en el centro de control del vehículo, integrando funciones de navegación, entretenimiento y conectividad de manera intuitiva. Su precio, comparable al de un Xiaomi 17 Ultra, refleja la tendencia actual de incorporar tecnología avanzada en los automóviles de lujo.
+
+Este avance no solo redefine la experiencia de conducción, sino que también subraya la importancia de la digitalización en nuestra vida cotidiana. Para el lector, esto implica que los coches no son solo medios de transporte, sino plataformas tecnológicas que pueden mejorar la calidad de vida y la eficiencia. La MBUX Hyperscreen permite personalizar la interacción con el vehículo, adaptándose a las preferencias del usuario.
+
+Además, este tipo de innovación marca un cambio en la forma en que pensamos sobre la movilidad eléctrica y su integración con las tecnologías inteligentes. A medida que más marcas adopten este enfoque, los consumidores pueden esperar una experiencia de conducción más conectada y enriquecedora. La inversión en tecnología de este tipo no es solo un lujo, sino una señal clara de hacia dónde se dirige la industria del automóvil.</p>
+  </div>
+    <div class="art-source-link">
+    <a href="https://www.caranddriver.com/es/coches/planeta-motor/a71305264/mercedes-benz-glc-electrico-mbux-hyperscreen-precio/" target="_blank" rel="noopener" class="art-read-more">Leer más →</a>
+  </div>
+</div>
+            <div class="nl-art" id="a4">
+  <div class="art-hdr">
+    <div class="art-n">4</div>
+    <div>
+      <div class="art-src">IA · IA</div>
+      <h2 class="art-h2">Ex-Google CEO Eric Schmidt abucheado</h2>
+    </div>
+  </div>
+  <div class="art-body">
+    <p>Eric Schmidt, ex-CEO de Google, fue abucheado recientemente durante un evento donde se discutía el impacto de la inteligencia artificial (IA) en la sociedad. Este incidente refleja un creciente descontento entre el público, especialmente entre los graduados, que manifiestan preocupaciones sobre cómo la IA afectará sus oportunidades laborales. Según un estudio de Pew Research, la mayoría de los estadounidenses se siente más preocupada que emocionada ante el avance de esta tecnología.
+
+La importancia de esta noticia radica en que revela el clima de incertidumbre que rodea a la IA. A medida que las empresas continúan adoptando tecnologías de automatización, muchos temen que sus empleos estén en riesgo. Esto no solo afecta a los graduados, sino también a trabajadores de diversos sectores que ven cómo la IA puede transformar sus roles y habilidades requeridas.
+
+Para el lector, esta situación implica que es fundamental mantenerse informado y adaptarse a los cambios que la IA traerá al mercado laboral. La capacidad de reinventarse y adquirir nuevas habilidades será clave para sobrevivir en un entorno cada vez más dominado por la tecnología. La discusión sobre la IA no es solo técnica; es una cuestión de futuro profesional y estabilidad económica.</p>
+  </div>
+    <div class="art-source-link">
+    <a href="https://www.theguardian.com/us-news/2026/may/18/eric-schmidt-ai-university-commencement-speech-booed" target="_blank" rel="noopener" class="art-read-more">Leer más →</a>
+  </div>
+</div>
+            <div class="nl-art nl-art-blue" id="a5">
+  <div class="art-hdr">
+    <div class="art-n">5</div>
+    <div>
+      <div class="art-src">INSIDE Life · INSIDE Life</div>
+      <h2 class="art-h2">Si te preguntas dónde quedaron todos aquellos patinetes compartidos, este estudio te da la respuesta</h2>
+    </div>
+  </div>
+  <div class="art-body">
+    <p>Seguramente lo recuerdas si has vivido en una ciudad española en los últimos diez años. De la noche a la mañana, tu ciudad se llenó de patinetes eléctricos. Sin embargo, hoy en día muchos de esos patinetes han desaparecido o se ven menos en las calles. Un reciente estudio revela que la falta de regulación, el mantenimiento inadecuado y la saturación del mercado han llevado a muchas empresas a cerrar o reducir sus flotas.
+
+Esto importa porque refleja una tendencia más amplia en el uso de vehículos compartidos. Los patinetes prometían ser una solución eficiente para la movilidad urbana, pero su éxito ha sido efímero. Para el lector, esto implica una reflexión sobre la viabilidad de las alternativas de transporte en las ciudades. La movilidad sostenible es un objetivo clave, pero para lograrlo, es esencial que se implementen regulaciones adecuadas y se garantice el mantenimiento de estos vehículos.
+
+Además, los usuarios deben ser conscientes de que no todos los modelos de negocio en este sector son sostenibles. Las lecciones aprendidas de la experiencia de los patinetes compartirán el camino hacia un futuro más eficiente y responsable en la movilidad urbana.</p>
+  </div>
+    <div class="art-source-link">
+    <a href="https://www.xataka.com/movilidad/te-preguntas-donde-quedaron-todos-patinetes-compartidos-este-estudio-te-da-respuesta" target="_blank" rel="noopener" class="art-read-more">Leer más →</a>
+  </div>
+</div>
+
+    <div class="nl-columna">
+  <div class="nl-columna-kicker">Columna</div>
+  <h2 class="nl-columna-title">El inicio</h2>
+  <div class="nl-columna-body">
+    <p>Quiero comenzar esta primera edición de INSIDE Life compartiendo el propósito de este espacio. Mi intención es aportar desde una perspectiva diferente. Desde los 16 años, he sido entrenador de baloncesto, y en los últimos siete he tenido el privilegio de ser entrenador ayudante de la selección española. </p>
+              <p>En este tiempo, he vivido momentos inolvidables: dos medallas de oro, en el Mundial de 2019 y en el EuroBasket de 2022, además de mi participación en otro Mundial, otro EuroBasket y dos Juegos Olímpicos. Cada uno de estos logros ha sido el resultado de un esfuerzo colectivo y de una dedicación inquebrantable.</p>
+              <p>A lo largo de estos años, he aprendido valiosas lecciones, he enfrentado desafíos y he tenido la oportunidad de contribuir al desarrollo de grandes talentos. Este newsletter es una extensión de esa experiencia; un espacio para reflexionar, compartir aprendizajes y, sobre todo, seguir creciendo juntos. Espero que encuentres en él inspiración y herramientas útiles para tu propio camino.</p>
+  </div>
+</div>
+
+    <div class="nl-foot">
+      <div class="nl-foot-row">
+        <div>
+          <div class="nl-sig">Jorge Lorenzo</div>
+          <div class="nl-sig-sub">Cada semana, lo que importa.</div>
+          <div class="nl-copy">© 2026 Jorge Lorenzo</div>
+        </div>
+        <div class="nl-flinks">
+          <a href="https://www.linkedin.com/in/jorge-lorenzo-25ba3518/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://x.com/JLbasket" target="_blank" rel="noopener">X</a>
+          <a href="https://www.instagram.com/jorgelorenzo.coach" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://bio.jorgelorenzo.coach/" target="_blank" rel="noopener">Bio</a>
+          <a href="mailto:info@jorgelorenzo.coach">Contacto</a>
+        </div>
+      </div>
+      <div class="nl-legal">
+        <a href="https://insidelife.club/documentos-legales/politica-de-privacidad.html" target="_blank">Privacidad</a>
+        <a href="https://insidelife.club/documentos-legales/aviso-legal.html" target="_blank">Aviso legal</a>
+        <a href="https://insidelife.club/documentos-legales/politica-de-cookies.html" target="_blank">Cookies</a>
+        <a href="https://insidelife.club/documentos-legales/terminos-y-condiciones-de-uso.html" target="_blank">Términos</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sub-ov" id="sub-modal">
+  <div class="sub-box">
+    <button class="sub-close" onclick="document.getElementById('sub-modal').classList.remove('open')">×</button>
+    <div class="sub-kicker">¿Alguien te pasó este link?</div>
+    <h2 class="sub-h2">Recíbela cada martes</h2>
+    <p class="sub-desc">INSIDE Life llega cada semana con lo que importa: IA, liderazgo, deporte y emprendimiento. Sin ruido, sin relleno.</p>
+    <div class="sub-field">
+      <label class="sub-lbl">Tu email</label>
+      <input class="sub-in" type="email" placeholder="tu@email.com">
+    </div>
+    <button class="sub-btn">Quiero recibirla →</button>
+  </div>
+</div>
+<script>
+function showSection(id) {
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
+  var el = document.getElementById('sec-' + id);
+  if (el) el.classList.add('on');
+}
+</script>
+</body>
+</html>
