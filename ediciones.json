@@ -1,16 +1,28 @@
 {
   "ediciones" : [
     {
-      "href" : "\/newsletters\/1",
-      "fecha" : "2026-05-19",
-      "titulo" : "¿La IA realmente ahorra o solo despide?",
-      "num" : 1,
+      "fecha" : "2026-05-26",
+      "titulo" : "¿Estás listo para que la IA te reemplace?",
+      "href" : "\/newsletters\/2",
+      "num" : 2,
+      "tags" : [
+        "INSIDE Life",
+        "Basketball",
+        "IA",
+        "Medios de USA"
+      ]
+    },
+    {
       "tags" : [
         "pronetic.geeknetic.es",
         "INSIDE Life",
         "IA",
         "Medios de Asia"
-      ]
+      ],
+      "titulo" : "¿La IA realmente ahorra o solo despide?",
+      "href" : "\/newsletters\/1",
+      "fecha" : "2026-05-19",
+      "num" : 1
     }
   ]
 }
