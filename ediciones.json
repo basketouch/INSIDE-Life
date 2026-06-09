@@ -1,6 +1,19 @@
 {
   "ediciones" : [
     {
+      "fecha" : "2026-06-09",
+      "titulo" : "El avance de la tecnología para estafarte o para salvarte",
+      "num" : 4,
+      "href" : "\/newsletters\/4",
+      "tags" : [
+        "Basketball",
+        "Medios de USA",
+        "IA",
+        "INSIDE Life",
+        "Medios de Asia"
+      ]
+    },
+    {
       "titulo" : "¿Estás listo para vivir hasta 2045?",
       "tags" : [
         "sunnewsaustin.com",
@@ -12,28 +25,28 @@
       "href" : "\/newsletters\/3"
     },
     {
-      "href" : "\/newsletters\/2",
       "fecha" : "2026-05-26",
-      "num" : 2,
       "tags" : [
         "INSIDE Life",
         "Basketball",
         "IA",
         "Medios de USA"
       ],
+      "num" : 2,
+      "href" : "\/newsletters\/2",
       "titulo" : "¿Estás listo para que la IA te reemplace?"
     },
     {
+      "fecha" : "2026-05-19",
       "href" : "\/newsletters\/1",
+      "num" : 1,
       "tags" : [
         "pronetic.geeknetic.es",
         "INSIDE Life",
         "IA",
         "Medios de Asia"
       ],
-      "titulo" : "¿La IA realmente ahorra o solo despide?",
-      "num" : 1,
-      "fecha" : "2026-05-19"
+      "titulo" : "¿La IA realmente ahorra o solo despide?"
     }
   ]
 }
