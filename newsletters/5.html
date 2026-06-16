@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INSIDE Life - Edicion #5 - La IA que transforma el deporte y el dinero</title>
+<meta name="description" content="La IA que transforma el deporte y el dinero">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root { --white:#ffffff;--off:#f8f6f2;--ink:#111111;--mid:#767676;--rule:#e8e4de;--red:#e8401c; }
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);-webkit-font-smoothing:antialiased;}
+.topnav{position:fixed;top:0;left:0;right:0;z-index:100;height:54px;background:var(--white);border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;padding:0 40px;}
+.nav-brand{display:flex;align-items:center;gap:9px;cursor:pointer;text-decoration:none;}
+.nav-title{font-family:'Playfair Display',serif;font-size:19px;font-weight:900;color:var(--ink);letter-spacing:-.02em;}
+.nav-badge{background:var(--ink);color:var(--white);font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.06em;padding:3px 7px;line-height:1;}
+.nav-links{display:flex;gap:28px;list-style:none;}
+.nav-links button{background:none;border:none;cursor:pointer;padding:0;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);transition:color .15s;}
+.nav-links button:hover,.nav-links button.active{color:var(--ink);}
+.nav-sub{background:var(--ink);color:var(--white);font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:8px 16px;border:none;cursor:pointer;transition:background .15s;}
+.nav-sub:hover{background:var(--red);}
+.botnav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:100;height:56px;background:var(--white);border-top:1px solid var(--rule);}
+.botnav button{flex:1;height:100%;border:none;background:none;cursor:pointer;font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--mid);border-right:1px solid var(--rule);transition:color .15s;}
+.botnav button:last-child{border-right:none;color:var(--red);}
+.botnav button.active{color:var(--ink);font-weight:500;}
+.page{padding-top:54px;}
+.sec{display:none;min-height:calc(100vh - 54px);}
+.sec.on{display:block;}
+#sec-reader{display:block;padding-top:54px;}
+.reader-back{padding:13px 40px;border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.back-btn{background:none;border:none;cursor:pointer;font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);padding:0;transition:color .15s;}
+.back-btn:hover{color:var(--ink);}
+.reader-temas{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--red);}
+.nl-hero{background:var(--ink);padding:44px 40px 36px;position:relative;overflow:hidden;}
+.nl-hero::before{content:'';position:absolute;top:-80px;right:-80px;width:260px;height:260px;border-radius:50%;border:50px solid rgba(232,64,28,.1);pointer-events:none;}
+.nl-ey{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:14px;}
+.nl-h1{font-family:'Playfair Display',serif;font-size:30px;font-weight:900;line-height:1.1;letter-spacing:-.025em;color:#fff;margin-bottom:14px;max-width:520px;}
+.nl-h1 em{font-style:italic;color:#f5a58c;}
+.nl-lead{font-size:13.5px;line-height:1.75;color:rgba(255,255,255,.62);max-width:480px;}
+.nl-idx{background:#fdf0ec;padding:16px 40px;border-bottom:1px solid #f0c7bc;}
+.nl-idx-lbl{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid);margin-bottom:8px;}
+.nl-idx-list{display:flex;flex-direction:column;gap:4px;}
+.nl-idx-a{font-size:12px;font-weight:500;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:7px;transition:color .12s;}
+.nl-idx-a::before{content:'→';font-family:'DM Mono',monospace;color:var(--red);font-size:10px;}
+.nl-idx-a:hover{color:var(--red);}
+.nl-art{padding:28px 40px;border-bottom:1px solid var(--rule);}
+.nl-art-featured{background:#fff8e1;border-left:3px solid #d97706;}
+.nl-art-featured .art-h2{color:#92400e;}
+.nl-art-featured .art-src{color:#b45309;}
+.art-n-featured{background:#d97706 !important;}
+.nl-columna{padding:32px 40px;border-bottom:1px solid var(--rule);background:var(--off);}
+.nl-columna-kicker{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid);margin-bottom:10px;}
+.nl-columna-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;font-style:italic;color:var(--ink);margin-bottom:14px;}
+.nl-columna-body{font-size:14px;line-height:1.85;color:#2d2d2d;}
+.nl-columna-sig{margin-top:16px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);}
+.art-hdr{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;}
+.art-n{width:25px;height:25px;background:var(--red);color:#fff;font-family:'DM Mono',monospace;font-size:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:3px;}
+.art-src{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);margin-bottom:4px;}
+.art-h2{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;line-height:1.22;color:var(--ink);}
+.art-body{font-size:13.5px;line-height:1.8;color:#2d2d2d;}
+.art-body p+p{margin-top:9px;}
+.art-source-link{margin-top:14px;}
+.art-read-more{font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--red);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .15s;}
+.art-read-more:hover{border-bottom-color:var(--red);}
+.nl-art-dark .art-read-more{color:#f5a58c;}
+.nl-art-blue .art-read-more{color:#f5a58c;}
+.callout{background:var(--off);border-left:3px solid var(--red);padding:11px 14px;margin:15px 0;font-size:12.5px;line-height:1.65;color:#333;}
+.callout-lbl{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:5px;}
+.nl-art-dark{background:var(--ink);}
+.nl-art-dark .art-h2{color:#fff;}
+.nl-art-dark .art-body{color:rgba(255,255,255,.78);}
+.nl-art-dark .art-src{color:rgba(255,255,255,.38);}
+.nl-art-dark .callout{background:rgba(255,255,255,.06);border-left-color:#f5a58c;color:rgba(255,255,255,.78);}
+.nl-art-dark .callout-lbl{color:#f5a58c;}
+.nl-art-blue{background:#0a1628;}
+.nl-art-blue .art-h2{color:#fff;}
+.nl-art-blue .art-body{color:rgba(255,255,255,.78);}
+.nl-art-blue .art-src{color:rgba(255,255,255,.38);}
+.nl-foot{padding:24px 40px;border-top:1px solid var(--rule);display:flex;flex-direction:column;align-items:stretch;gap:14px;}
+.nl-foot-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.nl-legal{display:flex;flex-wrap:wrap;gap:10px 12px;padding-top:12px;border-top:1px solid var(--rule);}
+.nl-legal a{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);text-decoration:none;}
+.nl-legal a:hover{color:var(--red);}
+.nl-sig{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--ink);}
+.nl-sig-sub{font-size:11px;color:var(--mid);font-style:italic;font-family:'Playfair Display',serif;}
+.nl-copy{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.06em;color:var(--mid);margin-top:4px;}
+.nl-flinks{display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
+.nl-flinks a{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);text-decoration:none;border-bottom:1px solid var(--rule);transition:color .12s;}
+.nl-flinks a:hover{color:var(--red);}
+.sub-ov{display:none;position:fixed;inset:0;z-index:500;background:rgba(10,10,10,.65);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:20px;}
+.sub-ov.open{display:flex;}
+.sub-box{background:var(--white);box-shadow:8px 8px 0 var(--ink);padding:36px 32px;max-width:420px;width:100%;position:relative;}
+.sub-close{position:absolute;top:12px;right:14px;background:none;border:none;cursor:pointer;font-size:20px;color:var(--mid);line-height:1;}
+.sub-kicker{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.1em;color:var(--red);margin-bottom:10px;}
+.sub-h2{font-family:'Playfair Display',serif;font-size:24px;font-weight:900;letter-spacing:-.02em;color:var(--ink);margin-bottom:8px;}
+.sub-desc{font-size:13px;line-height:1.65;color:var(--mid);margin-bottom:22px;}
+.sub-field{margin-bottom:12px;}
+.sub-lbl{display:block;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);margin-bottom:6px;}
+.sub-in{width:100%;border:1px solid var(--rule);background:var(--off);font-family:'DM Sans',sans-serif;font-size:14px;padding:11px 14px;color:var(--ink);outline:none;}
+.sub-btn{width:100%;margin-top:6px;background:var(--ink);color:var(--white);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:14px;border:none;cursor:pointer;}
+.sub-btn:hover{background:var(--red);}
+.botnav-a{flex:1;height:100%;display:flex;align-items:center;justify-content:center;border:none;background:none;cursor:pointer;font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--mid);border-right:1px solid var(--rule);text-decoration:none;transition:color .15s;}
+.botnav-a:last-child{border-right:none;}
+@media(max-width:760px){
+  .topnav{padding:0 16px;}
+  .nav-links{display:none;}
+  .nav-sub{display:none;}
+  .botnav{display:flex !important;}
+  .nl-hero{padding:30px 22px 26px;}
+  .nl-idx{padding:14px 22px;}
+  .nl-art{padding:24px 22px;}
+  .nl-foot{padding:22px;}
+  .nl-h1{font-size:24px;}
+  .reader-back{padding:12px 22px;}
+}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a class="nav-brand" href="https://insidelife.club">
+    <div class="nav-title">INSIDE Life</div>
+    <div class="nav-badge">By Jorge Lorenzo</div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="https://insidelife.club" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color .15s;">Inicio</a></li>
+    <li><a href="https://insidelife.club/archivo" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color .15s;">Ediciones</a></li>
+    <li><a href="https://insidelife.club/#sobre" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color .15s;">Sobre mí</a></li>
+  </ul>
+  <button class="nav-sub" onclick="document.getElementById('sub-modal').classList.add('open')">¿Te la compartieron?</button>
+</nav>
+<nav class="botnav">
+  <a href="https://insidelife.club" class="botnav-a">Inicio</a>
+  <a href="https://insidelife.club/archivo" class="botnav-a">Ediciones</a>
+  <a href="https://insidelife.club/#sobre" class="botnav-a" style="color:var(--red);">Sobre mí</a>
+</nav>
+
+<div class="page">
+  <div id="sec-reader" class="sec on">
+    <div class="reader-back">
+      <div class="reader-temas">IA · INSIDE Life</div>
+    </div>
+
+    <div class="nl-hero">
+      <div class="nl-ey">Edicion #5 — 16 de junio de 2026</div>
+      <h1 class="nl-h1">La IA que transforma el deporte y el dinero</h1>
+      <p class="nl-lead">La inteligencia artificial está cambiando las reglas del juego en todos los sectores. En esta edición de INSIDE Life, exploraremos cómo está impactando en el deporte, en el empleo y en nuestro día a día. </p>
+    </div>
+
+    <div class="nl-idx">
+      <div class="nl-idx-lbl">En esta edicion</div>
+      <div class="nl-idx-list">
+        <a class="nl-idx-a" href="#a1">Así funciona la empresa de IA que ayuda al Deportivo a fichar</a>
+            <a class="nl-idx-a" href="#a2">La salida a bolsa de SpaceX revela hasta qué punto el dinero del Golfo está detrás del boom de la IA en EEUU</a>
+            <a class="nl-idx-a" href="#a3">Las 72 horas de caos por el apagón de Anthropic y por qué la UE vuelve a quedarse en la cuneta</a>
+            <a class="nl-idx-a" href="#a4">A Milei le sobran los humanos en el paraíso tecnológico de Argentina</a>
+            <a class="nl-idx-a" href="#a5">Destruir libros para entrenar inteligencias artificiales</a>
+      </div>
+    </div>
+
+    
+
+    <div class="nl-art nl-art-featured" id="a1">
+  <div class="art-hdr">
+    <div class="art-n art-n-featured">1</div>
+    <div>
+      <div class="art-src">IA</div>
+      <h2 class="art-h2">Así funciona la empresa de IA que ayuda al Deportivo a fichar</h2>
+    </div>
+  </div>
+  <div class="art-body">
+    <p>La inteligencia artificial está revolucionando el mundo del deporte, y un claro ejemplo de ello es la colaboración entre Olocip y el Deportivo. Esta empresa, liderada por Esteban Granero, utiliza algoritmos avanzados para optimizar el proceso de fichajes, el desarrollo de talento y la prevención de lesiones. Con un mercado que mueve anualmente 7.000 millones de euros en fichajes, la IA se ha convertido en una herramienta clave para los clubes que buscan maximizar su rendimiento y minimizar riesgos.
+
+El impacto de esta tecnología ya es palpable en el Deportivo. Gracias a Olocip, el equipo puede analizar datos de jugadores en tiempo real, lo que les permite tomar decisiones más informadas y estratégicas. Esto no solo mejora la calidad del equipo, sino que también puede traducirse en una gestión más eficiente de los recursos financieros.
+
+Para los aficionados y seguidores del Deportivo, esto implica una mejora en la competitividad del equipo. Al adoptar estas innovaciones, el club se posiciona como un referente en la integración de tecnología y deporte, lo que abre la puerta a un futuro donde los datos y la inteligencia artificial dictarán el éxito en el fútbol. Estar al tanto de estos avances es crucial para entender cómo se transformará el panorama deportivo en los próximos años.</p>
+  </div>
+    <div class="art-source-link">
+    <a href="https://www.laopinioncoruna.es/deportivo/2026/06/15/funciona-empresa-ia-ayuda-deportivo-131414155.html" target="_blank" rel="noopener" class="art-read-more">Leer más →</a>
+  </div>
+</div>
+            <div class="nl-art" id="a2">
+  <div class="art-hdr">
+    <div class="art-n">2</div>
+    <div>
+      <div class="art-src">IA</div>
+      <h2 class="art-h2">La salida a bolsa de SpaceX revela hasta qué punto el dinero del Golfo está detrás del boom de la IA en EEUU</h2>
+    </div>
+  </div>
+  <div class="art-body">
+    <p>SpaceX ha llevado a cabo la mayor salida a bolsa en Wall Street, catapultando a Elon Musk a convertirse en el primer billonario de la historia. Este hito no solo resalta el éxito de la compañía en el sector aeroespacial, sino que también pone de manifiesto la influencia del capital del Golfo en el floreciente sector de la inteligencia artificial (IA) en Estados Unidos. Inversiones significativas provenientes de fondos soberanos de países del Golfo han estado impulsando startups y empresas tecnológicas en este país, lo que indica un cambio en las dinámicas de poder financiero.
+
+Es crucial entender esta interconexión, ya que el dinero del Golfo no solo financia la innovación tecnológica, sino que también le da forma. Las decisiones de inversión de estos fondos pueden determinar qué tecnologías se desarrollan y cómo se integran en nuestra vida diaria. Para el lector, esto implica que el futuro de la IA podría estar influenciado no solo por la innovación local, sino también por intereses extranjeros. Estar al tanto de estos movimientos es esencial para comprender cómo evolucionará la tecnología y cómo afectará a nuestras vidas y negocios en un mundo cada vez más interconectado.</p>
+  </div>
+    <div class="art-source-link">
+    <a href="https://www.xataka.com/empresas-y-economia/salida-a-bolsa-spacex-revela-que-punto-dinero-golfo-esta-detras-boom-ia-eeuu" target="_blank" rel="noopener" class="art-read-more">Leer más →</a>
+  </div>
+</div>
+            <div class="nl-art" id="a3">
+  <div class="art-hdr">
+    <div class="art-n">3</div>
+    <div>
+      <div class="art-src">INSIDE Life</div>
+      <h2 class="art-h2">Las 72 horas de caos por el apagón de Anthropic y por qué la UE vuelve a quedarse en la cuneta</h2>
+    </div>
+  </div>
+  <div class="art-body">
+    <p>El reciente apagón de Anthropic, que dejó fuera de servicio a sus inteligencias artificiales Mythos y Fable durante 72 horas, ha generado una ola de preocupaciones en el ámbito tecnológico y político. Este incidente no solo pone de manifiesto las vulnerabilidades inherentes en los sistemas de IA, sino que también expone las tensiones crecientes entre Estados Unidos y Europa en un sector donde la competitividad es crucial. 
+
+La importancia de este apagón radica en que revela la fragilidad de las infraestructuras tecnológicas y la dependencia que tienen las empresas y gobiernos de estas herramientas. En un entorno donde la IA está cada vez más integrada en la toma de decisiones, cualquier fallo puede tener repercusiones significativas en la economía y la seguridad.
+
+Además, el miedo a la creciente influencia de China en el desarrollo de IA intensifica la presión sobre Europa para que no se quede atrás. Este episodio es un recordatorio claro de que la innovación no espera y que es fundamental que los líderes europeos tomen decisiones rápidas y eficaces para no quedar rezagados. Para el lector, esto implica estar alerta y ser proactivo en la adopción y comprensión de estas tecnologías, ya que su impacto será decisivo en el futuro cercano.</p>
+  </div>
+    <div class="art-source-link">
+    <a href="https://www.elconfidencial.com/tecnologia/2026-06-16/anthropic-desconexion-china-fallo-tecnico_4373193/" target="_blank" rel="noopener" class="art-read-more">Leer más →</a>
+  </div>
+</div>
+            <div class="nl-art" id="a4">
+  <div class="art-hdr">
+    <div class="art-n">4</div>
+    <div>
+      <div class="art-src">IA</div>
+      <h2 class="art-h2">A Milei le sobran los humanos en el paraíso tecnológico de Argentina</h2>
+    </div>
+  </div>
+  <div class="art-body">
+    <p>Javier Milei, presidente de Argentina, ha propuesto una controversial iniciativa: permitir la creación de empresas sin humanos, gestionadas únicamente por algoritmos. Este enfoque busca atraer inversiones en el sector tecnológico y posicionar a Argentina como un líder en innovación. A primera vista, la idea suena atractiva, pero plantea serias interrogantes sobre el futuro del trabajo y la ética en los negocios.
+
+La propuesta implica que las empresas operen de manera autónoma, lo que podría aumentar la eficiencia y reducir costos operativos. Sin embargo, también podría significar la eliminación de miles de puestos de trabajo. La automatización ya está transformando el mercado laboral, y esta medida podría acelerar ese proceso, despojando a muchos de sus medios de subsistencia.
+
+Es crucial que los lectores consideren las implicaciones de este tipo de políticas. Por un lado, podría haber un impulso significativo en el desarrollo tecnológico y la atracción de capital extranjero. Por otro, el riesgo de aumentar la desigualdad social y la precarización del empleo es real. La clave estará en encontrar un equilibrio que favorezca la innovación sin sacrificar el bienestar de la población.</p>
+  </div>
+    <div class="art-source-link">
+    <a href="https://www.lavanguardia.com/internacional/20260612/11562155/milei-le-sobran-humanos-paraiso-tecnologico-argentina.html" target="_blank" rel="noopener" class="art-read-more">Leer más →</a>
+  </div>
+</div>
+            <div class="nl-art" id="a5">
+  <div class="art-hdr">
+    <div class="art-n">5</div>
+    <div>
+      <div class="art-src">IA</div>
+      <h2 class="art-h2">Destruir libros para entrenar inteligencias artificiales</h2>
+    </div>
+  </div>
+  <div class="art-body">
+    <p>La reciente práctica de destruir libros para entrenar inteligencias artificiales ha generado un intenso debate en el ámbito cultural y tecnológico. Los libreros han alzado la voz, advirtiendo sobre los peligros que esta situación representa para el patrimonio bibliográfico. Cada libro es un testimonio de la historia, la cultura y el conocimiento de una sociedad. Su destrucción no solo implica la pérdida de información, sino también de identidad.
+
+Este fenómeno se agrava en un contexto donde la IA está en constante crecimiento y necesita grandes volúmenes de datos para mejorar su rendimiento. Sin embargo, no podemos permitir que la búsqueda de avances tecnológicos pase por encima de la conservación de nuestra herencia literaria. La urgencia en buscar soluciones es clara: necesitamos encontrar métodos alternativos que respeten y protejan nuestros recursos culturales.
+
+Para el lector, esto implica un llamado a la acción. Debemos ser conscientes del valor de los libros en nuestra vida y en la sociedad. Defender el patrimonio bibliográfico no es solo tarea de los libreros, es responsabilidad de todos. La preservación del conocimiento y la cultura debe ir de la mano del progreso tecnológico.</p>
+  </div>
+    <div class="art-source-link">
+    <a href="https://www.lavanguardia.com/cultura/20260612/11562174/destruir-libros-entrenar-inteligencias-artificiales.html" target="_blank" rel="noopener" class="art-read-more">Leer más →</a>
+  </div>
+</div>
+
+    <div class="nl-columna">
+  <div class="nl-columna-kicker">Columna</div>
+  <h2 class="nl-columna-title">Cómo te afecta la IA</h2>
+  <div class="nl-columna-body">
+    <p>Vivimos en una era tecnológica explosiva, donde la inteligencia artificial se ha convertido en parte de nuestro día a día, aunque no siempre lo notemos. A menudo, pensamos que la IA solo afecta a quienes se dedican a la tecnología, pero la realidad es que está presente en muchas de nuestras actividades cotidianas. Desde las recomendaciones que recibimos en plataformas de streaming hasta la automatización de tareas en el trabajo, la IA está gestionando procesos que nos facilitan la vida, aunque no seamos conscientes de ello.</p>
+              <p>Sin embargo, esta revolución plantea preguntas importantes sobre cómo nos relacionamos con la tecnología. ¿Estamos dispuestos a adaptarnos a estos cambios o preferimos aferrarnos a lo que conocemos? Es fundamental entender que la IA no es solo una herramienta, sino un recurso que puede potenciar nuestras habilidades. </p>
+              <p>En este contexto, la clave está en aprender a convivir con la IA, a integrarla en nuestras rutinas y a utilizarla como un aliado. No se trata de temer lo desconocido, sino de abrazar la oportunidad de evolucionar y mejorar.</p>
+  </div>
+</div>
+<div style="background:#111;padding:28px 40px;">
+  <h2 style="font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:#fff;margin-bottom:10px;">Mi web de baloncesto</h2>
+  <p style="font-size:13.5px;line-height:1.8;color:rgba(255,255,255,.78);">Estoy creando una serie elementos que aportan valor añadido a ella. He añadido más de 160 ejercicios para dar ideas en esos momentos de poca lucidez como entrenadores.</p>
+  <a href="https://www.jorgelorenzo.coach/drills" style="display:inline-block;margin-top:14px;background:#fff;color:#111;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:10px 20px;text-decoration:none;">Ver más →</a>
+</div>
+
+    <div class="nl-foot">
+      <div class="nl-foot-row">
+        <div>
+          <div class="nl-sig">Jorge Lorenzo</div>
+          <div class="nl-sig-sub">Cada semana, lo que importa.</div>
+          <div class="nl-copy">© 2026 Jorge Lorenzo</div>
+        </div>
+        <div class="nl-flinks">
+          <a href="https://www.linkedin.com/in/jorge-lorenzo-25ba3518/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://x.com/JLbasket" target="_blank" rel="noopener">X</a>
+          <a href="https://www.instagram.com/jorgelorenzo.coach" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://bio.jorgelorenzo.coach/" target="_blank" rel="noopener">Bio</a>
+          <a href="mailto:info@jorgelorenzo.coach">Contacto</a>
+        </div>
+      </div>
+      <div class="nl-legal">
+        <a href="https://insidelife.club/documentos-legales/politica-de-privacidad.html" target="_blank">Privacidad</a>
+        <a href="https://insidelife.club/documentos-legales/aviso-legal.html" target="_blank">Aviso legal</a>
+        <a href="https://insidelife.club/documentos-legales/politica-de-cookies.html" target="_blank">Cookies</a>
+        <a href="https://insidelife.club/documentos-legales/terminos-y-condiciones-de-uso.html" target="_blank">Términos</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sub-ov" id="sub-modal">
+  <div class="sub-box">
+    <button class="sub-close" onclick="document.getElementById('sub-modal').classList.remove('open')">×</button>
+    <div class="sub-kicker">¿Alguien te pasó este link?</div>
+    <h2 class="sub-h2">Recíbela cada martes</h2>
+    <p class="sub-desc">INSIDE Life llega cada semana con lo que importa: IA, liderazgo, deporte y emprendimiento. Sin ruido, sin relleno.</p>
+    <div class="sub-field">
+      <label class="sub-lbl">Tu email</label>
+      <input class="sub-in" type="email" placeholder="tu@email.com">
+    </div>
+    <button class="sub-btn">Quiero recibirla →</button>
+  </div>
+</div>
+<script>
+function showSection(id) {
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
+  var el = document.getElementById('sec-' + id);
+  if (el) el.classList.add('on');
+}
+</script>
+</body>
+</html>
