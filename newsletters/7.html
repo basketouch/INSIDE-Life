@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INSIDE Life - Edicion #7 - La nueva era de la IA ya está aquí.</title>
+<meta name="description" content="La nueva era de la IA ya está aquí.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root { --white:#ffffff;--off:#f8f6f2;--ink:#111111;--mid:#767676;--rule:#e8e4de;--red:#e8401c; }
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);-webkit-font-smoothing:antialiased;}
+.topnav{position:fixed;top:0;left:0;right:0;z-index:100;height:54px;background:var(--white);border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;padding:0 40px;}
+.nav-brand{display:flex;align-items:center;gap:9px;cursor:pointer;text-decoration:none;}
+.nav-title{font-family:'Playfair Display',serif;font-size:19px;font-weight:900;color:var(--ink);letter-spacing:-.02em;}
+.nav-badge{background:var(--ink);color:var(--white);font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.06em;padding:3px 7px;line-height:1;}
+.nav-links{display:flex;gap:28px;list-style:none;}
+.nav-links button{background:none;border:none;cursor:pointer;padding:0;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);transition:color .15s;}
+.nav-links button:hover,.nav-links button.active{color:var(--ink);}
+.nav-sub{background:var(--ink);color:var(--white);font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:8px 16px;border:none;cursor:pointer;transition:background .15s;}
+.nav-sub:hover{background:var(--red);}
+.botnav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:100;height:56px;background:var(--white);border-top:1px solid var(--rule);}
+.botnav button{flex:1;height:100%;border:none;background:none;cursor:pointer;font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--mid);border-right:1px solid var(--rule);transition:color .15s;}
+.botnav button:last-child{border-right:none;color:var(--red);}
+.botnav button.active{color:var(--ink);font-weight:500;}
+.page{padding-top:54px;}
+.sec{display:none;min-height:calc(100vh - 54px);}
+.sec.on{display:block;}
+#sec-reader{display:block;padding-top:54px;}
+.reader-back{padding:13px 40px;border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.back-btn{background:none;border:none;cursor:pointer;font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);padding:0;transition:color .15s;}
+.back-btn:hover{color:var(--ink);}
+.reader-temas{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--red);}
+.nl-hero{background:var(--ink);padding:44px 40px 36px;position:relative;overflow:hidden;}
+.nl-hero::before{content:'';position:absolute;top:-80px;right:-80px;width:260px;height:260px;border-radius:50%;border:50px solid rgba(232,64,28,.1);pointer-events:none;}
+.nl-ey{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:14px;}
+.nl-h1{font-family:'Playfair Display',serif;font-size:30px;font-weight:900;line-height:1.1;letter-spacing:-.025em;color:#fff;margin-bottom:14px;max-width:520px;}
+.nl-h1 em{font-style:italic;color:#f5a58c;}
+.nl-lead{font-size:13.5px;line-height:1.75;color:rgba(255,255,255,.62);max-width:480px;}
+.nl-idx{background:#fdf0ec;padding:16px 40px;border-bottom:1px solid #f0c7bc;}
+.nl-idx-lbl{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid);margin-bottom:8px;}
+.nl-idx-list{display:flex;flex-direction:column;gap:4px;}
+.nl-idx-a{font-size:12px;font-weight:500;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:7px;transition:color .12s;}
+.nl-idx-a::before{content:'→';font-family:'DM Mono',monospace;color:var(--red);font-size:10px;}
+.nl-idx-a:hover{color:var(--red);}
+.nl-art{padding:28px 40px;border-bottom:1px solid var(--rule);}
+.nl-art-featured{background:#fff8e1;border-left:3px solid #d97706;}
+.nl-art-featured .art-h2{color:#92400e;}
+.nl-art-featured .art-src{color:#b45309;}
+.art-n-featured{background:#d97706 !important;}
+.nl-columna{padding:32px 40px;border-bottom:1px solid var(--rule);background:var(--off);}
+.nl-columna-kicker{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid);margin-bottom:10px;}
+.nl-columna-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;font-style:italic;color:var(--ink);margin-bottom:14px;}
+.nl-columna-body{font-size:14px;line-height:1.85;color:#2d2d2d;}
+.nl-columna-sig{margin-top:16px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);}
+.art-hdr{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;}
+.art-n{width:25px;height:25px;background:var(--red);color:#fff;font-family:'DM Mono',monospace;font-size:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:3px;}
+.art-src{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);margin-bottom:4px;}
+.art-h2{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;line-height:1.22;color:var(--ink);}
+.art-body{font-size:13.5px;line-height:1.8;color:#2d2d2d;}
+.art-body p+p{margin-top:9px;}
+.art-source-link{margin-top:14px;}
+.art-read-more{font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--red);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .15s;}
+.art-read-more:hover{border-bottom-color:var(--red);}
+.nl-art-dark .art-read-more{color:#f5a58c;}
+.nl-art-blue .art-read-more{color:#f5a58c;}
+.callout{background:var(--off);border-left:3px solid var(--red);padding:11px 14px;margin:15px 0;font-size:12.5px;line-height:1.65;color:#333;}
+.callout-lbl{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:5px;}
+.nl-art-dark{background:var(--ink);}
+.nl-art-dark .art-h2{color:#fff;}
+.nl-art-dark .art-body{color:rgba(255,255,255,.78);}
+.nl-art-dark .art-src{color:rgba(255,255,255,.38);}
+.nl-art-dark .callout{background:rgba(255,255,255,.06);border-left-color:#f5a58c;color:rgba(255,255,255,.78);}
+.nl-art-dark .callout-lbl{color:#f5a58c;}
+.nl-art-blue{background:#0a1628;}
+.nl-art-blue .art-h2{color:#fff;}
+.nl-art-blue .art-body{color:rgba(255,255,255,.78);}
+.nl-art-blue .art-src{color:rgba(255,255,255,.38);}
+.nl-foot{padding:24px 40px;border-top:1px solid var(--rule);display:flex;flex-direction:column;align-items:stretch;gap:14px;}
+.nl-foot-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.nl-legal{display:flex;flex-wrap:wrap;gap:10px 12px;padding-top:12px;border-top:1px solid var(--rule);}
+.nl-legal a{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);text-decoration:none;}
+.nl-legal a:hover{color:var(--red);}
+.nl-sig{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--ink);}
+.nl-sig-sub{font-size:11px;color:var(--mid);font-style:italic;font-family:'Playfair Display',serif;}
+.nl-copy{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.06em;color:var(--mid);margin-top:4px;}
+.nl-flinks{display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
+.nl-flinks a{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);text-decoration:none;border-bottom:1px solid var(--rule);transition:color .12s;}
+.nl-flinks a:hover{color:var(--red);}
+.sub-ov{display:none;position:fixed;inset:0;z-index:500;background:rgba(10,10,10,.65);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:20px;}
+.sub-ov.open{display:flex;}
+.sub-box{background:var(--white);box-shadow:8px 8px 0 var(--ink);padding:36px 32px;max-width:420px;width:100%;position:relative;}
+.sub-close{position:absolute;top:12px;right:14px;background:none;border:none;cursor:pointer;font-size:20px;color:var(--mid);line-height:1;}
+.sub-kicker{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.1em;color:var(--red);margin-bottom:10px;}
+.sub-h2{font-family:'Playfair Display',serif;font-size:24px;font-weight:900;letter-spacing:-.02em;color:var(--ink);margin-bottom:8px;}
+.sub-desc{font-size:13px;line-height:1.65;color:var(--mid);margin-bottom:22px;}
+.sub-field{margin-bottom:12px;}
+.sub-lbl{display:block;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);margin-bottom:6px;}
+.sub-in{width:100%;border:1px solid var(--rule);background:var(--off);font-family:'DM Sans',sans-serif;font-size:14px;padding:11px 14px;color:var(--ink);outline:none;}
+.sub-btn{width:100%;margin-top:6px;background:var(--ink);color:var(--white);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:14px;border:none;cursor:pointer;}
+.sub-btn:hover{background:var(--red);}
+.botnav-a{flex:1;height:100%;display:flex;align-items:center;justify-content:center;border:none;background:none;cursor:pointer;font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--mid);border-right:1px solid var(--rule);text-decoration:none;transition:color .15s;}
+.botnav-a:last-child{border-right:none;}
+@media(max-width:760px){
+  .topnav{padding:0 16px;}
+  .nav-links{display:none;}
+  .nav-sub{display:none;}
+  .botnav{display:flex !important;}
+  .nl-hero{padding:30px 22px 26px;}
+  .nl-idx{padding:14px 22px;}
+  .nl-art{padding:24px 22px;}
+  .nl-foot{padding:22px;}
+  .nl-h1{font-size:24px;}
+  .reader-back{padding:12px 22px;}
+}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a class="nav-brand" href="https://insidelife.club">
+    <div class="nav-title">INSIDE Life</div>
+    <div class="nav-badge">By Jorge Lorenzo</div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="https://insidelife.club" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color .15s;">Inicio</a></li>
+    <li><a href="https://insidelife.club/archivo" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color .15s;">Ediciones</a></li>
+    <li><a href="https://insidelife.club/#sobre" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color .15s;">Sobre mí</a></li>
+  </ul>
+  <button class="nav-sub" onclick="document.getElementById('sub-modal').classList.add('open')">¿Te la compartieron?</button>
+</nav>
+<nav class="botnav">
+  <a href="https://insidelife.club" class="botnav-a">Inicio</a>
+  <a href="https://insidelife.club/archivo" class="botnav-a">Ediciones</a>
+  <a href="https://insidelife.club/#sobre" class="botnav-a" style="color:var(--red);">Sobre mí</a>
+</nav>
+
+<div class="page">
+  <div id="sec-reader" class="sec on">
+    <div class="reader-back">
+      <div class="reader-temas">Medios de Asia · IA · News</div>
+    </div>
+
+    <div class="nl-hero">
+      <div class="nl-ey">Edicion #7 — 7 de julio de 2026</div>
+      <h1 class="nl-h1">La nueva era de la IA ya está aquí.</h1>
+      <p class="nl-lead">Hoy quiero hablarte de la realidad que enfrentamos a diario. Las noticias parecen más un show que un reflejo de la verdad. ¿Qué podemos hacer ante este panorama? En esta edición, exploraremos cómo la inteligencia artificial y los medios están influyendo en nuestra percepción. No te lo pierdas.</p>
+    </div>
+
+    <div class="nl-idx">
+      <div class="nl-idx-lbl">En esta edicion</div>
+      <div class="nl-idx-list">
+        <a class="nl-idx-a" href="#a1">El taekwondo virtual 'es el futuro' para los jóvenes antes de su debut en los Juegos Asiáticos</a>
+            <a class="nl-idx-a" href="#a2">Cataluña invertirá unos 1.500 millones de euros en la gigafactoría de IA que prevé desplegar en Tarragona</a>
+            <a class="nl-idx-a" href="#a3">Thiel, rey de la Patagonia</a>
+            <a class="nl-idx-a" href="#a4">La IA golpea al mayor 'call center' de España: 11.000 despidos y 1.000 M de deuda al 40% de descuento</a>
+            <a class="nl-idx-a" href="#a5">China ultima un desembarco en la IA similar al de los coches: &quot;Va a llegar una ola para la que no estamos preparados&quot;</a>
+            <a class="nl-idx-a" href="#a6">Bill Gates: &quot;A medida que la IA asuma más trabajos, podrás jubilarte antes y trabajar semanas laborales más cortas&quot;</a>
+            <a class="nl-idx-a" href="#a7">Versant compra la empresa de simuladores de golf Full Swing para Golf Channel</a>
+      </div>
+    </div>
+
+    
+
+    <div class="nl-art nl-art-featured" id="a1">
+  <div class="art-hdr">
+    <div class="art-n art-n-featured">1</div>
+    <div>
+      <div class="art-src">Medios de Asia</div>
+      <h2 class="art-h2">El taekwondo virtual 'es el futuro' para los jóvenes antes de su debut en los Juegos Asiáticos</h2>
+    </div>
+  </div>
+  <div class="art-body">
+    <p>El taekwondo virtual se está posicionando como una opción innovadora y atractiva para los jóvenes deportistas, justo antes de su debut en los Juegos Asiáticos. Este nuevo enfoque utiliza gafas de realidad virtual y sensores de seguimiento de movimiento para sumergir a los atletas en una arena digital 3D. Esta fusión entre el deporte tradicional y la tecnología no solo transforma la manera de entrenar, sino que también democratiza el acceso al taekwondo, permitiendo que más personas se involucren en esta disciplina sin necesidad de un espacio físico o equipamiento costoso.
+
+La importancia de esta tendencia radica en su capacidad para atraer a una generación más joven, que se siente cada vez más cómoda con la tecnología. Al gamificar el taekwondo, se crea un ambiente más atractivo y motivador, lo que podría aumentar la participación en el deporte y fomentar un estilo de vida activo. Esto implica que el futuro del deporte podría estar en la intersección entre la tecnología y la tradición, abriendo nuevas oportunidades tanto para atletas como para entrenadores en el mundo del taekwondo y más allá. La evolución del deporte es un recordatorio de que la innovación puede impulsar el rendimiento y el compromiso en cualquier disciplina.</p>
+  </div>
+    <div class="art-source-link">
+    <a href="https://www.scmp.com/sport/other-sport/article/3359686/virtual-taekwondo-future-young-people-it-makes-its-debut-asian-games" target="_blank" rel="noopener" class="art-read-more">Leer más →</a>
+  </div>
+</div>
+            <div class="nl-art" id="a2">
+  <div class="art-hdr">
+    <div class="art-n">2</div>
+    <div>
+      <div class="art-src">IA</div>
+      <h2 class="art-h2">Cataluña invertirá unos 1.500 millones de euros en la gigafactoría de IA que prevé desplegar en Tarragona</h2>
+    </div>
+  </div>
+  <div class="art-body">
+    <p>Cataluña ha decidido dar un paso firme hacia el futuro de la inteligencia artificial al invertir aproximadamente 1.500 millones de euros en la construcción de una gigafactoría de IA en Tarragona. Esta iniciativa no solo representa un impulso económico significativo, sino que también posiciona a la región como un líder en la tecnología emergente. La candidatura 'multisede' se presentará entre septiembre y octubre, y si es seleccionada por la Comisión Europea, la gigafactoría podría estar operativa para finales de 2028.
+
+Esta inversión es crucial porque refleja la creciente importancia de la inteligencia artificial en la economía global. La gigafactoría generará miles de puestos de trabajo y atraerá talento, lo que beneficiará a la comunidad local y la economía catalana en general. Además, el desarrollo de esta infraestructura permitirá a empresas y startups de la región acceder a recursos avanzados en IA, potenciando la innovación y la competitividad.
+
+Cataluña se está posicionando como un centro neurálgico de la IA en Europa. Aquellos interesados en carreras relacionadas con la tecnología y los negocios deben estar atentos a las oportunidades que surgirán en este campo. Es momento de prepararse y formarse, porque el futuro ya está aquí.</p>
+  </div>
+    <div class="art-source-link">
+    <a href="https://www.elperiodico.com/es/tecnologia/20260701/gigafactoria-ia-catalunya-centros-datos-govern-energia-agua-inversion-131998801" target="_blank" rel="noopener" class="art-read-more">Leer más →</a>
+  </div>
+</div>
+            <div class="nl-art" id="a3">
+  <div class="art-hdr">
+    <div class="art-n">3</div>
+    <div>
+      <div class="art-src">IA</div>
+      <h2 class="art-h2">Thiel, rey de la Patagonia</h2>
+    </div>
+  </div>
+  <div class="art-body">
+    <p>La Patagonia argentina se perfila como un nuevo epicentro para la inteligencia artificial, gracias a la inversión y la visión de figuras influyentes como Peter Thiel. En este contexto, el país ha comenzado a atraer a emprendedores y startups del sector tecnológico, buscando aprovechar un entorno donde las regulaciones son todavía incipientes. Este fenómeno no solo transforma la región, sino que también plantea importantes interrogantes sobre el futuro de la IA y su impacto en la sociedad.
+
+La falta de regulaciones claras puede facilitar la innovación y el desarrollo acelerado de nuevas tecnologías, pero también implica riesgos. La ausencia de normativas puede derivar en la creación de aplicaciones de IA sin criterios éticos establecidos, lo que podría afectar a la privacidad y la seguridad de los ciudadanos. Para los lectores, esto es una llamada a la reflexión: si bien es emocionante ver a Argentina como un jugador clave en el mundo de la IA, es esencial que los emprendedores, los gobiernos y la sociedad civil colaboren para establecer un marco regulatorio que guíe este avance.
+
+La oportunidad está servida, pero también la responsabilidad. ¿Estamos listos para afrontar los desafíos que nos presenta el futuro digital?</p>
+  </div>
+    <div class="art-source-link">
+    <a href="https://www.lavanguardia.com/internacional/20260707/11586038/thiel-rey-patagonia.html" target="_blank" rel="noopener" class="art-read-more">Leer más →</a>
+  </div>
+</div>
+            <div class="nl-art" id="a4">
+  <div class="art-hdr">
+    <div class="art-n">4</div>
+    <div>
+      <div class="art-src">IA</div>
+      <h2 class="art-h2">La IA golpea al mayor 'call center' de España: 11.000 despidos y 1.000 M de deuda al 40% de descuento</h2>
+    </div>
+  </div>
+  <div class="art-body">
+    <p>La reciente noticia del despido de 11.000 empleados en el mayor 'call center' de España, consecuencia de la implementación de la inteligencia artificial, es un claro ejemplo de cómo la tecnología está transformando el mercado laboral. La multinacional ha contraído una deuda de 945 millones de euros, que actualmente cotiza al 57% de su valor nominal. Esto no solo refleja la inestabilidad financiera de la empresa, sino también un cambio drástico en la forma en que se gestionan los servicios al cliente.
+
+La decisión de reducir su plantilla en un 40% impacta no solo a los trabajadores despedidos, sino también a sus familias y comunidades. La introducción de la IA en este sector puede mejorar la eficiencia y reducir costos, pero plantea preguntas sobre el futuro del empleo. S&amp;P ha rebajado la calificación crediticia de la empresa, aunque prevé una posible mejora en su situación financiera este año. Esto implica que, aunque la empresa pueda recuperarse, la pregunta clave es: ¿qué pasará con los trabajadores desplazados y cómo se adaptará la fuerza laboral a esta nueva realidad?
+
+Para el lector, esto es una llamada de atención sobre la necesidad de preparación y adaptación en un entorno laboral que cambia rápidamente. La inteligencia artificial está aquí para quedarse, y es crucial que cada uno se forme y se adapte a las nuevas demandas del mercado.</p>
+  </div>
+    <div class="art-source-link">
+    <a href="https://www.elconfidencial.com/empresas/2026-07-02/ia-golpe-mayor-call-center-espana-despidos-deuda_4380686/" target="_blank" rel="noopener" class="art-read-more">Leer más →</a>
+  </div>
+</div>
+            <div class="nl-art" id="a5">
+  <div class="art-hdr">
+    <div class="art-n">5</div>
+    <div>
+      <div class="art-src">IA</div>
+      <h2 class="art-h2">China ultima un desembarco en la IA similar al de los coches: &quot;Va a llegar una ola para la que no estamos preparados&quot;</h2>
+    </div>
+  </div>
+  <div class="art-body">
+    <p>China está a punto de dar un salto significativo en el desarrollo de la inteligencia artificial, un movimiento que podría cambiar las reglas del juego en múltiples sectores. Los modelos de IA chinos ya dominan el uso profesional gracias a sus precios competitivos y sistemas abiertos, lo que les permite adaptarse rápidamente a las necesidades del mercado. Este avance no solo beneficiará a las empresas chinas, sino que también generará una competencia intensa a nivel global.
+
+La próxima fase de este despliegue de IA implica integrarla en productos manufacturados en China, desde automóviles hasta robots y juguetes. Esto no es solo una cuestión de innovación tecnológica; se trata de un cambio estratégico que podría redefinir el equilibrio de poder en la economía mundial. Para los lectores, esto significa estar preparados para un entorno empresarial donde la IA será omnipresente. Las empresas que no se adapten a esta transformación corren el riesgo de quedarse atrás.
+
+Es crucial que todos, desde emprendedores hasta líderes de equipo, comprendan la relevancia de esta realidad. La IA está destinada a ser una parte esencial de nuestra vida cotidiana y de los negocios del futuro. La clave será aprovechar estas nuevas herramientas para mejorar la eficiencia y la competitividad.</p>
+  </div>
+    <div class="art-source-link">
+    <a href="https://www.eldiario.es/tecnologia/china-ultima-desembarco-ia-similar-coches-llegar-ola-no-preparados_1_13352591.html" target="_blank" rel="noopener" class="art-read-more">Leer más →</a>
+  </div>
+</div>
+            <div class="nl-art" id="a6">
+  <div class="art-hdr">
+    <div class="art-n">6</div>
+    <div>
+      <div class="art-src">IA</div>
+      <h2 class="art-h2">Bill Gates: &quot;A medida que la IA asuma más trabajos, podrás jubilarte antes y trabajar semanas laborales más cortas&quot;</h2>
+    </div>
+  </div>
+  <div class="art-body">
+    <p>Bill Gates, una de las figuras más influyentes en la tecnología, ha afirmado que la inteligencia artificial (IA) transformará el mercado laboral, permitiendo a las personas jubilarse antes y trabajar semanas laborales más cortas. Esta declaración es crucial porque nos hace reflexionar sobre el futuro del trabajo y cómo la tecnología puede mejorar nuestra calidad de vida. 
+
+La IA está diseñada para asumir tareas repetitivas y rutinarias, lo que liberará a los empleados de cargas laborales pesadas. Esto no solo podría llevar a una mayor productividad, sino también a una reestructuración de la jornada laboral tal como la conocemos. La posibilidad de reducir el tiempo de trabajo semanal y anticipar la jubilación puede significar un cambio radical en la manera en que valoramos el equilibrio entre vida personal y profesional.
+
+Para el lector, esto implica que es fundamental prepararse para un futuro donde la adaptabilidad y la formación continua serán clave. Aprender a convivir con la IA y aprovechar sus beneficios será esencial para mantener la relevancia en el mercado laboral. Es un momento para reflexionar sobre cómo queremos que evolucione nuestra vida laboral y personal en los próximos años.</p>
+  </div>
+    <div class="art-source-link">
+    <a href="https://www.mundodeportivo.com/actualidad/20260630/1004201227/bill-gates-medida-ia-asuma-trabajos-podras-jubilarte-trabajar-semanas-laborales-cortas-dct.html" target="_blank" rel="noopener" class="art-read-more">Leer más →</a>
+  </div>
+</div>
+            <div class="nl-art" id="a7">
+  <div class="art-hdr">
+    <div class="art-n">7</div>
+    <div>
+      <div class="art-src">News </div>
+      <h2 class="art-h2">Versant compra la empresa de simuladores de golf Full Swing para Golf Channel</h2>
+    </div>
+  </div>
+  <div class="art-body">
+    <p>Versant ha adquirido la empresa de simuladores de golf Full Swing, una decisión que marca un paso significativo en el mundo del deporte y la tecnología. Full Swing es reconocida por sus simuladores de golf avanzados, que ofrecen experiencias realistas tanto para jugadores amateurs como profesionales. Esta compra no solo refuerza la posición de Versant en el mercado, sino que también amplía la presencia del propietario del Golf Channel en el ámbito tecnológico y de análisis de datos.
+
+La importancia de esta adquisición radica en la creciente intersección entre el deporte y la tecnología. El golf, como muchos otros deportes, está evolucionando gracias a la analítica y los datos. Integrar simuladores de golf avanzados en su oferta permitirá al Golf Channel atraer a una audiencia más amplia, desde los entusiastas del golf que buscan mejorar su juego hasta los fanáticos que desean disfrutar de una experiencia inmersiva.
+
+Para el lector, esto implica que el golf se está volviendo más accesible y atractivo, gracias a la tecnología. Si eres un aficionado al golf, esta evolución puede ofrecerte nuevas formas de practicar y disfrutar del deporte, además de representar una oportunidad para entender mejor el juego a través de datos y análisis. La fusión de estas dos industrias está aquí para quedarse y promete transformar la experiencia del golf.</p>
+  </div>
+    <div class="art-source-link">
+    <a href="https://www.hollywoodreporter.com/business/business-news/versant-buys-golf-simulator-tech-company-full-swing-1236638460/" target="_blank" rel="noopener" class="art-read-more">Leer más →</a>
+  </div>
+</div>
+
+    <div class="nl-columna">
+  <div class="nl-columna-kicker">Columna</div>
+  <h2 class="nl-columna-title">En qué momento…</h2>
+  <div class="nl-columna-body">
+    <p>Cada día, al encender la televisión o revisar mi móvil, me encuentro con un panorama desolador. Las injusticias parecen haber superado a la justicia. Nos bombardean con noticias de mentiras que, al ser repetidas, se convierten en verdades aceptadas. Políticos que mienten sin pudor, profesionales que manipulan la realidad para que encaje con sus intereses. </p>
+              <p>Es desalentador ver cómo las élites cambian normas a su antojo, creando conflictos y divisiones de la nada. Tal vez esto no sea un fenómeno nuevo; quizás la facilidad de acceso a la información solo ha expuesto una realidad que siempre ha estado presente.</p>
+              <p>Como emprendedor y ex-deportista, he aprendido que el liderazgo y la integridad deben ir de la mano. En un mundo donde la verdad se distorsiona, es fundamental que cada uno de nosotros se convierta en un defensor de la transparencia y el compromiso. No podemos permitir que la injusticia prevalezca. Es hora de alzar la voz y reclamar lo que es justo.</p>
+  </div>
+</div>
+
+    <div class="nl-foot">
+      <div class="nl-foot-row">
+        <div>
+          <div class="nl-sig">Jorge Lorenzo</div>
+          <div class="nl-sig-sub">Cada semana, lo que importa.</div>
+          <div class="nl-copy">© 2026 Jorge Lorenzo</div>
+        </div>
+        <div class="nl-flinks">
+          <a href="https://www.linkedin.com/in/jorge-lorenzo-25ba3518/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://x.com/JLbasket" target="_blank" rel="noopener">X</a>
+          <a href="https://www.instagram.com/jorgelorenzo.coach" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://bio.jorgelorenzo.coach/" target="_blank" rel="noopener">Bio</a>
+          <a href="mailto:info@jorgelorenzo.coach">Contacto</a>
+        </div>
+      </div>
+      <div class="nl-legal">
+        <a href="https://insidelife.club/documentos-legales/politica-de-privacidad.html" target="_blank">Privacidad</a>
+        <a href="https://insidelife.club/documentos-legales/aviso-legal.html" target="_blank">Aviso legal</a>
+        <a href="https://insidelife.club/documentos-legales/politica-de-cookies.html" target="_blank">Cookies</a>
+        <a href="https://insidelife.club/documentos-legales/terminos-y-condiciones-de-uso.html" target="_blank">Términos</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sub-ov" id="sub-modal">
+  <div class="sub-box">
+    <button class="sub-close" onclick="document.getElementById('sub-modal').classList.remove('open')">×</button>
+    <div class="sub-kicker">¿Alguien te pasó este link?</div>
+    <h2 class="sub-h2">Recíbela cada martes</h2>
+    <p class="sub-desc">INSIDE Life llega cada semana con lo que importa: IA, liderazgo, deporte y emprendimiento. Sin ruido, sin relleno.</p>
+    <div class="sub-field">
+      <label class="sub-lbl">Tu email</label>
+      <input class="sub-in" type="email" placeholder="tu@email.com">
+    </div>
+    <button class="sub-btn">Quiero recibirla →</button>
+  </div>
+</div>
+<script>
+function showSection(id) {
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
+  var el = document.getElementById('sec-' + id);
+  if (el) el.classList.add('on');
+}
+</script>
+</body>
+</html>
