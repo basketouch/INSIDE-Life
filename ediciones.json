@@ -1,82 +1,92 @@
 {
   "ediciones" : [
     {
+      "fecha" : "2026-07-14",
+      "tags" : [
+        "IA",
+        "News "
+      ],
+      "href" : "\/newsletters\/8",
+      "num" : 8,
+      "titulo" : "Os voy a presentar a Alex, mi asistente virtual"
+    },
+    {
+      "href" : "\/newsletters\/7",
+      "fecha" : "2026-07-07",
+      "titulo" : "La nueva era de la IA ya está aquí.",
+      "num" : 7,
       "tags" : [
         "IA",
         "Medios de Asia",
         "News "
-      ],
-      "href" : "\/newsletters\/7",
-      "fecha" : "2026-07-07",
-      "num" : 7,
-      "titulo" : "La nueva era de la IA ya está aquí."
+      ]
     },
     {
-      "fecha" : "2026-06-23",
-      "num" : 6,
-      "href" : "\/newsletters\/6",
       "tags" : [
         "IA",
         "News ",
         "Medios de USA"
       ],
-      "titulo" : "La revolución de la IA: ¿oportunidad o caos?"
+      "num" : 6,
+      "href" : "\/newsletters\/6",
+      "titulo" : "La revolución de la IA: ¿oportunidad o caos?",
+      "fecha" : "2026-06-23"
     },
     {
       "titulo" : "La IA que transforma el deporte y el dinero",
-      "href" : "\/newsletters\/5",
+      "num" : 5,
+      "fecha" : "2026-06-16",
       "tags" : [
         "IA",
         "INSIDE Life"
       ],
-      "fecha" : "2026-06-16",
-      "num" : 5
+      "href" : "\/newsletters\/5"
     },
     {
-      "titulo" : "El avance de la tecnología para estafarte o para salvarte",
-      "href" : "\/newsletters\/4",
       "num" : 4,
-      "fecha" : "2026-06-09",
       "tags" : [
         "Basketball",
         "Medios de USA",
         "IA",
         "INSIDE Life",
         "Medios de Asia"
-      ]
+      ],
+      "href" : "\/newsletters\/4",
+      "fecha" : "2026-06-09",
+      "titulo" : "El avance de la tecnología para estafarte o para salvarte"
     },
     {
+      "num" : 3,
       "tags" : [
         "sunnewsaustin.com",
         "IA",
         "Medios de USA"
       ],
       "href" : "\/newsletters\/3",
-      "titulo" : "¿Estás listo para vivir hasta 2045?",
-      "num" : 3,
-      "fecha" : "2026-06-02"
+      "fecha" : "2026-06-02",
+      "titulo" : "¿Estás listo para vivir hasta 2045?"
     },
     {
-      "num" : 2,
-      "fecha" : "2026-05-26",
-      "href" : "\/newsletters\/2",
       "tags" : [
         "INSIDE Life",
         "Basketball",
         "IA",
         "Medios de USA"
       ],
-      "titulo" : "¿Estás listo para que la IA te reemplace?"
+      "num" : 2,
+      "titulo" : "¿Estás listo para que la IA te reemplace?",
+      "href" : "\/newsletters\/2",
+      "fecha" : "2026-05-26"
     },
     {
+      "titulo" : "¿La IA realmente ahorra o solo despide?",
+      "href" : "\/newsletters\/1",
       "tags" : [
         "pronetic.geeknetic.es",
         "INSIDE Life",
         "IA",
         "Medios de Asia"
       ],
-      "titulo" : "¿La IA realmente ahorra o solo despide?",
-      "href" : "\/newsletters\/1",
       "fecha" : "2026-05-19",
       "num" : 1
     }
